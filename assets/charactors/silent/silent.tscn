@@ -1,0 +1,59 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/charactors/silent/silent.png" type="Texture" id=1]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="neck" type="Sprite" parent="."]
+position = Vector2( -10.6119, -72.0551 )
+rotation = 1.53542
+scale = Vector2( 1, 1 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 89, 6, 32, 24 )
+
+[node name="tail" type="Sprite" parent="."]
+position = Vector2( -74, 47.25 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 320, 10, 37, 10 )
+
+[node name="left_body" type="Sprite" parent="."]
+position = Vector2( -44.8143, 6.72828 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 4, 36, 152, 161 )
+
+[node name="weapon" type="Sprite" parent="."]
+position = Vector2( -33.5, -29.75 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 403, 55, 59, 46 )
+
+[node name="right_body" type="Sprite" parent="."]
+position = Vector2( 10.3723, 17.7778 )
+rotation = 1.53516
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 163, 4, 151, 133 )
+
+[node name="chin" type="Sprite" parent="."]
+position = Vector2( 15.8679, -65.7537 )
+rotation = -0.0456679
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 127, 6, 24, 24 )
+
+[node name="bread" type="Sprite" parent="."]
+position = Vector2( 3.17261, -45.263 )
+rotation = 1.64232
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 5, 10, 75, 19 )
+
+[node name="head" type="Sprite" parent="."]
+position = Vector2( -9.09096, -86.1502 )
+rotation = 1.53516
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 320, 26, 75, 110 )

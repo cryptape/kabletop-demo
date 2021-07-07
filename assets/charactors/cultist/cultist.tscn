@@ -1,0 +1,79 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/charactors/cultist/cultist.png" type="Texture" id=1]
+
+[node name="cultist" type="Node2D"]
+
+[node name="opposite" type="Node2D" parent="."]
+
+[node name="skeleton" type="Sprite" parent="opposite"]
+position = Vector2( 23.0852, 115.381 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 177, 130, 198, 19 )
+
+[node name="right_wing" type="Sprite" parent="opposite"]
+position = Vector2( 71.2527, -31.3748 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 176, 159, 148, 95 )
+
+[node name="left_wing" type="Sprite" parent="opposite"]
+position = Vector2( -69.6181, -56.2519 )
+rotation = 0.0264195
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 326, 152, 92, 101 )
+
+[node name="left_leg" type="Sprite" parent="opposite"]
+position = Vector2( -27.7692, 78.3 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 182, 2, 19, 79 )
+
+[node name="right_leg" type="Sprite" parent="opposite"]
+position = Vector2( 16.1985, 91.0136 )
+rotation = 1.50975
+scale = Vector2( 1, 1 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 420, 164, 49, 18 )
+
+[node name="body" type="Sprite" parent="opposite"]
+position = Vector2( 16.8142, 16.9827 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 21, 93, 153, 157 )
+
+[node name="right_arm" type="Sprite" parent="opposite"]
+position = Vector2( 50.3995, -41.9906 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 292, 93, 70, 33 )
+
+[node name="right_weapon" type="Sprite" parent="opposite"]
+position = Vector2( 94.9063, -98.9165 )
+rotation = 2.34722
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 2, 11, 108, 56 )
+
+[node name="left_arm" type="Sprite" parent="opposite"]
+position = Vector2( -60.2379, -43.6348 )
+rotation = -2.67143
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 292, 93, 70, 33 )
+
+[node name="left_weapon" type="Sprite" parent="opposite"]
+position = Vector2( -94.3196, -102.043 )
+rotation = 1.50878
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 177, 84, 112, 40 )
+
+[node name="head" type="Sprite" parent="opposite"]
+position = Vector2( -16.2704, -57.4838 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 420, 185, 74, 68 )

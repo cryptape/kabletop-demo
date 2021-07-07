@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/ui/energy_frame.png" type="Texture" id=1]
+
+[sub_resource type="StreamTexture" id=1]
+flags = 4
+load_path = "res://.import/energy.png-2306a30f190a47163f5e7b1dbccf33cb.stex"
+
+[node name="frame" type="TextureRect"]
+margin_right = 128.0
+margin_bottom = 128.0
+texture = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="energy" type="Sprite" parent="."]
+position = Vector2( 63.1353, 65.2861 )
+texture = ExtResource( 1 )
