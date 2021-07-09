@@ -1,47 +1,78 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/cards/frame.png" type="Texture" id=1]
 [ext_resource path="res://assets/cards/cards.png" type="Texture" id=2]
-[ext_resource path="res://assets/font/SourceHanSerifSC-Bold.otf" type="DynamicFontData" id=3]
+[ext_resource path="res://assets/font/SourceHanSans-Bold.otf" type="DynamicFontData" id=3]
+[ext_resource path="res://assets/font/bb4171.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://assets/cards/card.gd" type="Script" id=5]
+[ext_resource path="res://assets/cards/light_frame.png" type="Texture" id=6]
 
-[sub_resource type="AtlasTexture" id=1]
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 27.5259, 12.2105 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 542, 356, 596, 837 )
 
 [sub_resource type="DynamicFont" id=3]
 size = 50
+use_mipmaps = true
+use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=4]
 size = 60
-font_data = ExtResource( 3 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 4 )
 
-[node name="card" type="Control"]
-rect_scale = Vector2( 0.4, 0.4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="card" type="Area2D"]
+monitorable = false
+
+[node name="collision" type="CollisionShape2D" parent="."]
+scale = Vector2( 3.566, 13.48 )
+shape = SubResource( 1 )
+
+[node name="light_frame" type="Node2D" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 0, -65 )
+scale = Vector2( 1.15, 1.15 )
+
+[node name="up" type="Sprite" parent="light_frame"]
+position = Vector2( 0.796967, 78.6287 )
+scale = Vector2( 1.48, 1.12 )
+texture = ExtResource( 6 )
+region_enabled = true
+region_rect = Rect2( 10, 10, 181, 181 )
+
+[node name="down" type="Sprite" parent="light_frame"]
+position = Vector2( 1.22733, -78.6764 )
+scale = Vector2( 1.48, 1.12 )
+texture = ExtResource( 6 )
+region_enabled = true
+region_rect = Rect2( 10, 10, 181, 181 )
 
 [node name="frame" type="Sprite" parent="."]
-position = Vector2( 1.7778, 0.852173 )
-texture = ExtResource( 1 )
-normal_map = SubResource( 1 )
-region_enabled = true
-region_rect = Rect2( 542, 356, 596, 837 )
+scale = Vector2( 0.4, 0.4 )
+texture = SubResource( 2 )
+script = ExtResource( 5 )
 
 [node name="icon" type="Sprite" parent="frame"]
-position = Vector2( 2.84869, -153.096 )
+position = Vector2( 3.54144, -147.815 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 region_enabled = true
 region_rect = Rect2( 1, 564, 250, 187 )
 
 [node name="ring" type="Sprite" parent="frame"]
-position = Vector2( 4.49243, -176.113 )
+position = Vector2( 5.18518, -170.832 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 2, 242, 536, 475 )
 
 [node name="header" type="Sprite" parent="frame"]
-position = Vector2( -0.570862, -345.531 )
+position = Vector2( 0.121887, -340.25 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 541, 210, 646, 142 )
@@ -49,32 +80,40 @@ region_rect = Rect2( 541, 210, 646, 142 )
 [node name="name" type="Label" parent="frame/header"]
 self_modulate = Color( 0.0627451, 0.290196, 0.215686, 1 )
 margin_left = -50.9426
-margin_top = -71.9188
+margin_top = -58.029
 margin_right = 49.0574
-margin_bottom = 1.08118
+margin_bottom = 14.9709
 custom_fonts/font = SubResource( 3 )
 text = "毒液"
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
 }
 
 [node name="corner_icon" type="Sprite" parent="frame"]
-position = Vector2( -260.643, -366.745 )
+position = Vector2( -259.95, -361.464 )
 scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 1835, 1606, 141, 140 )
 
 [node name="level" type="Label" parent="frame/corner_icon"]
-margin_left = -43.2806
-margin_top = -50.6396
-margin_right = 26.7194
-margin_bottom = 37.3604
-custom_fonts/font = SubResource( 2 )
+margin_left = -41.6271
+margin_top = -47.3325
+margin_right = 28.3729
+margin_bottom = 40.6675
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "18"
 align = 1
 valign = 1
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
 }
+
+[node name="Tween" type="Tween" parent="frame"]
+
+[connection signal="area_shape_entered" from="." to="frame" method="_on_card_area_shape_entered"]
+[connection signal="area_shape_exited" from="." to="frame" method="_on_card_area_shape_exited"]
+[connection signal="input_event" from="." to="frame" method="_on_card_input_event"]
+[connection signal="mouse_entered" from="." to="frame" method="_on_card_mouse_entered"]
+[connection signal="mouse_exited" from="." to="frame" method="_on_card_mouse_exited"]

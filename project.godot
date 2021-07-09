@@ -19,6 +19,8 @@ config/icon="res://icon.png"
 window/size/width=1150
 window/size/height=780
 window/size/resizable=false
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
 
 [physics]
 

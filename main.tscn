@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://assets/background/scene.jpg" type="Texture" id=1]
 [ext_resource path="res://assets/background/scene.png" type="Texture" id=2]
@@ -9,7 +9,7 @@
 [ext_resource path="res://assets/ui/hp_player.png" type="Texture" id=7]
 [ext_resource path="res://assets/ui/energy.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/ui/hp_enemy.png" type="Texture" id=9]
-[ext_resource path="res://assets/font/NotoSansMonoCJKsc-Regular.otf" type="DynamicFontData" id=10]
+[ext_resource path="res://assets/font/bb4171.ttf" type="DynamicFontData" id=10]
 [ext_resource path="res://assets/ui/round.png" type="Texture" id=11]
 [ext_resource path="res://assets/font/SourceHanSerifSC-Bold.otf" type="DynamicFontData" id=12]
 [ext_resource path="res://player_energy.gd" type="Script" id=13]
@@ -21,12 +21,7 @@
 [ext_resource path="res://assets/ui/hp_player.gd" type="Script" id=19]
 [ext_resource path="res://assets/ui/hp_opposite.gd" type="Script" id=20]
 [ext_resource path="res://sdk.gd" type="Script" id=21]
-[ext_resource path="res://assets/ui/skip_round.png" type="Texture" id=22]
-
-[sub_resource type="Curve2D" id=5]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, -514.873, 180.529, -324.329, 2.16219, 324.329, -2.16219, 35.4053, 119.987, 0, 0, 0, 0, 592.17, 179.448 )
-}
+[ext_resource path="res://custom.gd" type="Script" id=22]
 
 [sub_resource type="DynamicFont" id=1]
 size = 40
@@ -34,19 +29,18 @@ font_data = ExtResource( 10 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 60
-font_data = ExtResource( 12 )
+font_data = ExtResource( 10 )
 
 [sub_resource type="DynamicFont" id=3]
 size = 60
-font_data = ExtResource( 12 )
+font_data = ExtResource( 10 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 45
 font_data = ExtResource( 12 )
 
-[sub_resource type="DynamicFont" id=6]
-size = 35
-font_data = ExtResource( 10 )
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 10, 8.15489 )
 
 [node name="controller" type="Node2D"]
 script = ExtResource( 15 )
@@ -69,57 +63,6 @@ scale = Vector2( 1.6, 1.6 )
 [node name="player" parent="background" instance=ExtResource( 5 )]
 position = Vector2( -468.716, -300.564 )
 scale = Vector2( 1.6, 1.6 )
-
-[node name="cards" type="Node2D" parent="background"]
-
-[node name="special" parent="background/cards" instance=ExtResource( 3 )]
-margin_left = -797.308
-margin_top = 122.684
-margin_right = -797.308
-margin_bottom = 122.684
-
-[node name="custom" type="Path2D" parent="background/cards"]
-position = Vector2( 61.4089, -33.4921 )
-curve = SubResource( 5 )
-
-[node name="follow_1" type="PathFollow2D" parent="background/cards/custom"]
-position = Vector2( -382.693, 154.435 )
-rotation = -0.160098
-offset = 134.695
-
-[node name="card" parent="background/cards/custom/follow_1" instance=ExtResource( 3 )]
-
-[node name="follow_2" type="PathFollow2D" parent="background/cards/custom"]
-position = Vector2( -169.217, 128.846 )
-rotation = -0.0790296
-offset = 350.186
-
-[node name="card" parent="background/cards/custom/follow_2" instance=ExtResource( 3 )]
-
-[node name="follow_3" type="PathFollow2D" parent="background/cards/custom"]
-position = Vector2( 46.1087, 119.939 )
-rotation = -0.0015757
-offset = 565.565
-
-[node name="card" parent="background/cards/custom/follow_3" instance=ExtResource( 3 )]
-
-[node name="follow_4" type="PathFollow2D" parent="background/cards/custom"]
-position = Vector2( 261.119, 128.52 )
-rotation = 0.0825398
-offset = 780.832
-
-[node name="card" parent="background/cards/custom/follow_4" instance=ExtResource( 3 )]
-
-[node name="follow_5" type="PathFollow2D" parent="background/cards/custom"]
-position = Vector2( 468.968, 154.31 )
-rotation = 0.168154
-offset = 990.184
-
-[node name="card" parent="background/cards/custom/follow_5" instance=ExtResource( 3 )]
-margin_left = -0.210449
-margin_top = -1.24072
-margin_right = -0.210449
-margin_bottom = -1.24072
 
 [node name="panel" type="Sprite" parent="."]
 position = Vector2( 574.072, 37.1424 )
@@ -229,12 +172,13 @@ margin_left = 1422.0
 margin_right = 1550.0
 
 [node name="player_name" type="Label" parent="panel"]
-margin_left = -920.0
-margin_top = -64.0
-margin_right = -567.0
-margin_bottom = -4.0
+margin_left = -925.893
+margin_top = -58.5118
+margin_right = -572.893
+margin_bottom = 1.48817
 custom_fonts/font = SubResource( 1 )
 text = "Vimchain"
+valign = 1
 script = ExtResource( 16 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -260,17 +204,18 @@ region_rect = Rect2( 46, 20, 558, 96 )
 script = ExtResource( 19 )
 
 [node name="hp" type="Label" parent="panel/player_hp/hp_bar"]
-anchor_left = -0.00465486
-anchor_top = 0.0270564
-anchor_right = -0.00465486
-anchor_bottom = 0.0270567
+anchor_left = -0.00163767
+anchor_top = 0.184892
+anchor_right = -0.00163767
+anchor_bottom = 0.184893
 margin_left = 14.7896
 margin_top = 0.407433
 margin_right = 84.7896
-margin_bottom = 88.4074
+margin_bottom = 61.4074
 custom_fonts/font = SubResource( 2 )
 text = "30"
 align = 1
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": true
 }
@@ -296,31 +241,34 @@ region_rect = Rect2( 19, 18, 558, 96 )
 script = ExtResource( 20 )
 
 [node name="hp" type="Label" parent="panel/opposite_hp/hp_bar"]
-margin_left = 477.74
-margin_top = -0.332474
-margin_right = 547.74
-margin_bottom = 87.6675
+margin_left = 479.684
+margin_top = 20.2031
+margin_right = 549.684
+margin_bottom = 81.2031
 custom_fonts/font = SubResource( 3 )
 text = "30"
+align = 1
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="opposite_name" type="Label" parent="panel"]
-margin_left = 524.0
-margin_top = -66.0
-margin_right = 912.0
-margin_bottom = -6.0
+margin_left = 535.785
+margin_top = -57.7504
+margin_right = 923.785
+margin_bottom = 2.24958
 custom_fonts/font = SubResource( 1 )
 text = "Ashuralyk"
 align = 2
+valign = 1
 script = ExtResource( 17 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="round_icon" type="Sprite" parent="panel"]
-position = Vector2( 1.71539, 28.3733 )
+position = Vector2( -0.00366211, 28.3058 )
 rotation = -3.13805
 scale = Vector2( 0.909091, 0.909091 )
 texture = ExtResource( 11 )
@@ -338,34 +286,35 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="skip_round" type="Sprite" parent="panel"]
-position = Vector2( 5.92114, 86.8902 )
-scale = Vector2( 0.848066, 0.909091 )
-texture = ExtResource( 22 )
-region_enabled = true
-region_rect = Rect2( 134, 211, 244, 90 )
+[node name="cards" type="Node2D" parent="."]
+position = Vector2( 614.61, 585.53 )
+scale = Vector2( 0.6, 0.6 )
 
-[node name="skip" type="Label" parent="panel/skip_round"]
-margin_left = -69.6655
-margin_top = -30.1708
-margin_right = 70.3345
-margin_bottom = 22.8292
-custom_fonts/font = SubResource( 6 )
-text = "结束回合"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="special" type="Node2D" parent="cards"]
+position = Vector2( -837.803, 128.605 )
 
-[node name="sdk" type="Control" parent="."]
-visible = false
-margin_left = 312.889
-margin_top = 176.213
-margin_right = 1149.89
-margin_bottom = 475.213
+[node name="card" parent="cards/special" instance=ExtResource( 3 )]
+
+[node name="custom" type="Node2D" parent="cards"]
+position = Vector2( -494.441, 138.593 )
+script = ExtResource( 22 )
+
+[node name="born_point" type="Node2D" parent="cards/custom"]
+position = Vector2( -659.762, -506.413 )
+scale = Vector2( 1.66667, 1.66667 )
+
+[node name="Tween" type="Tween" parent="cards/custom"]
+
+[node name="anchor" type="Node2D" parent="cards/custom"]
+
+[node name="sdk" type="Area2D" parent="."]
+monitoring = false
 script = ExtResource( 21 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+
+[node name="spell_panel" type="CollisionShape2D" parent="sdk"]
+position = Vector2( 578.822, 203.491 )
+scale = Vector2( 34.646, 11.1531 )
+shape = SubResource( 5 )
 
 [connection signal="game_round" from="." to="panel/round" method="_on_kabletop_game_round"]
 [connection signal="opposite_energy" from="." to="panel/opposite_energy" method="_on_kabletop_opposite_energy"]
@@ -374,4 +323,3 @@ __meta__ = {
 [connection signal="player_energy" from="." to="panel/player_energy" method="_on_kabletop_player_energy"]
 [connection signal="player_hp" from="." to="panel/player_hp/hp_bar" method="_on_controller_player_hp"]
 [connection signal="player_name" from="." to="panel/player_name" method="_on_kabletop_player_name"]
-[connection signal="gui_input" from="sdk" to="sdk" method="_on_sdk_gui_input"]
