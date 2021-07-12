@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/energy_frame.png-ef3854b39255808c054e603d3a56c394.stex"
+path="res://.import/bomb.png-858fc71b8f48645229513c0544ce2583.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/energy_frame.png"
-dest_files=[ "res://.import/energy_frame.png-ef3854b39255808c054e603d3a56c394.stex" ]
+source_file="res://assets/effects/bomb.png"
+dest_files=[ "res://.import/bomb.png-858fc71b8f48645229513c0544ce2583.stex" ]
 
 [params]
 

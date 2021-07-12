@@ -1,37 +1,70 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://assets/charactors/cultist/cultist.png" type="Texture" id=1]
+[ext_resource path="res://assets/charactors/charactor.gd" type="Script" id=2]
+
+[sub_resource type="Animation" id=1]
+resource_name = "jitter"
+length = 10.0
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("anchor:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 6, 4 ), Vector2( 10, 4 ), Vector2( 1, -3 ), Vector2( 9, -1 ), Vector2( -7, 1 ), Vector2( 9, -8 ), Vector2( -3, -7 ), Vector2( -4, -4 ), Vector2( 2, -7 ), Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("anchor:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 5, 10 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.509804 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [node name="cultist" type="Node2D"]
+script = ExtResource( 2 )
 
-[node name="opposite" type="Node2D" parent="."]
+[node name="anchor" type="Node2D" parent="."]
 
-[node name="skeleton" type="Sprite" parent="opposite"]
+[node name="opposite" type="Node2D" parent="anchor"]
+
+[node name="skeleton" type="Sprite" parent="anchor/opposite"]
 position = Vector2( 23.0852, 115.381 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 177, 130, 198, 19 )
 
-[node name="right_wing" type="Sprite" parent="opposite"]
+[node name="right_wing" type="Sprite" parent="anchor/opposite"]
 position = Vector2( 71.2527, -31.3748 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 176, 159, 148, 95 )
 
-[node name="left_wing" type="Sprite" parent="opposite"]
+[node name="left_wing" type="Sprite" parent="anchor/opposite"]
 position = Vector2( -69.6181, -56.2519 )
 rotation = 0.0264195
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 326, 152, 92, 101 )
 
-[node name="left_leg" type="Sprite" parent="opposite"]
+[node name="left_leg" type="Sprite" parent="anchor/opposite"]
 position = Vector2( -27.7692, 78.3 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 182, 2, 19, 79 )
 
-[node name="right_leg" type="Sprite" parent="opposite"]
+[node name="right_leg" type="Sprite" parent="anchor/opposite"]
 position = Vector2( 16.1985, 91.0136 )
 rotation = 1.50975
 scale = Vector2( 1, 1 )
@@ -39,41 +72,131 @@ texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 420, 164, 49, 18 )
 
-[node name="body" type="Sprite" parent="opposite"]
+[node name="body" type="Sprite" parent="anchor/opposite"]
 position = Vector2( 16.8142, 16.9827 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 21, 93, 153, 157 )
 
-[node name="right_arm" type="Sprite" parent="opposite"]
+[node name="right_arm" type="Sprite" parent="anchor/opposite"]
 position = Vector2( 50.3995, -41.9906 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 292, 93, 70, 33 )
 
-[node name="right_weapon" type="Sprite" parent="opposite"]
+[node name="right_weapon" type="Sprite" parent="anchor/opposite"]
 position = Vector2( 94.9063, -98.9165 )
 rotation = 2.34722
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 2, 11, 108, 56 )
 
-[node name="left_arm" type="Sprite" parent="opposite"]
+[node name="left_arm" type="Sprite" parent="anchor/opposite"]
 position = Vector2( -60.2379, -43.6348 )
 rotation = -2.67143
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 292, 93, 70, 33 )
 
-[node name="left_weapon" type="Sprite" parent="opposite"]
+[node name="left_weapon" type="Sprite" parent="anchor/opposite"]
 position = Vector2( -94.3196, -102.043 )
 rotation = 1.50878
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 177, 84, 112, 40 )
 
-[node name="head" type="Sprite" parent="opposite"]
+[node name="head" type="Sprite" parent="anchor/opposite"]
 position = Vector2( -16.2704, -57.4838 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 420, 185, 74, 68 )
+
+[node name="player" type="Node2D" parent="anchor"]
+visible = false
+
+[node name="skeleton" type="Sprite" parent="anchor/player"]
+position = Vector2( -0.523626, 115.826 )
+texture = ExtResource( 1 )
+flip_h = true
+region_enabled = true
+region_rect = Rect2( 177, 130, 198, 19 )
+
+[node name="right_wing" type="Sprite" parent="anchor/player"]
+position = Vector2( -71.253, -31.375 )
+texture = ExtResource( 1 )
+flip_h = true
+region_enabled = true
+region_rect = Rect2( 176, 159, 148, 95 )
+
+[node name="left_wing" type="Sprite" parent="anchor/player"]
+position = Vector2( 69.618, -56.252 )
+rotation = 0.0264195
+texture = ExtResource( 1 )
+flip_h = true
+region_enabled = true
+region_rect = Rect2( 326, 152, 92, 101 )
+
+[node name="left_leg" type="Sprite" parent="anchor/player"]
+position = Vector2( 27.769, 78.3 )
+texture = ExtResource( 1 )
+flip_h = true
+region_enabled = true
+region_rect = Rect2( 182, 2, 19, 79 )
+
+[node name="right_leg" type="Sprite" parent="anchor/player"]
+position = Vector2( -16.198, 91.014 )
+rotation = 1.50975
+scale = Vector2( 1, 1 )
+texture = ExtResource( 1 )
+flip_v = true
+region_enabled = true
+region_rect = Rect2( 420, 164, 49, 18 )
+
+[node name="left_arm" type="Sprite" parent="anchor/player"]
+position = Vector2( 58.0108, -44.0805 )
+rotation = -0.51357
+texture = ExtResource( 1 )
+flip_v = true
+region_enabled = true
+region_rect = Rect2( 292, 93, 70, 33 )
+
+[node name="body" type="Sprite" parent="anchor/player"]
+position = Vector2( -16.814, 16.983 )
+texture = ExtResource( 1 )
+flip_h = true
+region_enabled = true
+region_rect = Rect2( 21, 93, 153, 157 )
+
+[node name="right_arm" type="Sprite" parent="anchor/player"]
+position = Vector2( -54.8545, -45.5546 )
+texture = ExtResource( 1 )
+flip_h = true
+region_enabled = true
+region_rect = Rect2( 292, 93, 70, 33 )
+
+[node name="right_weapon" type="Sprite" parent="anchor/player"]
+position = Vector2( -85.9461, -107.38 )
+rotation = 4.1649
+texture = ExtResource( 1 )
+flip_h = true
+region_enabled = true
+region_rect = Rect2( 2, 11, 108, 56 )
+
+[node name="left_weapon" type="Sprite" parent="anchor/player"]
+position = Vector2( 95.211, -99.8158 )
+rotation = 1.67821
+texture = ExtResource( 1 )
+flip_v = true
+region_enabled = true
+region_rect = Rect2( 177, 84, 112, 40 )
+
+[node name="head" type="Sprite" parent="anchor/player"]
+position = Vector2( 16.27, -57.484 )
+texture = ExtResource( 1 )
+flip_h = true
+region_enabled = true
+region_rect = Rect2( 420, 185, 74, 68 )
+
+[node name="damage" type="AnimationPlayer" parent="."]
+playback_speed = 20.0
+anims/jitter = SubResource( 1 )

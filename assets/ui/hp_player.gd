@@ -1,7 +1,7 @@
 extends Sprite
 
 onready var origin_size_x = self.region_rect.size.x
-onready var hp_node = self.get_child(0)
+onready var tween = $"../../Tween"
 
 var max_hp = 30
 var hp = 0
@@ -10,9 +10,14 @@ func _ready():
 	update_hp()
 
 func update_hp():
-	hp_node.text = String(hp)
-	var new_x = origin_size_x * hp / max_hp
-	self.region_rect.size.x = new_x
+	$hp.text = String(hp)
+	var x = origin_size_x * hp / max_hp
+	var from = self.region_rect
+	var to = Rect2(from.position, Vector2(x, from.size.y))
+	if from != to:
+		tween.stop(self, "region_rect")
+		tween.interpolate_property(self, "region_rect", from, to, 0.45)
+		tween.start()
 
 func _on_controller_player_hp(type, value):
 	if type == "max_hp":

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/energy.png-2306a30f190a47163f5e7b1dbccf33cb.stex"
+path="res://.import/bluefire.png-6bb989dac66cda45fae920713e5906a5.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/energy.png"
-dest_files=[ "res://.import/energy.png-2306a30f190a47163f5e7b1dbccf33cb.stex" ]
+source_file="res://assets/effects/bluefire.png"
+dest_files=[ "res://.import/bluefire.png-6bb989dac66cda45fae920713e5906a5.stex" ]
 
 [params]
 
