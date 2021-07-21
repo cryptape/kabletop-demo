@@ -1,0 +1,150 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://assets/cards/frame.png" type="Texture" id=1]
+[ext_resource path="res://assets/cards/specials.png" type="Texture" id=2]
+[ext_resource path="res://assets/font/regular.otf" type="DynamicFontData" id=3]
+[ext_resource path="res://assets/cards/card.gd" type="Script" id=5]
+[ext_resource path="res://assets/cards/light_frame.png" type="Texture" id=6]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 27.5259, 12.2105 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 1225, 1198, 596, 836 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 60
+use_mipmaps = true
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 70
+use_mipmaps = true
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 45
+use_mipmaps = true
+font_data = ExtResource( 3 )
+
+[node name="speical" type="Area2D"]
+monitorable = false
+script = ExtResource( 5 )
+
+[node name="light_frame" type="Node2D" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 0, -65 )
+scale = Vector2( 1.15, 1.15 )
+
+[node name="up" type="Sprite" parent="light_frame"]
+position = Vector2( 0.796967, 78.6287 )
+scale = Vector2( 1.48, 1.12 )
+texture = ExtResource( 6 )
+region_enabled = true
+region_rect = Rect2( 10, 10, 181, 181 )
+
+[node name="down" type="Sprite" parent="light_frame"]
+position = Vector2( 1.22733, -78.6764 )
+scale = Vector2( 1.48, 1.12 )
+texture = ExtResource( 6 )
+region_enabled = true
+region_rect = Rect2( 10, 10, 181, 181 )
+
+[node name="collision" type="CollisionShape2D" parent="."]
+scale = Vector2( 3.566, 13.48 )
+shape = SubResource( 1 )
+
+[node name="frame" type="Sprite" parent="collision"]
+scale = Vector2( 0.11217, 0.0296736 )
+texture = SubResource( 2 )
+
+[node name="icon" type="Sprite" parent="collision/frame"]
+position = Vector2( 3.54144, -153.118 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 2 )
+hframes = 4
+region_rect = Rect2( 1, 564, 250, 187 )
+
+[node name="ring" type="Sprite" parent="collision/frame"]
+position = Vector2( 5.18518, -170.832 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 2, 242, 536, 475 )
+
+[node name="header" type="Sprite" parent="collision/frame"]
+self_modulate = Color( 0.894118, 0.321569, 0.211765, 1 )
+position = Vector2( 0.121887, -340.25 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 541, 210, 646, 142 )
+
+[node name="corner_icon" type="Sprite" parent="collision/frame"]
+position = Vector2( -259.95, -361.464 )
+rotation = 6.28319
+scale = Vector2( 1.2, 1.2 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 1835, 1606, 141, 140 )
+
+[node name="name" type="Label" parent="collision/frame"]
+anchor_left = -0.0207622
+anchor_top = -0.0300427
+anchor_right = 0.0127949
+anchor_bottom = 0.00579969
+margin_left = -50.8207
+margin_top = -398.279
+margin_right = 49.1793
+margin_bottom = -338.279
+custom_fonts/font = SubResource( 3 )
+text = "杀戮"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="cost" type="Label" parent="collision/frame"]
+anchor_left = 1.02408e-07
+anchor_top = -0.00211195
+anchor_right = 0.0402686
+anchor_bottom = 0.0181987
+margin_left = -309.902
+margin_top = -418.263
+margin_right = -239.902
+margin_bottom = -330.263
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "2"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="describtion" type="Label" parent="collision/frame"]
+anchor_left = 0.125702
+anchor_top = 0.585738
+anchor_right = 0.808588
+anchor_bottom = 0.767339
+margin_left = -309.902
+margin_top = -418.263
+margin_right = -239.902
+margin_bottom = -330.263
+custom_fonts/font = SubResource( 5 )
+text = "造成2点伤害"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="area_shape_entered" from="." to="." method="_on_card_area_shape_entered"]
+[connection signal="area_shape_exited" from="." to="." method="_on_card_area_shape_exited"]
+[connection signal="input_event" from="." to="." method="_on_card_input_event"]
+[connection signal="mouse_entered" from="." to="." method="_on_card_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_card_mouse_exited"]

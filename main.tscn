@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://assets/background/scene.jpg" type="Texture" id=1]
 [ext_resource path="res://assets/background/scene.png" type="Texture" id=2]
@@ -9,24 +9,25 @@
 [ext_resource path="res://assets/ui/hp_player.png" type="Texture" id=7]
 [ext_resource path="res://assets/ui/energy.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/ui/hp_enemy.png" type="Texture" id=9]
-[ext_resource path="res://assets/font/bb4171.ttf" type="DynamicFontData" id=10]
+[ext_resource path="res://assets/font/regular.otf" type="DynamicFontData" id=10]
 [ext_resource path="res://assets/ui/round.png" type="Texture" id=11]
-[ext_resource path="res://assets/font/SourceHanSerifSC-Bold.otf" type="DynamicFontData" id=12]
-[ext_resource path="res://player_energy.gd" type="Script" id=13]
-[ext_resource path="res://opposite_energy.gd" type="Script" id=14]
-[ext_resource path="res://main.gd" type="Script" id=15]
-[ext_resource path="res://player_name.gd" type="Script" id=16]
-[ext_resource path="res://opposite_name.gd" type="Script" id=17]
-[ext_resource path="res://round.gd" type="Script" id=18]
+[ext_resource path="res://assets/font/medium.otf" type="DynamicFontData" id=12]
+[ext_resource path="res://assets/player_energy.gd" type="Script" id=13]
+[ext_resource path="res://assets/opposite_energy.gd" type="Script" id=14]
+[ext_resource path="res://assets/main.gd" type="Script" id=15]
+[ext_resource path="res://assets/player_name.gd" type="Script" id=16]
+[ext_resource path="res://assets/opposite_name.gd" type="Script" id=17]
+[ext_resource path="res://assets/round.gd" type="Script" id=18]
 [ext_resource path="res://assets/ui/hp_player.gd" type="Script" id=19]
 [ext_resource path="res://assets/ui/hp_opposite.gd" type="Script" id=20]
-[ext_resource path="res://sdk.gd" type="Script" id=21]
-[ext_resource path="res://custom.gd" type="Script" id=22]
-[ext_resource path="res://special.gd" type="Script" id=23]
+[ext_resource path="res://sdk.gdns" type="Script" id=21]
+[ext_resource path="res://assets/custom.gd" type="Script" id=22]
+[ext_resource path="res://assets/special.gd" type="Script" id=23]
+[ext_resource path="res://assets/spell.gd" type="Script" id=24]
 
 [sub_resource type="DynamicFont" id=1]
 size = 40
-font_data = ExtResource( 10 )
+font_data = ExtResource( 12 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 60
@@ -57,17 +58,27 @@ texture = ExtResource( 2 )
 region_enabled = true
 region_rect = Rect2( 2, 500, 1920, 771 )
 
-[node name="opposite" parent="background" instance=ExtResource( 4 )]
+[node name="opposite" type="Node2D" parent="background"]
 position = Vector2( 359.647, -342.279 )
+
+[node name="anchor" type="Node2D" parent="background/opposite"]
+
+[node name="model" parent="background/opposite/anchor" instance=ExtResource( 4 )]
 scale = Vector2( 1.6, 1.6 )
 
 [node name="effects" parent="background/opposite" instance=ExtResource( 3 )]
+scale = Vector2( 1.6, 1.6 )
 
-[node name="player" parent="background" instance=ExtResource( 5 )]
+[node name="player" type="Node2D" parent="background"]
 position = Vector2( -468.716, -300.564 )
+
+[node name="anchor" type="Node2D" parent="background/player"]
+
+[node name="model" parent="background/player/anchor" instance=ExtResource( 5 )]
 scale = Vector2( 1.6, 1.6 )
 
 [node name="effects" parent="background/player" instance=ExtResource( 3 )]
+scale = Vector2( 1.6, 1.6 )
 
 [node name="panel" type="Sprite" parent="."]
 position = Vector2( 574.072, 37.1424 )
@@ -231,10 +242,10 @@ region_rect = Rect2( 46, 20, 558, 96 )
 script = ExtResource( 19 )
 
 [node name="hp" type="Label" parent="panel/player_hp/hp_bar"]
-anchor_left = -0.00163767
-anchor_top = 0.184892
-anchor_right = -0.00163767
-anchor_bottom = 0.184893
+anchor_left = 0.00155891
+anchor_top = -0.0194902
+anchor_right = 0.00155891
+anchor_bottom = 0.282593
 margin_left = 14.7896
 margin_top = 0.407433
 margin_right = 84.7896
@@ -268,10 +279,10 @@ region_rect = Rect2( 19, 18, 558, 96 )
 script = ExtResource( 20 )
 
 [node name="hp" type="Label" parent="panel/opposite_hp/hp_bar"]
-margin_left = 479.684
-margin_top = 20.2031
-margin_right = 549.684
-margin_bottom = 81.2031
+margin_left = 474.333
+margin_top = 4.14985
+margin_right = 544.333
+margin_bottom = 94.1498
 custom_fonts/font = SubResource( 3 )
 text = "30"
 align = 1
@@ -301,12 +312,12 @@ scale = Vector2( 0.909091, 0.909091 )
 texture = ExtResource( 11 )
 
 [node name="round" type="Label" parent="panel"]
-margin_left = -24.8287
-margin_top = -11.7151
-margin_right = 41.1713
-margin_bottom = 76.2849
+margin_left = -20.779
+margin_top = -0.83456
+margin_right = 31.221
+margin_bottom = 45.1654
 custom_fonts/font = SubResource( 4 )
-text = "0"
+text = "23"
 align = 1
 script = ExtResource( 18 )
 __meta__ = {
@@ -316,15 +327,15 @@ __meta__ = {
 [node name="Tween" type="Tween" parent="panel"]
 
 [node name="cards" type="Node2D" parent="."]
-position = Vector2( 614.61, 585.53 )
+position = Vector2( 583.497, 413.146 )
 scale = Vector2( 0.6, 0.6 )
 
 [node name="special" type="Node2D" parent="cards"]
-position = Vector2( -837.803, 138.593 )
+position = Vector2( -752.312, 489.422 )
 script = ExtResource( 23 )
 
 [node name="custom" type="Node2D" parent="cards"]
-position = Vector2( -494.441, 138.593 )
+position = Vector2( -408.95, 489.422 )
 script = ExtResource( 22 )
 
 [node name="born_point" type="Node2D" parent="cards/custom"]
@@ -335,14 +346,17 @@ scale = Vector2( 1.66667, 1.66667 )
 
 [node name="Tween" type="Tween" parent="cards"]
 
-[node name="sdk" type="Area2D" parent="."]
+[node name="spell" type="Area2D" parent="."]
 monitoring = false
-script = ExtResource( 21 )
+script = ExtResource( 24 )
 
-[node name="spell_panel" type="CollisionShape2D" parent="sdk"]
+[node name="spell_panel" type="CollisionShape2D" parent="spell"]
 position = Vector2( 578.822, 203.491 )
 scale = Vector2( 34.646, 11.1531 )
 shape = SubResource( 5 )
+
+[node name="sdk" type="Node" parent="."]
+script = ExtResource( 21 )
 
 [connection signal="game_round" from="." to="panel/round" method="_on_kabletop_game_round"]
 [connection signal="opposite_energy" from="." to="panel/opposite_energy" method="_on_kabletop_opposite_energy"]
@@ -351,4 +365,4 @@ shape = SubResource( 5 )
 [connection signal="player_energy" from="." to="panel/player_energy" method="_on_kabletop_player_energy"]
 [connection signal="player_hp" from="." to="panel/player_hp/hp_bar" method="_on_controller_player_hp"]
 [connection signal="player_name" from="." to="panel/player_name" method="_on_kabletop_player_name"]
-[connection signal="input_event" from="sdk" to="sdk" method="_on_sdk_input_event"]
+[connection signal="input_event" from="spell" to="spell" method="_on_spell_input_event"]
