@@ -16,7 +16,7 @@ func update_energy():
 			update_to(point, Color(1, 1, 1, 0))
 
 func _on_kabletop_player_energy(num):
-	energy += num
+	energy = num
 	energy = min(energy, self.get_child_count())
 	energy = max(energy, 0)
 	update_energy()
@@ -26,3 +26,6 @@ func update_to(point, color):
 		point, "modulate", point.modulate, color, 0.2
 	)
 	tween.start()
+
+func try_cost_energy(num):
+	return num >= 0 && energy >= num

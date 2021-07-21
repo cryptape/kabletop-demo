@@ -123,7 +123,7 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="describtion" type="Label" parent="collision/frame"]
+[node name="description" type="Label" parent="collision/frame"]
 anchor_left = 0.125702
 anchor_top = 0.585738
 anchor_right = 0.808588

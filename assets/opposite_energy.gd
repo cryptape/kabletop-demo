@@ -17,7 +17,7 @@ func update_energy():
 			update_to(point, Color(1, 1, 1, 1))
 
 func _on_kabletop_opposite_energy(num):
-	energy += num
+	energy = num
 	energy = min(energy, self.get_child_count())
 	energy = max(energy, 0)
 	update_energy()

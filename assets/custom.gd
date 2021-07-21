@@ -3,6 +3,7 @@ extends Node2D
 onready var born   = $born_point.position
 onready var anchor = $anchor
 onready var tween  = $"../Tween"
+onready var parent = get_parent()
 
 var width = 1140
 var step = 200
@@ -10,24 +11,11 @@ var running = false
 
 signal custom_card_spelled
 
-class Card:
-	var icon = 0
-	var name = ""
-	var cost = 0
-	var description = ""
-	static func generate(icon, name, cost, desc):
-		var new_card = Card.new()
-		new_card.icon = icon
-		new_card.name = name
-		new_card.cost = cost
-		new_card.description = desc
-		return new_card
-	
-
 var cards_pool = []
 
-func add_card(card_path):
-	cards_pool.push_back(card_path)
+func add_card(card_hash):
+	var card = parent.get_card(card_hash)
+	cards_pool.push_back(card)
 	if running == false:
 		run()
 
@@ -36,15 +24,8 @@ func next():
 	run()
 
 func _ready():
-	cards_pool.push_back(Card.generate(0, "增强", 3, "到下一回合为止，受到的所有伤害-1"))
-	cards_pool.push_back(Card.generate(1, "光明", 5, "在3个回合之内，每一回合恢复1生命"))
-	cards_pool.push_back(Card.generate(2, "毒瘴", 1, "到下一回合为止，所有玩家造成的伤害-1"))
-	cards_pool.push_back(Card.generate(3, "心灵净化", 2, "增加3点能量"))
-	cards_pool.push_back(Card.generate(4, "暴走", 3, "在3个回合之内，己方所有攻击类卡片能量消耗+1，造成的伤害+1"))
-	cards_pool.push_back(Card.generate(5, "嗜血", 4, "造成3点伤害，恢复2点血量"))
 # warning-ignore:return_value_discarded
 	tween.connect("tween_all_completed", self, "next")
-	run()
 
 func run():
 	if cards_pool.empty():
@@ -71,9 +52,29 @@ func sort_out(interval):
 			card.position, Vector2(x, 0), interval,
 			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
 		)
+	tween.connect("tween_all_completed", self, "sorted")
 	tween.start()
 
+func sorted():
+	for card in anchor.get_children():
+		card.update_origin_global_position()
+	tween.disconnect("tween_all_completed", self, "sorted")
+
 func card_spelled(card):
-	emit_signal("custom_card_spelled", card)
-	card.queue_free()
-	sort_out(0.15)
+	var energy = get_node("/root/controller/panel/player_energy")
+	if energy.try_cost_energy(card.info.cost):
+		card.queue_free()
+		sort_out(0.15)
+		emit_signal("custom_card_spelled", card)
+	else:
+		card.reset()
+		card.scale = Vector2(1.4, 1.4)
+		card.modulate = Color("00ffffff")
+		tween.interpolate_property(
+			card, "scale", card.scale, Vector2.ONE, 0.3
+		)
+		tween.interpolate_property(
+			card, "modulate", card.modulate, Color("ffffffff"), 0.3
+		)
+		tween.start()
+		# 弹出错误提示

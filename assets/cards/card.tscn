@@ -66,6 +66,7 @@ scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 hframes = 8
 vframes = 5
+frame = 9
 region_rect = Rect2( 1, 564, 250, 187 )
 
 [node name="ring" type="Sprite" parent="collision/frame"]

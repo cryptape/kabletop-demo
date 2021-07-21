@@ -16,7 +16,7 @@ var checking = false
 var mouse_moved = false
 var mouse_offset = Vector2.ZERO
 var origin_global_position = Vector2.ZERO
-var attribute = null
+var info = null
 
 signal card_spell
 
@@ -156,6 +156,9 @@ func spelled():
 	tween.disconnect("tween_all_completed", self, "spelled")
 	emit_signal("card_spell", self)
 	
+func update_origin_global_position():
+	origin_global_position = self.global_position
+
 func reset():
 	card.scale = origin_scale
 	card.position = origin_position
@@ -165,8 +168,8 @@ func reset():
 	self.modulate = Color("ffffffff")
 	light_frame.modulate = Color("00ffffff")
 
-func set_info(info):
-	attribute = info
+func set_info(card_info):
+	info = card_info
 	$"collision/frame/icon".frame = info.icon
 	$"collision/frame/name".text = info.name
 	$"collision/frame/cost".text = String(info.cost)
