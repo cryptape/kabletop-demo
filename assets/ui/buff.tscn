@@ -1,0 +1,67 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://assets/ui/buff/timelock.png" type="Texture" id=1]
+[ext_resource path="res://assets/ui/buff/buff.gd" type="Script" id=2]
+[ext_resource path="res://assets/ui/buff/defect.png" type="Texture" id=3]
+[ext_resource path="res://assets/ui/buff/friends.png" type="Texture" id=4]
+[ext_resource path="res://assets/ui/buff/global.png" type="Texture" id=5]
+[ext_resource path="res://assets/ui/buff/score.png" type="Texture" id=6]
+[ext_resource path="res://assets/ui/buff/silent.png" type="Texture" id=7]
+[ext_resource path="res://assets/ui/buff/time.png" type="Texture" id=8]
+[ext_resource path="res://assets/ui/buff/ironclad.png" type="Texture" id=9]
+[ext_resource path="res://assets/ui/buff/watcher.png" type="Texture" id=10]
+[ext_resource path="res://assets/ui/buff/tips.png" type="Texture" id=11]
+[ext_resource path="res://assets/font/regular.otf" type="DynamicFontData" id=12]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 9 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 1 ), ExtResource( 10 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 33.2337, 33.3353 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 40
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 12 )
+
+[node name="buff" type="AnimatedSprite"]
+frames = SubResource( 1 )
+script = ExtResource( 2 )
+
+[node name="hover" type="Area2D" parent="."]
+monitoring = false
+monitorable = false
+
+[node name="collision" type="CollisionShape2D" parent="hover"]
+shape = SubResource( 2 )
+
+[node name="tips" type="Sprite" parent="."]
+visible = false
+self_modulate = Color( 1, 1, 1, 0.784314 )
+position = Vector2( -248.534, -137.761 )
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 11 )
+region_enabled = true
+region_rect = Rect2( 15, 17, 771, 225 )
+
+[node name="text" type="Label" parent="tips"]
+margin_left = -345.0
+margin_top = -92.0
+margin_right = 368.0
+margin_bottom = 82.0
+custom_fonts/font = SubResource( 3 )
+text = "影豹：维持3个回合，每回合给对方造成2点伤害"
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="mouse_entered" from="hover" to="." method="_on_hover_mouse_entered"]
+[connection signal="mouse_exited" from="hover" to="." method="_on_hover_mouse_exited"]

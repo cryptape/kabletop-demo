@@ -1,10 +1,8 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://assets/background/scene.jpg" type="Texture" id=1]
 [ext_resource path="res://assets/background/scene.png" type="Texture" id=2]
 [ext_resource path="res://assets/effects/effects.tscn" type="PackedScene" id=3]
-[ext_resource path="res://assets/charactors/cultist/cultist.tscn" type="PackedScene" id=4]
-[ext_resource path="res://assets/charactors/silent/silent.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/ui/bar.png" type="Texture" id=6]
 [ext_resource path="res://assets/ui/hp_player.png" type="Texture" id=7]
 [ext_resource path="res://assets/ui/energy.tscn" type="PackedScene" id=8]
@@ -12,8 +10,8 @@
 [ext_resource path="res://assets/font/regular.otf" type="DynamicFontData" id=10]
 [ext_resource path="res://assets/ui/round.png" type="Texture" id=11]
 [ext_resource path="res://assets/font/medium.otf" type="DynamicFontData" id=12]
-[ext_resource path="res://assets/player_energy.gd" type="Script" id=13]
-[ext_resource path="res://assets/opposite_energy.gd" type="Script" id=14]
+[ext_resource path="res://assets/ui/energy/player_energy.gd" type="Script" id=13]
+[ext_resource path="res://assets/ui/energy/opposite_energy.gd" type="Script" id=14]
 [ext_resource path="res://assets/main.gd" type="Script" id=15]
 [ext_resource path="res://assets/player_name.gd" type="Script" id=16]
 [ext_resource path="res://assets/opposite_name.gd" type="Script" id=17]
@@ -21,10 +19,16 @@
 [ext_resource path="res://assets/ui/hp_player.gd" type="Script" id=19]
 [ext_resource path="res://assets/ui/hp_opposite.gd" type="Script" id=20]
 [ext_resource path="res://sdk.gdns" type="Script" id=21]
-[ext_resource path="res://assets/custom.gd" type="Script" id=22]
-[ext_resource path="res://assets/special.gd" type="Script" id=23]
+[ext_resource path="res://assets/cards/custom.gd" type="Script" id=22]
+[ext_resource path="res://assets/cards/special.gd" type="Script" id=23]
 [ext_resource path="res://assets/spell.gd" type="Script" id=24]
 [ext_resource path="res://assets/config/cards.gd" type="Script" id=25]
+[ext_resource path="res://assets/cards/tiny/special.tscn" type="PackedScene" id=26]
+[ext_resource path="res://assets/cards/tiny/custom_tiny.gd" type="Script" id=27]
+[ext_resource path="res://assets/ui/switch.png" type="Texture" id=28]
+[ext_resource path="res://assets/ui/buffs.gd" type="Script" id=29]
+[ext_resource path="res://assets/cards/tiny/tiny_cards.gd" type="Script" id=30]
+[ext_resource path="res://assets/switch.gd" type="Script" id=31]
 
 [sub_resource type="DynamicFont" id=1]
 size = 40
@@ -34,16 +38,26 @@ font_data = ExtResource( 12 )
 size = 60
 font_data = ExtResource( 10 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=4]
 size = 60
 font_data = ExtResource( 10 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 1175.68, 405.479 )
+
+[sub_resource type="DynamicFont" id=6]
 size = 45
 font_data = ExtResource( 12 )
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 10, 8.15489 )
+
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 118.808, 53.5162 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 40
+font_data = ExtResource( 12 )
 
 [node name="controller" type="Node2D"]
 script = ExtResource( 15 )
@@ -59,26 +73,20 @@ texture = ExtResource( 2 )
 region_enabled = true
 region_rect = Rect2( 2, 500, 1920, 771 )
 
-[node name="opposite" type="Node2D" parent="background"]
-position = Vector2( 359.647, -342.279 )
-
-[node name="anchor" type="Node2D" parent="background/opposite"]
-
-[node name="model" parent="background/opposite/anchor" instance=ExtResource( 4 )]
-scale = Vector2( 1.6, 1.6 )
-
-[node name="effects" parent="background/opposite" instance=ExtResource( 3 )]
-scale = Vector2( 1.6, 1.6 )
-
 [node name="player" type="Node2D" parent="background"]
 position = Vector2( -468.716, -300.564 )
 
 [node name="anchor" type="Node2D" parent="background/player"]
 
-[node name="model" parent="background/player/anchor" instance=ExtResource( 5 )]
+[node name="effects" parent="background/player" instance=ExtResource( 3 )]
 scale = Vector2( 1.6, 1.6 )
 
-[node name="effects" parent="background/player" instance=ExtResource( 3 )]
+[node name="opposite" type="Node2D" parent="background"]
+position = Vector2( 359.647, -342.279 )
+
+[node name="anchor" type="Node2D" parent="background/opposite"]
+
+[node name="effects" parent="background/opposite" instance=ExtResource( 3 )]
 scale = Vector2( 1.6, 1.6 )
 
 [node name="panel" type="Sprite" parent="."]
@@ -225,7 +233,7 @@ __meta__ = {
 
 [node name="player_hp" type="Sprite" parent="panel"]
 self_modulate = Color( 0.447059, 0.580392, 0.615686, 0.705882 )
-position = Vector2( -585.856, 279.533 )
+position = Vector2( -585.856, 270.566 )
 scale = Vector2( 0.7, 0.7 )
 texture = ExtResource( 7 )
 centered = false
@@ -243,10 +251,10 @@ region_rect = Rect2( 46, 20, 558, 96 )
 script = ExtResource( 19 )
 
 [node name="hp" type="Label" parent="panel/player_hp/hp_bar"]
-anchor_left = 0.00155891
+anchor_left = -0.00697496
 anchor_top = -0.0194902
-anchor_right = 0.00155891
-anchor_bottom = 0.282593
+anchor_right = -0.00697496
+anchor_bottom = 0.282594
 margin_left = 14.7896
 margin_top = 0.407433
 margin_right = 84.7896
@@ -258,6 +266,10 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": true
 }
+
+[node name="buffs" type="Node2D" parent="panel/player_hp"]
+position = Vector2( 28.169, 746.712 )
+script = ExtResource( 29 )
 
 [node name="opposite_hp" type="Sprite" parent="panel"]
 self_modulate = Color( 0.447059, 0.580392, 0.615686, 0.705882 )
@@ -280,17 +292,41 @@ region_rect = Rect2( 19, 18, 558, 96 )
 script = ExtResource( 20 )
 
 [node name="hp" type="Label" parent="panel/opposite_hp/hp_bar"]
-margin_left = 474.333
-margin_top = 4.14985
-margin_right = 544.333
-margin_bottom = 94.1498
-custom_fonts/font = SubResource( 3 )
+margin_left = 476.714
+margin_top = -0.612052
+margin_right = 546.714
+margin_bottom = 89.3879
+custom_fonts/font = SubResource( 4 )
 text = "30"
 align = 1
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="tiny_cards" type="Node2D" parent="panel/opposite_hp"]
+position = Vector2( -288.423, 203.404 )
+script = ExtResource( 30 )
+
+[node name="click" type="Area2D" parent="panel/opposite_hp/tiny_cards"]
+monitoring = false
+monitorable = false
+
+[node name="click_area" type="CollisionShape2D" parent="panel/opposite_hp/tiny_cards/click"]
+shape = SubResource( 5 )
+
+[node name="special" parent="panel/opposite_hp/tiny_cards" instance=ExtResource( 26 )]
+position = Vector2( 402.594, -283.125 )
+
+[node name="custom" type="Node2D" parent="panel/opposite_hp/tiny_cards"]
+position = Vector2( 477.415, -409.374 )
+script = ExtResource( 27 )
+
+[node name="Tween" type="Tween" parent="panel/opposite_hp/tiny_cards"]
+
+[node name="buffs" type="Node2D" parent="panel/opposite_hp"]
+position = Vector2( 85.0926, 746.712 )
+script = ExtResource( 29 )
 
 [node name="opposite_name" type="Label" parent="panel"]
 margin_left = 535.785
@@ -307,17 +343,18 @@ __meta__ = {
 }
 
 [node name="round_icon" type="Sprite" parent="panel"]
-position = Vector2( -0.00366211, 28.3058 )
+position = Vector2( -4.32935, 28.6547 )
 rotation = -3.13805
 scale = Vector2( 0.909091, 0.909091 )
 texture = ExtResource( 11 )
+region_rect = Rect2( 134, 211, 244, 90 )
 
 [node name="round" type="Label" parent="panel"]
-margin_left = -20.779
+margin_left = -25.493
 margin_top = -0.83456
-margin_right = 31.221
+margin_right = 26.507
 margin_bottom = 45.1654
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 6 )
 text = "23"
 align = 1
 script = ExtResource( 18 )
@@ -355,7 +392,37 @@ script = ExtResource( 24 )
 [node name="spell_panel" type="CollisionShape2D" parent="spell"]
 position = Vector2( 578.822, 203.491 )
 scale = Vector2( 34.646, 11.1531 )
-shape = SubResource( 5 )
+shape = SubResource( 7 )
+
+[node name="switch" type="Sprite" parent="."]
+self_modulate = Color( 1, 1, 1, 0.607843 )
+position = Vector2( 1087.34, 570.803 )
+scale = Vector2( 0.4, 0.4 )
+texture = ExtResource( 28 )
+region_enabled = true
+region_rect = Rect2( 128, 194, 253, 127 )
+script = ExtResource( 31 )
+
+[node name="click" type="Area2D" parent="switch"]
+scale = Vector2( 1, 1 )
+monitoring = false
+monitorable = false
+
+[node name="collision" type="CollisionShape2D" parent="switch/click"]
+shape = SubResource( 8 )
+
+[node name="turn_text" type="Label" parent="switch"]
+margin_left = -73.0986
+margin_top = -21.9747
+margin_right = 86.9014
+margin_bottom = 19.0253
+custom_fonts/font = SubResource( 3 )
+text = "结束回合"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="switch"]
 
 [node name="sdk" type="Node" parent="."]
 script = ExtResource( 21 )
@@ -367,3 +434,7 @@ script = ExtResource( 21 )
 [connection signal="player_energy" from="." to="panel/player_energy" method="_on_kabletop_player_energy"]
 [connection signal="player_hp" from="." to="panel/player_hp/hp_bar" method="_on_controller_player_hp"]
 [connection signal="player_name" from="." to="panel/player_name" method="_on_kabletop_player_name"]
+[connection signal="input_event" from="panel/opposite_hp/tiny_cards/click" to="panel/opposite_hp/tiny_cards" method="_on_click_input_event"]
+[connection signal="input_event" from="switch/click" to="switch" method="_on_click_input_event"]
+[connection signal="mouse_entered" from="switch/click" to="switch" method="_on_click_mouse_entered"]
+[connection signal="mouse_exited" from="switch/click" to="switch" method="_on_click_mouse_exited"]

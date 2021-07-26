@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/cards/tiny/red_frame.png" type="Texture" id=1]
+[ext_resource path="res://assets/cards/tiny/tiny_special.gd" type="Script" id=2]
+
+[node name="special" type="Sprite"]
+scale = Vector2( 2, 2 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 18, 12, 30, 41 )
+script = ExtResource( 2 )
+
+[node name="Tween" type="Tween" parent="."]

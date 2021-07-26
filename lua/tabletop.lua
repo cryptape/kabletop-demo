@@ -32,10 +32,11 @@ function Tabletop:draw_card()
 end
 
 function Tabletop:switch_round()
-	self.players[self.acting_player]:round_end(self.round)
 	self.acting_player = self:other_player()
 	self.round = self.round + 1
-	self.players[self.acting_player]:round_start(self.round)
+	for player in ipairs(self.players) do
+		player.elapse_buffs()
+	end
 	print("tabletop:switch_round " .. self.acting_player)
 end
 

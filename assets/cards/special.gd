@@ -27,7 +27,10 @@ func card_spelled(card):
 	tween.start()
 	var energy = get_node("/root/controller/panel/player_energy")
 	if energy.try_cost_energy(card.info.cost):
-		emit_signal("special_card_spelled", card)
+		emit_event(card)
 	else:
 		# 弹出错误提示
 		pass
+		
+func emit_event(card):
+	emit_signal("special_card_spelled", card)

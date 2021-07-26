@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://assets/charactors/chosen/chosen.png" type="Texture" id=1]
+[ext_resource path="res://assets/charactors/charactor.gd" type="Script" id=2]
 
 [sub_resource type="Animation" id=1]
 resource_name = "jitter"
@@ -32,6 +33,7 @@ tracks/1/keys = {
 }
 
 [node name="chosen" type="Node2D"]
+script = ExtResource( 2 )
 
 [node name="anchor" type="Node2D" parent="."]
 
@@ -40,7 +42,6 @@ tracks/1/keys = {
 [node name="left_wing" type="Sprite" parent="anchor/player"]
 position = Vector2( 36.9749, 13.1082 )
 rotation = -1.31583
-scale = Vector2( 1, 1 )
 texture = ExtResource( 1 )
 flip_h = true
 region_enabled = true
@@ -49,7 +50,6 @@ region_rect = Rect2( 331, 208, 65, 44 )
 [node name="tail" type="Sprite" parent="anchor/player"]
 position = Vector2( -42.0669, 73.1587 )
 rotation = 0.308138
-scale = Vector2( 1, 1 )
 texture = ExtResource( 1 )
 flip_h = true
 region_enabled = true
@@ -133,7 +133,6 @@ visible = false
 [node name="left_wing" type="Sprite" parent="anchor/opposite"]
 position = Vector2( -40.8948, 1.3098 )
 rotation = 1.29621
-scale = Vector2( 1, 1 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 331, 208, 65, 44 )
@@ -141,7 +140,6 @@ region_rect = Rect2( 331, 208, 65, 44 )
 [node name="tail" type="Sprite" parent="anchor/opposite"]
 position = Vector2( 45.2415, 81.1816 )
 rotation = -0.176022
-scale = Vector2( 1, 1 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 402, 226, 44, 26 )

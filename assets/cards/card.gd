@@ -27,9 +27,9 @@ func disabled():
 func set_dragging(flag):
 	dragging = flag
 	if dragging:
-		anchor.dragging_card = self
+		anchor.disable_all(self)
 	else:
-		anchor.dragging_card = null
+		anchor.enable_all()
 
 func _on_card_mouse_entered():
 	if disabled() or dragging or card.z_index == 1:

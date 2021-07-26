@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/skip_round.png-a8ddd73edd53f928ba7c097426e44cee.stex"
+path="res://.import/friends.png-a30da8e81137330a7486d838808a107b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/skip_round.png"
-dest_files=[ "res://.import/skip_round.png-a8ddd73edd53f928ba7c097426e44cee.stex" ]
+source_file="res://assets/ui/buff/friends.png"
+dest_files=[ "res://.import/friends.png-a30da8e81137330a7486d838808a107b.stex" ]
 
 [params]
 

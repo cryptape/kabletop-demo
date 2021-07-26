@@ -43,12 +43,10 @@ function Player:draw()
 	Emit("draw", self.id, draw_card.hash)
 end
 
-function Player.round_end(round)
-	
-end
-
-function Player:round_start(round)
-	
+function Player:elapse_buffs()
+	for buff in ipairs(self.buffs) do
+		buff:elapse(self)
+	end
 end
 
 return Player

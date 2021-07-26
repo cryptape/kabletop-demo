@@ -20,6 +20,8 @@ func add_card(card_hash):
 		run()
 
 func next():
+	for card in anchor.get_children():
+		card.update_origin_global_position()
 	running = false
 	run()
 
@@ -52,20 +54,14 @@ func sort_out(interval):
 			card.position, Vector2(x, 0), interval,
 			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
 		)
-	tween.connect("tween_all_completed", self, "sorted")
 	tween.start()
-
-func sorted():
-	for card in anchor.get_children():
-		card.update_origin_global_position()
-	tween.disconnect("tween_all_completed", self, "sorted")
 
 func card_spelled(card):
 	var energy = get_node("/root/controller/panel/player_energy")
 	if energy.try_cost_energy(card.info.cost):
 		card.queue_free()
 		sort_out(0.15)
-		emit_signal("custom_card_spelled", card)
+		emit_event(card)
 	else:
 		card.reset()
 		card.scale = Vector2(1.4, 1.4)
@@ -78,3 +74,6 @@ func card_spelled(card):
 		)
 		tween.start()
 		# 弹出错误提示
+		
+func emit_event(card):
+	emit_signal("custom_card_spelled", card)

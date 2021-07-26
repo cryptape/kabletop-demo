@@ -3,7 +3,7 @@ extends Area2D
 onready var special = $"../cards/special"
 onready var custom = $"../cards/custom"
 onready var sdk = $"../sdk"
-onready var controller = get_node("/root/controller")
+onready var controller = $"/root/controller"
 
 var ROLE = 4
 var ID_ONE = 1
@@ -13,7 +13,9 @@ func _ready():
 	special.connect("special_card_spelled", self, "on_special_card_spelled")
 	custom.connect("custom_card_spelled", self, "on_custom_card_spelled")
 
+	controller.set_my_id(ID_ONE)
 	controller.set_player_role(ID_ONE, ROLE)
+	controller.set_player_role(ID_TWO, 2)
 	controller.set_player_hp(ID_ONE, 30)
 	controller.set_player_hp(ID_TWO, 30)
 	
@@ -73,5 +75,12 @@ func run(code):
 			"empower", "cost":
 				var energy = params[2]
 				controller.set_player_energy(player_id, energy)
+			"strip":
+				var buffs = params[2]
+				print("buffs = ", buffs)
+			"buff":
+				var name = params[2]
+				var life = params[3]
+				print("buff name = ", name, " life = ", life)
 			_:
 				print("unknown event " + event)
