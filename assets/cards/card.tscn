@@ -7,7 +7,7 @@
 [ext_resource path="res://assets/cards/light_frame.png" type="Texture" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 27.5259, 12.2105 )
+extents = Vector2( 25.5967, 12.2105 )
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4

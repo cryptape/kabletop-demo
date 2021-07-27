@@ -28,11 +28,13 @@ function Player:spell(which)
 	local opposite = self.tabletop:other_player()
 	card:apply(self, opposite)
 	table.remove(self.active_cards, which)
+	Emit("spell_end", self.id, which, card.hash)
 end
 
 function Player:spell_master()
 	local opposite = self.tabletop:other_player()
 	self.master_card:apply(self, opposite)
+	Emit("spell_end", self.id, 0, self.master_card.hash)
 end
 
 function Player:draw()

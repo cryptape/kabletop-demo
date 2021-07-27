@@ -13,7 +13,7 @@ func _ready():
 	special.connect("special_card_spelled", self, "on_special_card_spelled")
 	custom.connect("custom_card_spelled", self, "on_custom_card_spelled")
 
-	controller.set_my_id(ID_ONE)
+	controller.player_id = ID_ONE
 	controller.set_player_role(ID_ONE, ROLE)
 	controller.set_player_role(ID_TWO, 2)
 	controller.set_player_hp(ID_ONE, 30)
@@ -47,9 +47,11 @@ func init_sdk(nfts_1, nfts_2):
 	)
 	
 func on_special_card_spelled(_card):
+	assert(controller.acting_player_id == controller.player_id)
 	run("game:spell_card(0)")
 
 func on_custom_card_spelled(card):
+	assert(controller.acting_player_id == controller.player_id)
 	var offset = 0
 	for child in card.get_parent().get_children():
 		offset += 1
@@ -70,11 +72,11 @@ func run(code):
 			"damage", "heal":
 				var hp = params[2]
 				var effect = params[3]
-				controller.set_player_hp(player_id, hp)
-				controller.damage_player(player_id, effect)
+				controller.set_player_hp(player_id, hp, true)
+				controller.damage_player(player_id, effect, true)
 			"empower", "cost":
 				var energy = params[2]
-				controller.set_player_energy(player_id, energy)
+				controller.set_player_energy(player_id, energy, true)
 			"strip":
 				var buffs = params[2]
 				print("buffs = ", buffs)
@@ -82,5 +84,11 @@ func run(code):
 				var name = params[2]
 				var life = params[3]
 				print("buff name = ", name, " life = ", life)
+			"spell_end":
+				var card_offset = params[2] - 1
+				var hash_code = params[3]
+				controller.apply_change(player_id, card_offset, hash_code)
+			"change_actor":
+				controller.set_acting_player(player_id)
 			_:
 				print("unknown event " + event)

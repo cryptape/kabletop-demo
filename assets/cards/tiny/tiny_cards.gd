@@ -1,6 +1,7 @@
 extends Node2D
 
-onready var cards = $"/root/controller/cards"
+onready var controller = $"/root/controller"
+onready var cards = controller.get_node("cards")
 onready var tiny_special = $"special"
 onready var tiny_custom = $"custom"
 onready var tween = $"Tween"
@@ -8,14 +9,15 @@ onready var tween = $"Tween"
 var spelling_info = null
 var spell_cards = []
 var running = false
-
-func _ready():
-	add_card()
-	add_card()
-	add_card()
+var card_adding = false
 
 func add_card():
 	tiny_custom.add_card()
+	card_adding = true
+
+func complete_add_card():
+	card_adding = false
+	run()
 
 func spell_special(role):
 	spell_cards.push_back({
@@ -23,24 +25,23 @@ func spell_special(role):
 		"id": role,
 		"anchor": tiny_special
 	})
-	if running == false:
-		run()
-		
+	return run()
+
 func spell_custom(i, id):
 	spell_cards.push_back({
 		"index": i,
 		"id": id,
 		"anchor": tiny_custom
 	})
-	if running == false:
-		run()
-	
+	return run()
+
 func run():
-	if spell_cards.empty():
-		return
+	if spell_cards.empty() or card_adding or running:
+		return false
+	running = true
 	var card = spell_cards.pop_front()
 	card.anchor.spell(card.index, card.id)
-	running = true
+	return true
 
 func show_tiny(path, card_info):
 	var tiny = load(path).instance()
@@ -67,7 +68,6 @@ func on_spell_tiny_special(role):
 	var special = show_tiny("res://assets/cards/special.tscn", native_card)
 	spelling_info = {
 		"card": special,
-		"emitor": $"/root/controller/cards/special",
 		"enable": false
 	}
 	
@@ -76,7 +76,6 @@ func on_spell_tiny_custom(id):
 	var custom = show_tiny("res://assets/cards/card.tscn", card)
 	spelling_info = {
 		"card": custom,
-		"emitor": $"/root/controller/cards/custom",
 		"enable": false
 	}
 	
@@ -103,11 +102,10 @@ func demonstrate():
 	
 func card_spelled():
 	tween.disconnect("tween_all_completed", self, "card_spelled")
-	var card = spelling_info.card
-	var emitor = spelling_info.emitor
-	emitor.emit_event(card)
-	running = false
+	spelling_info.card.queue_free()
 	spelling_info = null
+	controller.apply_defer_funcs(controller.get_opposite_id())
+	running = false
 	run()
 
 func _on_click_input_event(_viewport, event, _shape_idx):

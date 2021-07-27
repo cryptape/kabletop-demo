@@ -4,6 +4,7 @@ onready var born   = $born_point.position
 onready var anchor = $anchor
 onready var tween  = $"../Tween"
 onready var parent = get_parent()
+onready var controller = $"/root/controller"
 
 var width = 1140
 var step = 200
@@ -58,7 +59,8 @@ func sort_out(interval):
 
 func card_spelled(card):
 	var energy = get_node("/root/controller/panel/player_energy")
-	if energy.try_cost_energy(card.info.cost):
+	if controller.acting_player_id == controller.player_id \
+			and energy.try_cost_energy(card.info.cost):
 		card.queue_free()
 		sort_out(0.15)
 		emit_event(card)

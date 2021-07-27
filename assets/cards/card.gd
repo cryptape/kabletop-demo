@@ -21,8 +21,15 @@ var info = null
 signal card_spell
 
 func disabled():
-	var dragging_card = anchor.dragging_card
-	return dragging_card != null and dragging_card != self
+	var card = anchor.dragging_card
+	return card != null and card != self
+	
+func apply_enable():
+	var card = anchor.dragging_card
+	if card == self or card == null:
+		self.modulate = Color("ffffffff")
+	else:
+		self.modulate = Color("8affffff")
 	
 func set_dragging(flag):
 	dragging = flag
@@ -70,7 +77,8 @@ func _on_card_input_event(_viewport, event, _shape_idx):
 		mouse_moved = true
 	if event is InputEventMouseButton \
 			and event.button_index == BUTTON_LEFT \
-			and !checking:
+			and !checking \
+			and card.z_index == 1:
 		if event.is_pressed():
 			if origin_global_position == Vector2.ZERO:
 				origin_global_position = self.global_position

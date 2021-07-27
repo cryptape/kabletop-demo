@@ -15,6 +15,7 @@ function Tabletop:ctor(role_1, role_2, first_player)
 		[2] = Player.new(role_2, _user2_nfts, PlayerId.Two, self)
 	}
 	self.acting_player = first_player
+	Emit("change_actor", self.acting_player)
 end
 
 function Tabletop:spell_card(which)
@@ -32,12 +33,12 @@ function Tabletop:draw_card()
 end
 
 function Tabletop:switch_round()
-	self.acting_player = self:other_player()
+	self.acting_player = self.acting_player % 2 + 1
 	self.round = self.round + 1
-	for player in ipairs(self.players) do
-		player.elapse_buffs()
+	for _, player in ipairs(self.players) do
+		player:elapse_buffs()
 	end
-	print("tabletop:switch_round " .. self.acting_player)
+	Emit("change_actor", self.acting_player)
 end
 
 function Tabletop:check_winner()
@@ -51,7 +52,8 @@ function Tabletop:check_winner()
 end
 
 function Tabletop:other_player()
-	return assert(self.players[self.acting_player % 2 + 1], "invalid player")
+	local other_id = self.acting_player % 2 + 1
+	return assert(self.players[other_id], "invalid player")
 end
 
 return Tabletop

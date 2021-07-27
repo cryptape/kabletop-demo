@@ -1,6 +1,8 @@
 extends Sprite
 
-onready var tween = $"Tween"
+onready var tween = $Tween
+onready var parent = $"../../"
+
 var card_id = 0
 
 func spell(id):
@@ -19,4 +21,4 @@ func spell(id):
 	
 func spelled():
 	tween.disconnect("tween_all_completed", self, "spelled")
-	self.get_parent().on_spelled(self)
+	parent.on_spelled(self)

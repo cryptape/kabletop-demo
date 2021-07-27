@@ -38,24 +38,24 @@ font_data = ExtResource( 12 )
 size = 60
 font_data = ExtResource( 10 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=3]
 size = 60
 font_data = ExtResource( 10 )
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 1175.68, 405.479 )
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=5]
 size = 45
 font_data = ExtResource( 12 )
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 10, 8.15489 )
 
-[sub_resource type="RectangleShape2D" id=8]
+[sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 118.808, 53.5162 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=8]
 size = 40
 font_data = ExtResource( 12 )
 
@@ -296,7 +296,7 @@ margin_left = 476.714
 margin_top = -0.612052
 margin_right = 546.714
 margin_bottom = 89.3879
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 text = "30"
 align = 1
 valign = 1
@@ -313,14 +313,19 @@ monitoring = false
 monitorable = false
 
 [node name="click_area" type="CollisionShape2D" parent="panel/opposite_hp/tiny_cards/click"]
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 
 [node name="special" parent="panel/opposite_hp/tiny_cards" instance=ExtResource( 26 )]
 position = Vector2( 402.594, -283.125 )
 
 [node name="custom" type="Node2D" parent="panel/opposite_hp/tiny_cards"]
-position = Vector2( 477.415, -409.374 )
+position = Vector2( 477.415, -285.564 )
 script = ExtResource( 27 )
+
+[node name="Tween" type="Tween" parent="panel/opposite_hp/tiny_cards/custom"]
+
+[node name="anchor" type="Node2D" parent="panel/opposite_hp/tiny_cards/custom"]
+position = Vector2( 0, -119.048 )
 
 [node name="Tween" type="Tween" parent="panel/opposite_hp/tiny_cards"]
 
@@ -354,7 +359,7 @@ margin_left = -25.493
 margin_top = -0.83456
 margin_right = 26.507
 margin_bottom = 45.1654
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 5 )
 text = "23"
 align = 1
 script = ExtResource( 18 )
@@ -392,7 +397,7 @@ script = ExtResource( 24 )
 [node name="spell_panel" type="CollisionShape2D" parent="spell"]
 position = Vector2( 578.822, 203.491 )
 scale = Vector2( 34.646, 11.1531 )
-shape = SubResource( 7 )
+shape = SubResource( 6 )
 
 [node name="switch" type="Sprite" parent="."]
 self_modulate = Color( 1, 1, 1, 0.607843 )
@@ -404,19 +409,18 @@ region_rect = Rect2( 128, 194, 253, 127 )
 script = ExtResource( 31 )
 
 [node name="click" type="Area2D" parent="switch"]
-scale = Vector2( 1, 1 )
 monitoring = false
 monitorable = false
 
 [node name="collision" type="CollisionShape2D" parent="switch/click"]
-shape = SubResource( 8 )
+shape = SubResource( 7 )
 
 [node name="turn_text" type="Label" parent="switch"]
 margin_left = -73.0986
 margin_top = -21.9747
 margin_right = 86.9014
 margin_bottom = 19.0253
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 8 )
 text = "结束回合"
 __meta__ = {
 "_edit_use_anchors_": false

@@ -30,8 +30,19 @@ func _on_click_mouse_exited():
 func _on_click_input_event(_viewport, event, _shape_idx):
 	if event.is_pressed() and enable:
 		var ctrl = $"/root/controller"
-		var other_id = ctrl.get_opposite_id()
 		if event.button_index == BUTTON_LEFT:
-			ctrl.add_player_card(other_id, "")
+			var spell = ctrl.get_node("spell")
+			spell.run(
+				"game:switch_round()" +
+				"game:draw_card()\n" +
+				"game:draw_card()\n" +
+				"game:draw_card()\n" +
+				"game:draw_card()\n" +
+				"game:draw_card()\n" +
+				"game:draw_card()\n" +
+				"game:spell_card(3)" +
+				"game:spell_card(3)" +
+				"game:spell_card(1)"
+			)
 		else:
 			ctrl.spell_tiny(0, "7375f9e28095638cb5761795f3d67fae1837129b")
