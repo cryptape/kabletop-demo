@@ -18,7 +18,8 @@ func _ready():
 	controller.set_player_role(ID_TWO, 2)
 	controller.set_player_hp(ID_ONE, 30)
 	controller.set_player_hp(ID_TWO, 30)
-	
+
+func init_sdk():
 	var cards = [
 		"b9aaddf96f7f5c742950611835c040af6b7024ad",
 		"b9aaddf96f7f5c742950611835c040af6b7024ad",
@@ -30,11 +31,8 @@ func _ready():
 		"7375f9e28095638cb5761795f3d67fae1837129b",
 		"7375f9e28095638cb5761795f3d67fae1837129b",
 	]
-	init_sdk(cards, cards)
-
-func init_sdk(nfts_1, nfts_2):
-	sdk.preload_nfts(nfts_1, nfts_2)
-	sdk.boost("./lua/boost.lua")
+	sdk.set_entry("./lua/boost.lua")	
+	sdk.create_channel("ws://127.0.0.1:11550", cards)
 	run("math.randomseed(0, 0)")
 	run("game = Tabletop.new(%d, Role.Cultist, %d)" % [ROLE, ID_ONE])
 	run(
@@ -60,7 +58,12 @@ func on_custom_card_spelled(card):
 	run("game:spell_card(%d)" % offset)
 
 func run(code):
-	var events = sdk.run(code)
+	sdk.run(code, false)
+	
+func switch_round():
+	sdk.run("game:switch_round()", true)
+
+func _on_sdk_lua_events(events):
 	for params in events:
 		print(params)
 		var event = params[0]
@@ -92,3 +95,11 @@ func run(code):
 				controller.set_acting_player(player_id)
 			_:
 				print("unknown event " + event)
+
+func _on_sdk_disconnect():
+	print("client disconnect")
+
+func _on_start_button_toggled(button_pressed):
+	if button_pressed:
+		$start_button.queue_free()
+		init_sdk()

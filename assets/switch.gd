@@ -32,17 +32,18 @@ func _on_click_input_event(_viewport, event, _shape_idx):
 		var ctrl = $"/root/controller"
 		if event.button_index == BUTTON_LEFT:
 			var spell = ctrl.get_node("spell")
-			spell.run(
-				"game:switch_round()" +
-				"game:draw_card()\n" +
-				"game:draw_card()\n" +
-				"game:draw_card()\n" +
-				"game:draw_card()\n" +
-				"game:draw_card()\n" +
-				"game:draw_card()\n" +
-				"game:spell_card(3)" +
-				"game:spell_card(3)" +
-				"game:spell_card(1)"
-			)
+			#spell.run(
+			#	"game:switch_round()" +
+			#	"game:draw_card()\n" +
+			#	"game:draw_card()\n" +
+			#	"game:draw_card()\n" +
+			#	"game:draw_card()\n" +
+			#	"game:draw_card()\n" +
+			#	"game:draw_card()\n" +
+			#	"game:spell_card(3)" +
+			#	"game:spell_card(3)" +
+			#	"game:spell_card(1)"
+			#)
+			spell.switch_round()
 		else:
 			ctrl.spell_tiny(0, "7375f9e28095638cb5761795f3d67fae1837129b")

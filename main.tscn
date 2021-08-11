@@ -1,8 +1,9 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://assets/background/scene.jpg" type="Texture" id=1]
 [ext_resource path="res://assets/background/scene.png" type="Texture" id=2]
 [ext_resource path="res://assets/effects/effects.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/ui/start.png" type="Texture" id=4]
 [ext_resource path="res://assets/ui/bar.png" type="Texture" id=6]
 [ext_resource path="res://assets/ui/hp_player.png" type="Texture" id=7]
 [ext_resource path="res://assets/ui/energy.tscn" type="PackedScene" id=8]
@@ -52,10 +53,14 @@ font_data = ExtResource( 12 )
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 10, 8.15489 )
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="DynamicFont" id=7]
+size = 30
+font_data = ExtResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 118.808, 53.5162 )
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=9]
 size = 40
 font_data = ExtResource( 12 )
 
@@ -313,6 +318,7 @@ monitoring = false
 monitorable = false
 
 [node name="click_area" type="CollisionShape2D" parent="panel/opposite_hp/tiny_cards/click"]
+position = Vector2( -1.78369, 0 )
 shape = SubResource( 4 )
 
 [node name="special" parent="panel/opposite_hp/tiny_cards" instance=ExtResource( 26 )]
@@ -399,6 +405,31 @@ position = Vector2( 578.822, 203.491 )
 scale = Vector2( 34.646, 11.1531 )
 shape = SubResource( 6 )
 
+[node name="start_button" type="TextureButton" parent="spell"]
+margin_left = 476.281
+margin_top = 683.502
+margin_right = 1366.28
+margin_bottom = 760.502
+rect_scale = Vector2( 0.65, 0.65 )
+toggle_mode = true
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 4 )
+texture_hover = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="confirm" type="Label" parent="spell/start_button"]
+margin_left = 391.079
+margin_top = 21.3456
+margin_right = 511.079
+margin_bottom = 52.3456
+custom_fonts/font = SubResource( 7 )
+text = "开始游戏"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="switch" type="Sprite" parent="."]
 self_modulate = Color( 1, 1, 1, 0.607843 )
 position = Vector2( 1087.34, 570.803 )
@@ -413,14 +444,14 @@ monitoring = false
 monitorable = false
 
 [node name="collision" type="CollisionShape2D" parent="switch/click"]
-shape = SubResource( 7 )
+shape = SubResource( 8 )
 
 [node name="turn_text" type="Label" parent="switch"]
 margin_left = -73.0986
 margin_top = -21.9747
 margin_right = 86.9014
 margin_bottom = 19.0253
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 9 )
 text = "结束回合"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -439,6 +470,9 @@ script = ExtResource( 21 )
 [connection signal="player_hp" from="." to="panel/player_hp/hp_bar" method="_on_controller_player_hp"]
 [connection signal="player_name" from="." to="panel/player_name" method="_on_kabletop_player_name"]
 [connection signal="input_event" from="panel/opposite_hp/tiny_cards/click" to="panel/opposite_hp/tiny_cards" method="_on_click_input_event"]
+[connection signal="toggled" from="spell/start_button" to="spell" method="_on_start_button_toggled"]
 [connection signal="input_event" from="switch/click" to="switch" method="_on_click_input_event"]
 [connection signal="mouse_entered" from="switch/click" to="switch" method="_on_click_mouse_entered"]
 [connection signal="mouse_exited" from="switch/click" to="switch" method="_on_click_mouse_exited"]
+[connection signal="disconnect" from="sdk" to="spell" method="_on_sdk_disconnect"]
+[connection signal="lua_events" from="sdk" to="spell" method="_on_sdk_lua_events"]
