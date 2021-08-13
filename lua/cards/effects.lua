@@ -4,7 +4,7 @@ local effects = {}
 -- 对指定玩家造成伤害
 effects.damage = function (value, effect_name)
 	return function (player)
-		for buff in ipairs(player.buffs) do
+		for _, buff in ipairs(player.buffs) do
 			local apply = buff["effects.damage"]
 			if type(apply) == "function" then
 				value = apply(player, value)
@@ -18,21 +18,21 @@ end
 -- 恢复指定玩家的生命
 effects.heal = function (value)
 	return function (player)
-		for buff in ipairs(player.buffs) do
+		for _, buff in ipairs(player.buffs) do
 			local apply = buff["effects.heal"]
 			if type(apply) == "function" then
 				value = apply(player, value)
 			end
 		end
 		player.hp = math.min(player.hp + value, player.max_hp)
-		Emit("heal", player.id, player.hp, "heal")
+		Emit("heal", player.id, player.hp)
 	end
 end
 
 -- 恢复指定玩家的能量
 effects.empower = function (value)
 	return function (player)
-		for buff in ipairs(player.buffs) do
+		for _, buff in ipairs(player.buffs) do
 			local apply = buff["effects.empower"]
 			if type(apply) == "function" then
 				value = apply(player, value)
@@ -46,7 +46,7 @@ end
 -- 指定玩家抽牌
 effects.draw = function (value)
 	return function (player)
-		for buff in ipairs(player.buffs) do
+		for _, buff in ipairs(player.buffs) do
 			local apply = buff["effects.draw"]
 			if type(apply) == "function" then
 				value = apply(player, value)

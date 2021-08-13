@@ -325,7 +325,7 @@ shape = SubResource( 4 )
 position = Vector2( 402.594, -283.125 )
 
 [node name="custom" type="Node2D" parent="panel/opposite_hp/tiny_cards"]
-position = Vector2( 477.415, -285.564 )
+position = Vector2( 477.415, -290.326 )
 script = ExtResource( 27 )
 
 [node name="Tween" type="Tween" parent="panel/opposite_hp/tiny_cards/custom"]
@@ -366,7 +366,7 @@ margin_top = -0.83456
 margin_right = 26.507
 margin_bottom = 45.1654
 custom_fonts/font = SubResource( 5 )
-text = "23"
+text = "0"
 align = 1
 script = ExtResource( 18 )
 __meta__ = {

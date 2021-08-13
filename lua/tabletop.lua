@@ -5,17 +5,17 @@ local Player = require "player"
 -- 游戏桌面
 local Tabletop = class()
 
-function Tabletop:ctor(role_1, role_2, first_player)
+function Tabletop:ctor(role_1, role_2, first_hand)
 	assert(_winner, "global var _winner is NIL")
 	assert(_user1_nfts, "global var _user1_nfts is NIL")
 	assert(_user2_nfts, "global var _user2_nfts is NIL")
-	self.round = 0
+	self.round = 1
 	self.players = {
 		[1] = Player.new(role_1, _user1_nfts, PlayerId.One, self),
 		[2] = Player.new(role_2, _user2_nfts, PlayerId.Two, self)
 	}
-	self.acting_player = first_player
-	Emit("change_actor", self.acting_player)
+	self.acting_player = first_hand
+	Emit("new_round", self.acting_player, self.round)
 end
 
 function Tabletop:spell_card(which)
@@ -38,7 +38,7 @@ function Tabletop:switch_round()
 	for _, player in ipairs(self.players) do
 		player:elapse_buffs()
 	end
-	Emit("change_actor", self.acting_player)
+	Emit("new_round", self.acting_player, self.round)
 end
 
 function Tabletop:check_winner()

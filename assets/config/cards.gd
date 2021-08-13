@@ -28,7 +28,7 @@ var NFTs = {
 	"b9aaddf96f7f5c742950611835c040af6b7024ad":
 		Card.generate(0, "充能", 0, "增加2点能量"),
 	"10ad3f5012ce514f409e4da4c011c24a31443488":
-		Card.generate(1, "光明", 5, "恢复2点血量\n。圣光3: 持续3回合，每恢复恢复2点血量"),
+		Card.generate(1, "光明", 5, "圣光3: 持续3回合，每回合恢复2点血量"),
 	"f37dfa5b009ea001acd3617886d9efecf31bb153":
 		Card.generate(2, "毒瘴", 2, "对自己造成3点伤害，抽一张牌"),
 	"97bff01bcad316a4b534ef221bd66da97018df90":

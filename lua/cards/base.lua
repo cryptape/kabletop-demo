@@ -27,12 +27,12 @@ function card:apply(caster, opposite)
 	for _, buff in ipairs(self.caster_buffs) do
 		assert(type(buff) == "table", "caster_buff in " .. self.hash .. " has non-table type")
 		table.insert(caster.buffs, buff)
-		Emit("buff", caster.id, buff.name, buff.life)
+		Emit("buff", caster.id, buff.id, 0, buff.life)
 	end
 	for _, buff in ipairs(self.opposite_buffs) do
 		assert(type(buff) == "table", "opposite_buff in " .. self.hash .. " has non-table type")
 		table.insert(opposite.buffs, buff)
-		Emit("buff", opposite.id, buff.name, buff.life)
+		Emit("buff", opposite.id, buff.id, 0, buff.life)
 	end
 end
 

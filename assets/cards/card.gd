@@ -34,9 +34,9 @@ func apply_enable():
 func set_dragging(flag):
 	dragging = flag
 	if dragging:
-		anchor.disable_all(self)
+		anchor.switch_enable(self, false, false)
 	else:
-		anchor.enable_all()
+		anchor.switch_enable()
 
 func _on_card_mouse_entered():
 	if disabled() or dragging or card.z_index == 1:

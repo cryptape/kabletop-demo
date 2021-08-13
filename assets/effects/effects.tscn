@@ -253,7 +253,6 @@ scale = Vector2( 0.7, 0.7 )
 texture = ExtResource( 2 )
 hframes = 3
 vframes = 3
-frame = 8
 
 [node name="deathfire" type="Sprite" parent="."]
 visible = false

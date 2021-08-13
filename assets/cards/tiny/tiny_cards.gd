@@ -85,7 +85,6 @@ func prepare_demonstrate():
 
 func demonstrate():
 	var card = spelling_info.card
-	tween.disconnect("tween_all_completed", self, "demonstrate")
 	tween.interpolate_property(
 		card, "modulate", card.modulate, Color("00ffffff"), 0.35
 	)

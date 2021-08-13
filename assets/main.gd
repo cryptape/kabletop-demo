@@ -52,22 +52,20 @@ func apply_change(id, card_index, hash_code):
 		apply_defer_funcs(id)
 	else:
 		var node = get_node("panel/opposite_hp/tiny_cards")
-		var ok = false
 		if card_index == -1:
-			ok = node.spell_special(get_opposite_role())
+			node.spell_special(get_opposite_role())
 		else:
-			ok = node.spell_custom(card_index, hash_code)
-		if !ok:
-			defer_funcs[acting_player_id].push_back({
-				"ref": null
-			})
+			node.spell_custom(card_index, hash_code)
+		defer_funcs[acting_player_id].push_back({
+			"ref": null
+		})
 
 func set_acting_player(id):
 	acting_player_id = id
 	if acting_player_id != player_id:
-		disable_all(self)
+		switch_enable(self, false)
 	else:
-		enable_all()
+		switch_enable()
 
 # player's signals
 func set_player_name(id, name):
@@ -140,6 +138,52 @@ func damage_player(id, effect_name, defer = false):
 	else:
 		_damage(target, effect_name)
 	
+func _heal(who):
+	var anchor = get_node("background/%s/anchor" % who)
+	assert(anchor.get_child_count() > 0)
+	anchor.get_child(0).get_healed()
+	#var effect = get_node("background/%s/effects" % who)
+	#effect.play_effect(effect_name)
+
+func heal_player(id, defer = false):
+	var target = ""
+	if id == player_id:
+		target = "player"
+	else:
+		target = "opposite"
+	if defer:
+		defer_funcs[acting_player_id].push_back({
+			"ref": funcref(self, "_heal"),
+			"args": [target]
+		})
+	else:
+		_heal(target)
+	
+# player buffs
+func _add_buff(who, buff_id, life):
+	var buffs = get_node("panel/%s_hp/buffs" % who)
+	buffs.add_buff(buff_id, life)
+
+func add_player_buff(id, buff_id, life, defer = false):
+	var target = ""
+	if id == player_id:
+		target = "player"
+	else:
+		target = "opposite"
+	if defer:
+		defer_funcs[acting_player_id].push_back({
+			"ref": funcref(self, "_add_buff"),
+			"args": [target, buff_id, life]
+		})
+	else:
+		_add_buff(target, buff_id, life)
+		
+func update_player_buff(id, which, life):
+	if id == player_id:
+		get_node("panel/player_hp/buffs").update_buff(which, life)
+	else:
+		get_node("panel/opposite_hp/buffs").update_buff(which, life)
+
 # player card operation
 func add_player_card(id, hash_code):
 	if id == player_id:
@@ -185,19 +229,13 @@ func get_opposite_role():
 	return player_roles[get_opposite_id()]
 	
 # game round rise
-func add_round(num):
-	emit_signal("game_round", num)
+func set_round(count):
+	emit_signal("game_round", count)
 	
 # enablility operation
-func enable_all():
-	get_node("cards").set_enable(null)
-	get_node("switch").set_enable(true)
-	get_node("panel/player_hp/buffs").set_enable(true)
-	get_node("panel/opposite_hp/buffs").set_enable(true)
-	
-func disable_all(node):
-	get_node("cards").set_enable(node)
-	get_node("switch").set_enable(false)
-	get_node("panel/player_hp/buffs").set_enable(false)
-	get_node("panel/opposite_hp/buffs").set_enable(false)
+func switch_enable(cards = null, switch = true, buffs = true):
+	get_node("cards").set_enable(cards)
+	get_node("switch").set_enable(switch)
+	get_node("panel/player_hp/buffs").set_enable(buffs)
+	get_node("panel/opposite_hp/buffs").set_enable(buffs)
 	

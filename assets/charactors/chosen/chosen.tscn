@@ -1,10 +1,26 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/charactors/chosen/chosen.png" type="Texture" id=1]
 [ext_resource path="res://assets/charactors/charactor.gd" type="Script" id=2]
 
 [sub_resource type="Animation" id=1]
-resource_name = "jitter"
+resource_name = "heal"
+length = 10.0
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("anchor:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 5, 10 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.509804 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=2]
 length = 10.0
 step = 1.0
 tracks/0/type = "value"
@@ -208,4 +224,5 @@ region_rect = Rect2( 241, 105, 77, 52 )
 
 [node name="damage" type="AnimationPlayer" parent="."]
 playback_speed = 20.0
-anims/jitter = SubResource( 1 )
+anims/heal = SubResource( 1 )
+anims/jitter = SubResource( 2 )

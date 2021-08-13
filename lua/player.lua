@@ -46,8 +46,8 @@ function Player:draw()
 end
 
 function Player:elapse_buffs()
-	for buff in ipairs(self.buffs) do
-		buff:elapse(self)
+	for i, buff in ipairs(self.buffs) do
+		buff:elapse(self, i)
 	end
 end
 

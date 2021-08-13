@@ -68,7 +68,7 @@ local templates = {
 	-- 光明
 	["10ad3f5012ce514f409e4da4c011c24a31443488"] = generate(
 		5,
-		pack(effects.heal(2)),
+		nil,
 		nil,
 		pack(buffs.holylight(2, 3)),
 		nil

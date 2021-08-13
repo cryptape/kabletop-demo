@@ -3,8 +3,11 @@ extends Sprite
 onready var tween = $Tween
 onready var origin_modulate = self.self_modulate
 var enable = true
+var hover = false
 
 func set_enable(_enable):
+	if !_enable and hover:
+		_on_click_mouse_exited()
 	enable = _enable
 
 func _on_click_mouse_entered():
@@ -16,6 +19,7 @@ func _on_click_mouse_entered():
 			self, "self_modulate", origin_modulate, Color("ffffffff"), 0.1
 		)
 		tween.start()
+		hover = true
 
 func _on_click_mouse_exited():
 	if enable:
@@ -26,24 +30,11 @@ func _on_click_mouse_exited():
 			self, "self_modulate", Color("ffffffff"), origin_modulate, 0.1
 		)
 		tween.start()
+		hover = false
 
 func _on_click_input_event(_viewport, event, _shape_idx):
-	if event.is_pressed() and enable:
-		var ctrl = $"/root/controller"
-		if event.button_index == BUTTON_LEFT:
-			var spell = ctrl.get_node("spell")
-			#spell.run(
-			#	"game:switch_round()" +
-			#	"game:draw_card()\n" +
-			#	"game:draw_card()\n" +
-			#	"game:draw_card()\n" +
-			#	"game:draw_card()\n" +
-			#	"game:draw_card()\n" +
-			#	"game:draw_card()\n" +
-			#	"game:spell_card(3)" +
-			#	"game:spell_card(3)" +
-			#	"game:spell_card(1)"
-			#)
-			spell.switch_round()
-		else:
-			ctrl.spell_tiny(0, "7375f9e28095638cb5761795f3d67fae1837129b")
+	if event.is_pressed() \
+			and event.button_index == BUTTON_LEFT \
+			and enable:
+		var spell = $"/root/controller/spell"
+		spell.switch_round()
