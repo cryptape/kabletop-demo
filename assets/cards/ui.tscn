@@ -1,0 +1,209 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://assets/cards/frame.png" type="Texture" id=1]
+[ext_resource path="res://assets/cards/cards.png" type="Texture" id=2]
+[ext_resource path="res://assets/font/regular.otf" type="DynamicFontData" id=3]
+[ext_resource path="res://assets/cards/indicator/not-owned.png" type="Texture" id=4]
+[ext_resource path="res://assets/cards/indicator/owned.png" type="Texture" id=5]
+[ext_resource path="res://assets/cards/ui.gd" type="Script" id=6]
+[ext_resource path="res://assets/cards/indicator/normal.png" type="Texture" id=7]
+[ext_resource path="res://assets/cards/indicator/locked.png" type="Texture" id=8]
+[ext_resource path="res://assets/cards/light_frame.png" type="Texture" id=9]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 542, 356, 596, 837 )
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 7 ), ExtResource( 5 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="DynamicFont" id=3]
+size = 55
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 45
+use_mipmaps = true
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 80
+use_mipmaps = true
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 60
+use_mipmaps = true
+font_data = ExtResource( 3 )
+
+[node name="card" type="Control"]
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="mouse_check" type="Button" parent="."]
+margin_left = 15.0
+margin_top = 32.0
+margin_right = 254.0
+margin_bottom = 361.0
+toggle_mode = true
+button_mask = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="light_frame" type="Node2D" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 134.9, 197 )
+
+[node name="up" type="Sprite" parent="light_frame"]
+position = Vector2( 0.796967, 78.6287 )
+scale = Vector2( 1.48, 1.12 )
+texture = ExtResource( 9 )
+region_enabled = true
+region_rect = Rect2( 10, 10, 181, 181 )
+
+[node name="down" type="Sprite" parent="light_frame"]
+position = Vector2( 1.22733, -78.6764 )
+scale = Vector2( 1.48, 1.12 )
+texture = ExtResource( 9 )
+region_enabled = true
+region_rect = Rect2( 10, 10, 181, 181 )
+
+[node name="frame" type="Sprite" parent="."]
+position = Vector2( 15.5, 29 )
+scale = Vector2( 0.400002, 0.4 )
+texture = SubResource( 1 )
+centered = false
+
+[node name="icon" type="Sprite" parent="frame"]
+position = Vector2( 302.04, 265.726 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 2 )
+hframes = 8
+vframes = 5
+frame = 9
+region_rect = Rect2( 1, 564, 250, 187 )
+
+[node name="locked" type="Sprite" parent="frame"]
+visible = false
+position = Vector2( 302.59, 271.651 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 8 )
+
+[node name="ring" type="Sprite" parent="frame"]
+position = Vector2( 303.684, 248.012 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 2, 719, 536, 475 )
+
+[node name="header" type="Sprite" parent="frame"]
+position = Vector2( 298.621, 78.5942 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 541, 210, 646, 142 )
+
+[node name="corner_icon" type="Sprite" parent="frame"]
+position = Vector2( 38.5487, 57.3802 )
+scale = Vector2( 1.2, 1.2 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 1834, 1318, 132, 132 )
+
+[node name="indicator_icon" type="AnimatedSprite" parent="frame"]
+position = Vector2( 303.645, -34.5049 )
+scale = Vector2( 1.2, 1.2 )
+frames = SubResource( 2 )
+
+[node name="indicator" type="Node2D" parent="frame"]
+position = Vector2( 295.999, -27.5818 )
+
+[node name="current" type="Label" parent="frame/indicator"]
+margin_left = -64.1975
+margin_top = -44.7356
+margin_right = -8.1975
+margin_bottom = 37.2644
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0.933333, 0.87451, 0.0117647, 1 )
+text = "0"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="total" type="Label" parent="frame/indicator"]
+margin_left = -9.19701
+margin_top = -45.4788
+margin_right = 74.803
+margin_bottom = 36.5212
+custom_fonts/font = SubResource( 3 )
+text = "/0"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="description" type="Label" parent="frame"]
+anchor_left = 0.626539
+anchor_top = 1.08615
+anchor_right = 1.30942
+anchor_bottom = 1.26775
+margin_left = -309.902
+margin_top = -418.263
+margin_right = -239.902
+margin_bottom = -330.263
+custom_fonts/font = SubResource( 4 )
+text = "在3个回合之内，受到的所有伤害-1"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="cost" type="Label" parent="frame"]
+anchor_left = 0.500837
+anchor_top = 0.421566
+anchor_right = 0.541105
+anchor_bottom = 0.441876
+margin_left = -309.902
+margin_top = -364.165
+margin_right = -239.902
+margin_bottom = -261.846
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "3"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="name" type="Label" parent="frame"]
+anchor_left = 0.326346
+anchor_top = 0.457571
+anchor_right = 0.678695
+anchor_bottom = 0.493413
+margin_left = -51.2077
+margin_top = -398.279
+margin_right = 48.7923
+margin_bottom = -313.368
+custom_fonts/font = SubResource( 6 )
+text = "强壮"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[connection signal="gui_input" from="mouse_check" to="." method="_on_mouse_check_gui_input"]
+[connection signal="mouse_entered" from="mouse_check" to="." method="_on_mouse_check_mouse_entered"]
+[connection signal="mouse_exited" from="mouse_check" to="." method="_on_mouse_check_mouse_exited"]

@@ -11,8 +11,13 @@ config_version=4
 [application]
 
 config/name="kabletop-demo"
-run/main_scene="res://main.tscn"
+run/main_scene="res://deck.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+Sdk="*res://sdk.tscn"
+Config="*res://config.gd"
 
 [display]
 

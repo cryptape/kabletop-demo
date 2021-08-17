@@ -15,12 +15,12 @@ atlas = ExtResource( 1 )
 region = Rect2( 542, 356, 596, 837 )
 
 [sub_resource type="DynamicFont" id=3]
-size = 60
+size = 80
 use_mipmaps = true
 font_data = ExtResource( 3 )
 
 [sub_resource type="DynamicFont" id=4]
-size = 70
+size = 60
 use_mipmaps = true
 font_data = ExtResource( 3 )
 
@@ -88,35 +88,35 @@ texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 1834, 1318, 132, 132 )
 
-[node name="name" type="Label" parent="collision/frame"]
-anchor_left = -0.179831
-anchor_top = -0.0295353
-anchor_right = 0.172518
-anchor_bottom = 0.00630704
-margin_left = -50.8207
-margin_top = -398.279
-margin_right = 49.1793
-margin_bottom = -338.279
+[node name="cost" type="Label" parent="collision/frame"]
+anchor_left = 3.46791e-07
+anchor_top = -0.0773581
+anchor_right = 0.0402688
+anchor_bottom = -0.0570475
+margin_left = -309.902
+margin_top = -367.201
+margin_right = -239.902
+margin_bottom = -264.882
 custom_fonts/font = SubResource( 3 )
-text = "强壮"
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "3"
 align = 1
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="cost" type="Label" parent="collision/frame"]
-anchor_left = 1.02408e-07
-anchor_top = -0.00211195
-anchor_right = 0.0402686
-anchor_bottom = 0.0181987
-margin_left = -309.902
-margin_top = -418.263
-margin_right = -239.902
-margin_bottom = -330.263
+[node name="name" type="Label" parent="collision/frame"]
+anchor_left = -0.172017
+anchor_top = -0.0421935
+anchor_right = 0.180332
+anchor_bottom = -0.00635112
+margin_left = -51.2077
+margin_top = -398.279
+margin_right = 48.7923
+margin_bottom = -313.368
 custom_fonts/font = SubResource( 4 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "3"
+text = "强壮"
 align = 1
 valign = 1
 __meta__ = {

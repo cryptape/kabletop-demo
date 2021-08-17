@@ -3,7 +3,6 @@ extends Node2D
 onready var born   = $born_point.position
 onready var anchor = $anchor
 onready var tween  = $"../Tween"
-onready var parent = get_parent()
 onready var controller = $"/root/controller"
 
 var width = 1140
@@ -15,7 +14,7 @@ signal custom_card_spelled
 var cards_pool = []
 
 func add_card(card_hash):
-	var card = parent.get_card(card_hash)
+	var card = Config.get_card(card_hash)
 	cards_pool.push_back(card)
 	if running == false:
 		run()

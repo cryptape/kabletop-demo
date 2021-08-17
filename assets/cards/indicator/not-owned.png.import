@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/buttonL.png-3951358259d9f9b7024f9bc626008bc2.stex"
+path="res://.import/not-owned.png-eddb67056f2d32e05b4c1e8337a2b070.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/buttonL.png"
-dest_files=[ "res://.import/buttonL.png-3951358259d9f9b7024f9bc626008bc2.stex" ]
+source_file="res://assets/cards/indicator/not-owned.png"
+dest_files=[ "res://.import/not-owned.png-eddb67056f2d32e05b4c1e8337a2b070.stex" ]
 
 [params]
 

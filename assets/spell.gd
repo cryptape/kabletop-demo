@@ -2,7 +2,6 @@ extends Area2D
 
 onready var special = $"../cards/special"
 onready var custom = $"../cards/custom"
-onready var sdk = $"../sdk"
 onready var controller = $"/root/controller"
 
 var ROLE = 4
@@ -12,6 +11,8 @@ var ID_TWO = 2
 func _ready():
 	special.connect("special_card_spelled", self, "on_special_card_spelled")
 	custom.connect("custom_card_spelled", self, "on_custom_card_spelled")
+	Sdk.connect("disconnect", self, "_on_sdk_disconnect")
+	Sdk.connect("lua_events", self, "_on_sdk_lua_events")
 
 	controller.player_id = ID_ONE
 	controller.set_player_role(ID_ONE, ROLE)
@@ -31,8 +32,8 @@ func init_sdk():
 		"7375f9e28095638cb5761795f3d67fae1837129b",
 		"7375f9e28095638cb5761795f3d67fae1837129b",
 	]
-	sdk.set_entry("./lua/boost.lua")	
-	sdk.create_channel("ws://127.0.0.1:11550", cards)
+	Sdk.set_entry("./lua/boost.lua")	
+	Sdk.create_channel("ws://127.0.0.1:11550", cards)
 	run("game = Tabletop.new(%d, Role.Cultist, %d)" % [ROLE, ID_ONE])
 	run(
 		"game:draw_card()\n" +
@@ -57,10 +58,10 @@ func on_custom_card_spelled(card):
 	run("game:spell_card(%d)" % offset)
 
 func run(code):
-	sdk.run(code, false)
+	Sdk.run(code, false)
 	
 func switch_round():
-	sdk.run("game:switch_round()", true)
+	Sdk.run("game:switch_round()", true)
 
 func _on_sdk_lua_events(events):
 	for params in events:

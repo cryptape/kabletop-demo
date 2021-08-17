@@ -1,0 +1,139 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://assets/ui/return.png" type="Texture" id=1]
+[ext_resource path="res://assets/background/deck-scene.jpg" type="Texture" id=2]
+[ext_resource path="res://assets/font/medium.otf" type="DynamicFontData" id=3]
+[ext_resource path="res://assets/ui/buynft.png" type="Texture" id=4]
+[ext_resource path="res://assets/deck.gd" type="Script" id=6]
+[ext_resource path="res://assets/ui/deck-button.gd" type="Script" id=7]
+
+[sub_resource type="DynamicFont" id=1]
+size = 24
+font_data = ExtResource( 3 )
+
+[sub_resource type="RectangleShape2D" id=2]
+
+[sub_resource type="DynamicFont" id=3]
+size = 60
+font_data = ExtResource( 3 )
+
+[node name="controller" type="Node2D"]
+script = ExtResource( 6 )
+
+[node name="background" type="Sprite" parent="."]
+position = Vector2( 612.461, 612.627 )
+scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 2 )
+
+[node name="scroll" type="ScrollContainer" parent="."]
+margin_left = 67.8529
+margin_top = 55.0946
+margin_right = 1483.85
+margin_bottom = 826.095
+rect_scale = Vector2( 0.735, 0.735 )
+follow_focus = true
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="anchor" type="GridContainer" parent="scroll"]
+custom_constants/vseparation = 400
+custom_constants/hseparation = 280
+columns = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="confirm" type="Sprite" parent="."]
+position = Vector2( -3.27911, 728.766 )
+scale = Vector2( 1.2, 1.2 )
+texture = ExtResource( 1 )
+centered = false
+offset = Vector2( 0, -22 )
+region_enabled = true
+region_rect = Rect2( 12, 12, 153, 51 )
+script = ExtResource( 7 )
+
+[node name="text" type="Label" parent="confirm"]
+margin_left = 46.8118
+margin_top = -11.9836
+margin_right = 94.8118
+margin_bottom = 13.0164
+custom_fonts/font = SubResource( 1 )
+text = "确认"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="click" type="Area2D" parent="confirm"]
+position = Vector2( 72.4784, 1.66656 )
+
+[node name="rect" type="CollisionShape2D" parent="confirm/click"]
+scale = Vector2( 7.03333, 1.96667 )
+shape = SubResource( 2 )
+
+[node name="cancel" type="Sprite" parent="."]
+position = Vector2( 1149.29, 729.701 )
+scale = Vector2( 1.2, 1.2 )
+texture = ExtResource( 4 )
+centered = false
+offset = Vector2( -138, -23 )
+region_enabled = true
+region_rect = Rect2( 9, 11, 141, 52 )
+script = ExtResource( 7 )
+
+[node name="text" type="Label" parent="cancel"]
+margin_left = -87.4352
+margin_top = -12.1518
+margin_right = -39.4352
+margin_bottom = 12.8482
+custom_fonts/font = SubResource( 1 )
+text = "返回"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="click" type="Area2D" parent="cancel"]
+position = Vector2( -66.5674, 0.83136 )
+
+[node name="rect" type="CollisionShape2D" parent="cancel/click"]
+scale = Vector2( 6.63333, 1.96667 )
+shape = SubResource( 2 )
+
+[node name="status" type="Node2D" parent="."]
+position = Vector2( 580.384, 728.32 )
+
+[node name="upperbond" type="Label" parent="status"]
+margin_left = -7.77814
+margin_top = -31.1128
+margin_right = 83.2219
+margin_bottom = 29.8872
+custom_fonts/font = SubResource( 3 )
+text = "/40"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="selected" type="Label" parent="status"]
+margin_left = -77.832
+margin_top = -31.113
+margin_right = -9.832
+margin_bottom = 29.887
+custom_fonts/font = SubResource( 3 )
+text = "0"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="input_event" from="confirm/click" to="confirm" method="_on_click_input_event"]
+[connection signal="mouse_entered" from="confirm/click" to="confirm" method="_on_click_mouse_entered"]
+[connection signal="mouse_exited" from="confirm/click" to="confirm" method="_on_click_mouse_exited"]
+[connection signal="input_event" from="cancel/click" to="cancel" method="_on_click_input_event"]
+[connection signal="mouse_entered" from="cancel/click" to="cancel" method="_on_click_mouse_entered"]
+[connection signal="mouse_exited" from="cancel/click" to="cancel" method="_on_click_mouse_exited"]

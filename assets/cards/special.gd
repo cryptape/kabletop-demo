@@ -1,14 +1,13 @@
 extends Node2D
 
 onready var tween = $"../Tween"
-onready var parent = get_parent()
 
 signal special_card_spelled
 
 func set_role_card(role):
 	if self.get_child_count() > 0:
 		self.get_child(0).free()
-	var native_card = parent.get_native_card(role)
+	var native_card = Config.get_native_card(role)
 	var card = load("res://assets/cards/special.tscn").instance()
 	card.set_info(native_card)
 	card.connect("card_spell", self, "card_spelled")

@@ -58,7 +58,7 @@ local templates = {
 		nil
 	),
 	-- 充能
-	["b9aaddf96f7f5c742950611835c040af6b7024ad"] = generate(
+	["10ad3f5012ce514f409e4da4c011c24a31443488"] = generate(
 		0,
 		pack(effects.empower(2)),
 		nil,
@@ -66,7 +66,7 @@ local templates = {
 		nil
 	),
 	-- 光明
-	["10ad3f5012ce514f409e4da4c011c24a31443488"] = generate(
+	["d046a18f7e01cb42e911fae2f11ba60c9c6834f8"] = generate(
 		5,
 		nil,
 		nil,
@@ -88,7 +88,7 @@ local templates = {
 		nil
 	),
 	-- 雷鸣
-	["7375f9e28095638cb5761795f3d67fae1837129b"] = generate(
+	["36248218d2808d668ae3c0d35990c12712f6b9d2"] = generate(
 		2,
 		nil,
 		pack(effects.damage(3, "firebomb")),
