@@ -1,21 +1,69 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=26 format=2]
 
-[ext_resource path="res://assets/ui/return.png" type="Texture" id=1]
+[ext_resource path="res://assets/ui/confirm.png" type="Texture" id=1]
 [ext_resource path="res://assets/background/deck-scene.jpg" type="Texture" id=2]
-[ext_resource path="res://assets/font/medium.otf" type="DynamicFontData" id=3]
-[ext_resource path="res://assets/ui/buynft.png" type="Texture" id=4]
+[ext_resource path="res://assets/cards/purchase.gd" type="Script" id=3]
+[ext_resource path="res://assets/ui/cancel.png" type="Texture" id=4]
+[ext_resource path="res://assets/ui/nftbox/open.png" type="Texture" id=5]
 [ext_resource path="res://assets/deck.gd" type="Script" id=6]
 [ext_resource path="res://assets/ui/deck-button.gd" type="Script" id=7]
+[ext_resource path="res://assets/ui/nftbox/normal.png" type="Texture" id=8]
+[ext_resource path="res://assets/ui/delete.png" type="Texture" id=9]
+[ext_resource path="res://assets/ui/nftbox/yellow.png" type="Texture" id=10]
+[ext_resource path="res://assets/ui/nftbox/abandon.png" type="Texture" id=11]
+[ext_resource path="res://assets/ui/nftbox/purchase.png" type="Texture" id=12]
+[ext_resource path="res://assets/ui/nftbox/reveal.png" type="Texture" id=13]
 
-[sub_resource type="DynamicFont" id=1]
-size = 24
-font_data = ExtResource( 3 )
+[sub_resource type="DynamicFontData" id=1]
+hinting = 0
+font_path = "res://assets/font/regular.otf"
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="DynamicFont" id=2]
+size = 50
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 1 )
 
-[sub_resource type="DynamicFont" id=3]
-size = 60
-font_data = ExtResource( 3 )
+[sub_resource type="RectangleShape2D" id=3]
+
+[sub_resource type="RectangleShape2D" id=4]
+
+[sub_resource type="DynamicFontData" id=5]
+font_path = "res://assets/font/medium.otf"
+
+[sub_resource type="DynamicFont" id=6]
+size = 40
+use_mipmaps = true
+font_data = SubResource( 5 )
+
+[sub_resource type="DynamicFontData" id=7]
+font_path = "res://assets/font/regular.otf"
+
+[sub_resource type="DynamicFont" id=8]
+size = 40
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 7 )
+
+[sub_resource type="SpriteFrames" id=9]
+animations = [ {
+"frames": [ ExtResource( 8 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 2.81716, 10 )
+
+[sub_resource type="DynamicFontData" id=11]
+font_path = "res://assets/font/medium.otf"
+
+[sub_resource type="DynamicFont" id=12]
+size = 45
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 11 )
 
 [node name="controller" type="Node2D"]
 script = ExtResource( 6 )
@@ -57,10 +105,11 @@ script = ExtResource( 7 )
 
 [node name="text" type="Label" parent="confirm"]
 margin_left = 46.8118
-margin_top = -11.9836
+margin_top = -17.9296
 margin_right = 94.8118
-margin_bottom = 13.0164
-custom_fonts/font = SubResource( 1 )
+margin_bottom = 18.0704
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = SubResource( 2 )
 text = "确认"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -71,7 +120,7 @@ position = Vector2( 72.4784, 1.66656 )
 
 [node name="rect" type="CollisionShape2D" parent="confirm/click"]
 scale = Vector2( 7.03333, 1.96667 )
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="cancel" type="Sprite" parent="."]
 position = Vector2( 1149.29, 729.701 )
@@ -84,11 +133,12 @@ region_rect = Rect2( 9, 11, 141, 52 )
 script = ExtResource( 7 )
 
 [node name="text" type="Label" parent="cancel"]
-margin_left = -87.4352
-margin_top = -12.1518
-margin_right = -39.4352
-margin_bottom = 12.8482
-custom_fonts/font = SubResource( 1 )
+margin_left = -85.4532
+margin_top = -16.6113
+margin_right = -37.4532
+margin_bottom = 19.3887
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = SubResource( 2 )
 text = "返回"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -99,17 +149,38 @@ position = Vector2( -66.5674, 0.83136 )
 
 [node name="rect" type="CollisionShape2D" parent="cancel/click"]
 scale = Vector2( 6.63333, 1.96667 )
-shape = SubResource( 2 )
+shape = SubResource( 3 )
+
+[node name="delete" type="Sprite" parent="."]
+position = Vector2( 1115.66, 647.441 )
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 9 )
+region_enabled = true
+region_rect = Rect2( 10, 11, 79, 78 )
+script = ExtResource( 7 )
+
+[node name="click" type="Area2D" parent="delete"]
+
+[node name="rect" type="CollisionShape2D" parent="delete/click"]
+scale = Vector2( 3.61333, 3.56 )
+shape = SubResource( 4 )
 
 [node name="status" type="Node2D" parent="."]
-position = Vector2( 580.384, 728.32 )
+position = Vector2( 67.8121, 651.788 )
+
+[node name="cancelButton" type="Sprite" parent="status"]
+position = Vector2( -11.3848, 9.9187 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 11 )
+region_enabled = true
+region_rect = Rect2( 9, 11, 418, 80 )
 
 [node name="upperbond" type="Label" parent="status"]
 margin_left = -7.77814
 margin_top = -31.1128
 margin_right = 83.2219
 margin_bottom = 29.8872
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 6 )
 text = "/40"
 valign = 1
 __meta__ = {
@@ -121,9 +192,105 @@ margin_left = -77.832
 margin_top = -31.113
 margin_right = -9.832
 margin_bottom = 29.887
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 6 )
 text = "0"
 align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="purchase" type="Node2D" parent="."]
+position = Vector2( 800.393, 724.898 )
+script = ExtResource( 3 )
+
+[node name="package_buy" type="Sprite" parent="purchase"]
+visible = false
+position = Vector2( -102.734, -8.66797 )
+rotation = 1.0593
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 12 )
+flip_h = true
+flip_v = true
+region_enabled = true
+region_rect = Rect2( 76, 86, 105, 86 )
+script = ExtResource( 7 )
+
+[node name="name" type="Label" parent="purchase/package_buy"]
+margin_left = -28.1787
+margin_top = -2.82849
+margin_right = 11.8213
+margin_bottom = 57.1715
+rect_rotation = -59.9345
+custom_fonts/font = SubResource( 8 )
+text = "购"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="click" type="Area2D" parent="purchase/package_buy"]
+
+[node name="rect" type="CollisionShape2D" parent="purchase/package_buy/click"]
+position = Vector2( -0.0942383, -3.86371 )
+rotation = 0.507891
+scale = Vector2( 5.29587, 3.61101 )
+shape = SubResource( 4 )
+
+[node name="package_reveal" type="Sprite" parent="purchase"]
+visible = false
+position = Vector2( -101.505, -6.43555 )
+rotation = 2.10053
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 13 )
+region_enabled = true
+region_rect = Rect2( 76, 86, 104, 86 )
+script = ExtResource( 7 )
+
+[node name="name" type="Label" parent="purchase/package_reveal"]
+margin_left = -8.92126
+margin_top = 35.6624
+margin_right = 31.0787
+margin_bottom = 95.6624
+rect_rotation = -120.688
+custom_fonts/font = SubResource( 8 )
+text = "拆"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="click" type="Area2D" parent="purchase/package_reveal"]
+
+[node name="rect" type="CollisionShape2D" parent="purchase/package_reveal/click"]
+position = Vector2( 1.34198, 7.64917 )
+rotation = -0.522085
+scale = Vector2( 5.29587, 3.61101 )
+shape = SubResource( 4 )
+
+[node name="yellow_flag" type="Sprite" parent="purchase"]
+position = Vector2( 112.536, 14.2544 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 10 )
+
+[node name="box" type="AnimatedSprite" parent="purchase"]
+position = Vector2( -2, -39.5 )
+scale = Vector2( 0.35, 0.35 )
+frames = SubResource( 9 )
+
+[node name="click" type="Area2D" parent="purchase/box"]
+position = Vector2( -11.8921, 127.415 )
+
+[node name="rect" type="CollisionShape2D" parent="purchase/box/click"]
+position = Vector2( 11.8921, -3.39771 )
+scale = Vector2( -47.9456, 8.23363 )
+shape = SubResource( 10 )
+
+[node name="count" type="Label" parent="purchase"]
+margin_left = 59.0
+margin_top = -30.0
+margin_right = 128.0
+margin_bottom = 38.0
+custom_fonts/font = SubResource( 12 )
+text = "x0"
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -137,3 +304,15 @@ __meta__ = {
 [connection signal="input_event" from="cancel/click" to="cancel" method="_on_click_input_event"]
 [connection signal="mouse_entered" from="cancel/click" to="cancel" method="_on_click_mouse_entered"]
 [connection signal="mouse_exited" from="cancel/click" to="cancel" method="_on_click_mouse_exited"]
+[connection signal="input_event" from="delete/click" to="delete" method="_on_click_input_event"]
+[connection signal="mouse_entered" from="delete/click" to="delete" method="_on_click_mouse_entered"]
+[connection signal="mouse_exited" from="delete/click" to="delete" method="_on_click_mouse_exited"]
+[connection signal="input_event" from="purchase/package_buy/click" to="purchase/package_buy" method="_on_click_input_event"]
+[connection signal="mouse_entered" from="purchase/package_buy/click" to="purchase/package_buy" method="_on_click_mouse_entered"]
+[connection signal="mouse_exited" from="purchase/package_buy/click" to="purchase/package_buy" method="_on_click_mouse_exited"]
+[connection signal="input_event" from="purchase/package_reveal/click" to="purchase/package_reveal" method="_on_click_input_event"]
+[connection signal="mouse_entered" from="purchase/package_reveal/click" to="purchase/package_reveal" method="_on_click_mouse_entered"]
+[connection signal="mouse_exited" from="purchase/package_reveal/click" to="purchase/package_reveal" method="_on_click_mouse_exited"]
+[connection signal="input_event" from="purchase/box/click" to="purchase" method="_on_click_input_event"]
+[connection signal="mouse_entered" from="purchase/box/click" to="purchase" method="_on_click_mouse_entered"]
+[connection signal="mouse_exited" from="purchase/box/click" to="purchase" method="_on_click_mouse_exited"]

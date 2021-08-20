@@ -14,10 +14,12 @@ func set_info(data):
 	$frame/name.text = data.name
 	$frame/description.text = data.description
 	
-func set_count(count):
-	$frame/indicator/total.text = "/" + String(count)
-	if count > 0:
-		owned = count
+func set_count(count, total):
+	assert(count <= total);
+	$frame/indicator/current.text = String(count)
+	$frame/indicator/total.text = "/" + String(total)
+	if total > 0:
+		owned = total
 	else:
 		$frame/indicator_icon.frame = 2
 		$frame/locked.show()

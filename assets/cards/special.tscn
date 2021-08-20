@@ -1,8 +1,7 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/cards/frame.png" type="Texture" id=1]
 [ext_resource path="res://assets/cards/specials.png" type="Texture" id=2]
-[ext_resource path="res://assets/font/regular.otf" type="DynamicFontData" id=3]
 [ext_resource path="res://assets/cards/card.gd" type="Script" id=5]
 [ext_resource path="res://assets/cards/light_frame.png" type="Texture" id=6]
 
@@ -14,20 +13,32 @@ flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 1225, 1198, 596, 836 )
 
-[sub_resource type="DynamicFont" id=3]
-size = 60
-use_mipmaps = true
-font_data = ExtResource( 3 )
+[sub_resource type="DynamicFontData" id=3]
+font_path = "res://assets/font/regular.otf"
 
 [sub_resource type="DynamicFont" id=4]
+size = 60
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 3 )
+
+[sub_resource type="DynamicFontData" id=5]
+font_path = "res://assets/font/regular.otf"
+
+[sub_resource type="DynamicFont" id=6]
 size = 70
 use_mipmaps = true
-font_data = ExtResource( 3 )
+use_filter = true
+font_data = SubResource( 5 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFontData" id=7]
+font_path = "res://assets/font/regular.otf"
+
+[sub_resource type="DynamicFont" id=8]
 size = 45
 use_mipmaps = true
-font_data = ExtResource( 3 )
+use_filter = true
+font_data = SubResource( 7 )
 
 [node name="speical" type="Area2D"]
 monitorable = false
@@ -97,7 +108,7 @@ margin_left = -50.8207
 margin_top = -398.279
 margin_right = 49.1793
 margin_bottom = -338.279
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "杀戮"
 align = 1
 valign = 1
@@ -114,7 +125,7 @@ margin_left = -309.902
 margin_top = -418.263
 margin_right = -239.902
 margin_bottom = -330.263
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "2"
 align = 1
@@ -132,7 +143,7 @@ margin_left = -309.902
 margin_top = -418.263
 margin_right = -239.902
 margin_bottom = -330.263
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 8 )
 text = "造成2点伤害"
 align = 1
 valign = 1

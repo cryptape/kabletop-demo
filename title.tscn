@@ -1,0 +1,352 @@
+[gd_scene load_steps=23 format=2]
+
+[ext_resource path="res://assets/background/main.jpg" type="Texture" id=1]
+[ext_resource path="res://assets/ui/menu/menu_battleclient.png" type="Texture" id=2]
+[ext_resource path="res://assets/ui/menu/menu_battleserver.png" type="Texture" id=3]
+[ext_resource path="res://assets/ui/menu/menu_deckmanage.png" type="Texture" id=4]
+[ext_resource path="res://assets/ui/menu/menu_statistic.png" type="Texture" id=5]
+[ext_resource path="res://assets/ui/menu/frame.png" type="Texture" id=6]
+[ext_resource path="res://assets/ui/menu/icon_battleclient.png" type="Texture" id=7]
+[ext_resource path="res://assets/ui/menu/icon_battleserver.png" type="Texture" id=8]
+[ext_resource path="res://assets/ui/menu/icon_deckmanage.png" type="Texture" id=9]
+[ext_resource path="res://assets/ui/menu/icon_statistic.png" type="Texture" id=10]
+[ext_resource path="res://assets/cards/light_frame.png" type="Texture" id=11]
+[ext_resource path="res://assets/ui/title-button.gd" type="Script" id=12]
+[ext_resource path="res://assets/title.gd" type="Script" id=13]
+
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://assets/font/medium.otf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 80
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 1 )
+
+[sub_resource type="DynamicFontData" id=3]
+font_path = "res://assets/font/regular.otf"
+
+[sub_resource type="DynamicFont" id=4]
+size = 40
+font_data = SubResource( 3 )
+
+[sub_resource type="DynamicFontData" id=5]
+font_path = "res://assets/font/medium.otf"
+
+[sub_resource type="DynamicFont" id=6]
+size = 35
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 5 )
+
+[sub_resource type="DynamicFontData" id=7]
+font_path = "res://assets/font/regular.otf"
+
+[sub_resource type="DynamicFont" id=8]
+size = 33
+font_data = SubResource( 7 )
+
+[sub_resource type="RectangleShape2D" id=9]
+
+[node name="controller" type="Node2D"]
+position = Vector2( 337.227, 305.493 )
+scale = Vector2( 0.6, 0.6 )
+script = ExtResource( 13 )
+
+[node name="background" type="Sprite" parent="."]
+position = Vector2( 458.808, 512.358 )
+texture = ExtResource( 1 )
+
+[node name="title" type="Label" parent="background"]
+margin_left = -566.647
+margin_top = -938.065
+margin_right = 464.353
+margin_bottom = -857.065
+custom_fonts/font = SubResource( 2 )
+text = "Kabletop Card Game Demo"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="subtitle" type="Label" parent="background"]
+margin_left = 187.077
+margin_top = -821.268
+margin_right = 819.077
+margin_bottom = -761.268
+custom_fonts/font = SubResource( 4 )
+text = "——美术资源全部来自《尖塔奇兵》"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="battleclient" type="Node2D" parent="background"]
+position = Vector2( -744.412, -308.564 )
+script = ExtResource( 12 )
+
+[node name="light_frame" type="Node2D" parent="background/battleclient"]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 1.99612, 0.052063 )
+scale = Vector2( 1.65, 2.05 )
+
+[node name="up" type="Sprite" parent="background/battleclient/light_frame"]
+position = Vector2( 0.796967, 78.6287 )
+scale = Vector2( 1.48, 1.12 )
+texture = ExtResource( 11 )
+region_enabled = true
+region_rect = Rect2( 10, 10, 181, 181 )
+
+[node name="down" type="Sprite" parent="background/battleclient/light_frame"]
+position = Vector2( 1.22733, -78.6764 )
+scale = Vector2( 1.48, 1.12 )
+texture = ExtResource( 11 )
+region_enabled = true
+region_rect = Rect2( 10, 10, 181, 181 )
+
+[node name="panel" type="Sprite" parent="background/battleclient"]
+position = Vector2( -0.825348, 8.56427 )
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 64, 48, 385, 711 )
+
+[node name="icon" type="Sprite" parent="background/battleclient/panel"]
+position = Vector2( 1.95523, -146.066 )
+scale = Vector2( 0.65, 0.65 )
+texture = ExtResource( 7 )
+region_enabled = true
+region_rect = Rect2( 4, 0, 488, 363 )
+
+[node name="frame" type="Sprite" parent="background/battleclient/panel"]
+modulate = Color( 1, 1, 1, 0.666667 )
+position = Vector2( 0.691803, -147.529 )
+scale = Vector2( 0.533403, 0.399548 )
+texture = ExtResource( 6 )
+
+[node name="title" type="Label" parent="background/battleclient/panel"]
+margin_left = -107.329
+margin_top = -323.644
+margin_right = 137.671
+margin_bottom = -287.644
+custom_fonts/font = SubResource( 6 )
+text = "对战（客户端）"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="content" type="Label" parent="background/battleclient/panel"]
+margin_left = -148.485
+margin_top = 35.1891
+margin_right = 152.515
+margin_bottom = 200.189
+custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 0.94902, 0.917647, 0.917647, 1 )
+text = "连接一个正在监听的对战节点，连接成功后自动开始卡牌对战"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="mouse_check" type="Area2D" parent="background/battleclient"]
+
+[node name="rect" type="CollisionShape2D" parent="background/battleclient/mouse_check"]
+scale = Vector2( 18.9333, 34.0667 )
+shape = SubResource( 9 )
+
+[node name="battleserver" type="Node2D" parent="background"]
+position = Vector2( -289.701, -308.564 )
+script = ExtResource( 12 )
+
+[node name="light_frame" type="Node2D" parent="background/battleserver"]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 1.99609, 0.052063 )
+scale = Vector2( 1.65, 2.05 )
+
+[node name="up" type="Sprite" parent="background/battleserver/light_frame"]
+position = Vector2( 0.796967, 78.6287 )
+scale = Vector2( 1.48, 1.12 )
+texture = ExtResource( 11 )
+region_enabled = true
+region_rect = Rect2( 10, 10, 181, 181 )
+
+[node name="down" type="Sprite" parent="background/battleserver/light_frame"]
+position = Vector2( 1.22733, -78.6764 )
+scale = Vector2( 1.48, 1.12 )
+texture = ExtResource( 11 )
+region_enabled = true
+region_rect = Rect2( 10, 10, 181, 181 )
+
+[node name="panel" type="Sprite" parent="background/battleserver"]
+position = Vector2( 5.109, 8.564 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 64, 48, 385, 711 )
+
+[node name="icon" type="Sprite" parent="background/battleserver/panel"]
+position = Vector2( 2.07294, -146.066 )
+scale = Vector2( 0.65, 0.65 )
+texture = ExtResource( 8 )
+region_enabled = true
+region_rect = Rect2( 4, 0, 487, 364 )
+
+[node name="frame" type="Sprite" parent="background/battleserver/panel"]
+modulate = Color( 1, 1, 1, 0.666667 )
+position = Vector2( 0.691833, -147.529 )
+scale = Vector2( 0.533403, 0.399548 )
+texture = ExtResource( 6 )
+
+[node name="title" type="Label" parent="background/battleserver/panel"]
+margin_left = -110.663
+margin_top = -323.644
+margin_right = 134.337
+margin_bottom = -287.644
+custom_fonts/font = SubResource( 6 )
+text = "对战（服务器）"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="content" type="Label" parent="background/battleserver/panel"]
+margin_left = -147.0
+margin_top = 32.7277
+margin_right = 154.0
+margin_bottom = 241.728
+custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 0.94902, 0.917647, 0.917647, 1 )
+text = "开启一个对战节点并监听客户端的连接，连接建立后自动开始卡牌对战"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="mouse_check" type="Area2D" parent="background/battleserver"]
+
+[node name="rect" type="CollisionShape2D" parent="background/battleserver/mouse_check"]
+scale = Vector2( 18.9333, 34.0667 )
+shape = SubResource( 9 )
+
+[node name="deckmanage" type="Node2D" parent="background"]
+position = Vector2( 177.475, -308.564 )
+script = ExtResource( 12 )
+
+[node name="light_frame" type="Node2D" parent="background/deckmanage"]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 1.99609, 0.052063 )
+scale = Vector2( 1.65, 2.05 )
+
+[node name="up" type="Sprite" parent="background/deckmanage/light_frame"]
+position = Vector2( 0.796967, 78.6287 )
+scale = Vector2( 1.48, 1.12 )
+texture = ExtResource( 11 )
+region_enabled = true
+region_rect = Rect2( 10, 10, 181, 181 )
+
+[node name="down" type="Sprite" parent="background/deckmanage/light_frame"]
+position = Vector2( 1.22733, -78.6764 )
+scale = Vector2( 1.48, 1.12 )
+texture = ExtResource( 11 )
+region_enabled = true
+region_rect = Rect2( 10, 10, 181, 181 )
+
+[node name="panel" type="Sprite" parent="background/deckmanage"]
+position = Vector2( 5.109, 8.564 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 64, 48, 385, 711 )
+
+[node name="icon" type="Sprite" parent="background/deckmanage/panel"]
+position = Vector2( 1.983, -146.066 )
+scale = Vector2( 0.65, 0.65 )
+texture = ExtResource( 9 )
+region_enabled = true
+region_rect = Rect2( 4, 0, 488, 363 )
+
+[node name="frame" type="Sprite" parent="background/deckmanage/panel"]
+modulate = Color( 1, 1, 1, 0.666667 )
+position = Vector2( 0.691833, -147.529 )
+scale = Vector2( 0.533403, 0.399548 )
+texture = ExtResource( 6 )
+
+[node name="title" type="Label" parent="background/deckmanage/panel"]
+margin_left = -72.8426
+margin_top = -323.644
+margin_right = 67.1574
+margin_bottom = -287.644
+custom_fonts/font = SubResource( 6 )
+text = "卡牌管理"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="content" type="Label" parent="background/deckmanage/panel"]
+margin_left = -147.0
+margin_top = 30.1891
+margin_right = 154.0
+margin_bottom = 239.189
+custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 0.94902, 0.917647, 0.917647, 1 )
+text = "卡牌管理界面：可以设定参战卡组和删除指定卡牌，也可以购买和拆解卡包"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="mouse_check" type="Area2D" parent="background/deckmanage"]
+
+[node name="rect" type="CollisionShape2D" parent="background/deckmanage/mouse_check"]
+scale = Vector2( 18.9333, 34.0667 )
+shape = SubResource( 9 )
+
+[node name="statistic" type="Sprite" parent="background"]
+position = Vector2( 633.926, -300 )
+texture = ExtResource( 5 )
+region_enabled = true
+region_rect = Rect2( 64, 48, 385, 711 )
+
+[node name="icon_statistic" type="Sprite" parent="background/statistic"]
+position = Vector2( -0.48999, -146.066 )
+scale = Vector2( 0.65, 0.65 )
+texture = ExtResource( 10 )
+region_enabled = true
+region_rect = Rect2( 4, 0, 488, 363 )
+
+[node name="frame" type="Sprite" parent="background/statistic"]
+modulate = Color( 1, 1, 1, 0.666667 )
+position = Vector2( 0.691833, -147.529 )
+scale = Vector2( 0.533403, 0.399548 )
+texture = ExtResource( 6 )
+
+[node name="title" type="Label" parent="background/statistic"]
+margin_left = -70.26
+margin_top = -323.644
+margin_right = 69.74
+margin_bottom = -287.644
+custom_fonts/font = SubResource( 6 )
+text = "数据统计"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="content" type="Label" parent="background/statistic"]
+margin_left = -147.0
+margin_top = 28.7042
+margin_right = 154.0
+margin_bottom = 237.704
+custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 0.94902, 0.917647, 0.917647, 1 )
+text = "对战统计界面：展示历史对战记录
+（暂未开放）"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="input_event" from="background/battleclient/mouse_check" to="background/battleclient" method="_on_mouse_check_input_event"]
+[connection signal="mouse_entered" from="background/battleclient/mouse_check" to="background/battleclient" method="_on_mouse_check_mouse_entered"]
+[connection signal="mouse_exited" from="background/battleclient/mouse_check" to="background/battleclient" method="_on_mouse_check_mouse_exited"]
+[connection signal="input_event" from="background/battleserver/mouse_check" to="background/battleserver" method="_on_mouse_check_input_event"]
+[connection signal="mouse_entered" from="background/battleserver/mouse_check" to="background/battleserver" method="_on_mouse_check_mouse_entered"]
+[connection signal="mouse_exited" from="background/battleserver/mouse_check" to="background/battleserver" method="_on_mouse_check_mouse_exited"]
+[connection signal="input_event" from="background/deckmanage/mouse_check" to="background/deckmanage" method="_on_mouse_check_input_event"]
+[connection signal="mouse_entered" from="background/deckmanage/mouse_check" to="background/deckmanage" method="_on_mouse_check_mouse_entered"]
+[connection signal="mouse_exited" from="background/deckmanage/mouse_check" to="background/deckmanage" method="_on_mouse_check_mouse_exited"]

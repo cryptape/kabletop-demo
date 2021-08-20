@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/return.png-f55e0f233d4e4b2cfaa7c0a5d505249f.stex"
+path="res://.import/purchase.png-4160a36f209fafa545a0a8376d90066a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/return.png"
-dest_files=[ "res://.import/return.png-f55e0f233d4e4b2cfaa7c0a5d505249f.stex" ]
+source_file="res://assets/ui/nftbox/purchase.png"
+dest_files=[ "res://.import/purchase.png-4160a36f209fafa545a0a8376d90066a.stex" ]
 
 [params]
 

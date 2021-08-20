@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/buynft.png-1a64434f05e7d0ba007a1a9115370e65.stex"
+path="res://.import/icon_deckmanage.png-f3e20a665506a99365eb860e62944966.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/buynft.png"
-dest_files=[ "res://.import/buynft.png-1a64434f05e7d0ba007a1a9115370e65.stex" ]
+source_file="res://assets/ui/menu/icon_deckmanage.png"
+dest_files=[ "res://.import/icon_deckmanage.png-f3e20a665506a99365eb860e62944966.stex" ]
 
 [params]
 
