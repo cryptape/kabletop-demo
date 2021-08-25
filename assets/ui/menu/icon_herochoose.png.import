@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/start.png-fcdea7a70b08606415682975f130806a.stex"
+path="res://.import/icon_herochoose.png-8272e1a3a5a7a05dca7eb2b3a71c933e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/start.png"
-dest_files=[ "res://.import/start.png-fcdea7a70b08606415682975f130806a.stex" ]
+source_file="res://assets/ui/menu/icon_herochoose.png"
+dest_files=[ "res://.import/icon_herochoose.png-8272e1a3a5a7a05dca7eb2b3a71c933e.stex" ]
 
 [params]
 

@@ -18,7 +18,7 @@ function Player:ctor(role, nfts, id, tabletop)
 	self.buffs = {}
 
 	for _, hash in ipairs(nfts) do
-		local nft = assert(NFTs[hash], "no nft " .. hash)
+		local nft = assert(NFTs[hash], "no nft " .. hash .. " from player " .. id)
 		table.insert(self.custom_cards, nft.new())
 	end
 end

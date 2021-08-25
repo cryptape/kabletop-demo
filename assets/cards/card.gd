@@ -8,7 +8,6 @@ onready var target_scale    = origin_scale * 1.125
 onready var origin_position = card.position
 onready var target_position = Vector2(origin_position.x, origin_position.y - 65)
 onready var anchor          = get_node("/root/controller")
-onready var examine_anchor  = anchor.get_node("cards")
 
 var dragging = false
 var spelling = false
@@ -21,12 +20,12 @@ var info = null
 signal card_spell
 
 func disabled():
-	var card = anchor.dragging_card
-	return card != null and card != self
+	var mask_card = anchor.dragging_card
+	return mask_card != null and mask_card != self
 	
 func apply_enable():
-	var card = anchor.dragging_card
-	if card == self or card == null:
+	var mask_card = anchor.dragging_card
+	if mask_card == self or mask_card == null:
 		self.modulate = Color("ffffffff")
 	else:
 		self.modulate = Color("8affffff")
@@ -118,7 +117,8 @@ func _on_card_input_event(_viewport, event, _shape_idx):
 		if !checking:
 			tween.interpolate_property(
 				self, "global_position", 
-				self.global_position, examine_anchor.global_position, 0.2
+				self.global_position, anchor.get_node("cards").global_position,
+				0.2
 			)
 			tween.interpolate_property(
 				self, "scale",

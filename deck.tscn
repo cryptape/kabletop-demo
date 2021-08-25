@@ -1,7 +1,7 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://assets/ui/confirm.png" type="Texture" id=1]
-[ext_resource path="res://assets/background/deck-scene.jpg" type="Texture" id=2]
+[ext_resource path="res://assets/background/deck_scene.jpg" type="Texture" id=2]
 [ext_resource path="res://assets/cards/purchase.gd" type="Script" id=3]
 [ext_resource path="res://assets/ui/cancel.png" type="Texture" id=4]
 [ext_resource path="res://assets/ui/nftbox/open.png" type="Texture" id=5]
@@ -13,6 +13,8 @@
 [ext_resource path="res://assets/ui/nftbox/abandon.png" type="Texture" id=11]
 [ext_resource path="res://assets/ui/nftbox/purchase.png" type="Texture" id=12]
 [ext_resource path="res://assets/ui/nftbox/reveal.png" type="Texture" id=13]
+[ext_resource path="res://assets/ui/nftbox/lock.png" type="Texture" id=14]
+[ext_resource path="res://assets/ui/nftbox/create.png" type="Texture" id=15]
 
 [sub_resource type="DynamicFontData" id=1]
 hinting = 0
@@ -238,7 +240,7 @@ shape = SubResource( 4 )
 
 [node name="package_reveal" type="Sprite" parent="purchase"]
 visible = false
-position = Vector2( -101.505, -6.43555 )
+position = Vector2( -96.505, -7.43555 )
 rotation = 2.10053
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 13 )
@@ -266,6 +268,38 @@ rotation = -0.522085
 scale = Vector2( 5.29587, 3.61101 )
 shape = SubResource( 4 )
 
+[node name="package_create" type="Sprite" parent="purchase"]
+visible = false
+position = Vector2( -99.7341, -10.668 )
+rotation = 3.14159
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 15 )
+flip_h = true
+flip_v = true
+region_enabled = true
+region_rect = Rect2( 89, 72, 79, 113 )
+script = ExtResource( 7 )
+
+[node name="name" type="Label" parent="purchase/package_create"]
+margin_left = 19.8418
+margin_top = 26.1111
+margin_right = 59.8418
+margin_bottom = 86.1111
+rect_rotation = 180.0
+custom_fonts/font = SubResource( 8 )
+text = "解"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="click" type="Area2D" parent="purchase/package_create"]
+
+[node name="rect" type="CollisionShape2D" parent="purchase/package_create/click"]
+position = Vector2( -0.0942383, -3.86371 )
+rotation = 1.5708
+scale = Vector2( 5.29587, 3.61101 )
+shape = SubResource( 4 )
+
 [node name="yellow_flag" type="Sprite" parent="purchase"]
 position = Vector2( 112.536, 14.2544 )
 scale = Vector2( 0.5, 0.5 )
@@ -283,6 +317,12 @@ position = Vector2( -11.8921, 127.415 )
 position = Vector2( 11.8921, -3.39771 )
 scale = Vector2( -47.9456, 8.23363 )
 shape = SubResource( 10 )
+
+[node name="lock" type="Sprite" parent="purchase/box"]
+visible = false
+position = Vector2( -13.3406, 131.63 )
+scale = Vector2( 0.65, 0.65 )
+texture = ExtResource( 14 )
 
 [node name="count" type="Label" parent="purchase"]
 margin_left = 59.0
@@ -313,6 +353,9 @@ __meta__ = {
 [connection signal="input_event" from="purchase/package_reveal/click" to="purchase/package_reveal" method="_on_click_input_event"]
 [connection signal="mouse_entered" from="purchase/package_reveal/click" to="purchase/package_reveal" method="_on_click_mouse_entered"]
 [connection signal="mouse_exited" from="purchase/package_reveal/click" to="purchase/package_reveal" method="_on_click_mouse_exited"]
+[connection signal="input_event" from="purchase/package_create/click" to="purchase/package_create" method="_on_click_input_event"]
+[connection signal="mouse_entered" from="purchase/package_create/click" to="purchase/package_create" method="_on_click_mouse_entered"]
+[connection signal="mouse_exited" from="purchase/package_create/click" to="purchase/package_create" method="_on_click_mouse_exited"]
 [connection signal="input_event" from="purchase/box/click" to="purchase" method="_on_click_input_event"]
 [connection signal="mouse_entered" from="purchase/box/click" to="purchase" method="_on_click_mouse_entered"]
 [connection signal="mouse_exited" from="purchase/box/click" to="purchase" method="_on_click_mouse_exited"]

@@ -1,6 +1,6 @@
 use kabletop_godot_util::{
-	cache, ckb::{
-		server, hook
+	cache, p2p::{
+		server, hook, GodotType
 	},
 	lua::{
 		highlevel::Lua, ffi::lua_Event
@@ -8,7 +8,7 @@ use kabletop_godot_util::{
 };
 use lazy_static::*;
 use std::{
-	convert::TryInto, io::{
+	convert::TryInto, collections::HashMap, io::{
 		stdout, Write, stdin
 	}, sync::{
 		Mutex, mpsc::sync_channel as channel
@@ -47,20 +47,21 @@ impl Server {
 					lua.close();
 				}
 				demo_server.lua = None;
+				demo_server.discard_cards();
 				println!("[SERVER] client disconnected.");
 			} else {
 				cache::init(cache::PLAYER_TYPE::TWO);
 				cache::set_playing_nfts(
 					vec![
-						"b9aaddf96f7f5c742950611835c040af6b7024ad",
-						"b9aaddf96f7f5c742950611835c040af6b7024ad",
-						"b9aaddf96f7f5c742950611835c040af6b7024ad",
-						"b9aaddf96f7f5c742950611835c040af6b7024ad",
-						"f37dfa5b009ea001acd3617886d9efecf31bb153",
+						"10ad3f5012ce514f409e4da4c011c24a31443488",
+						"10ad3f5012ce514f409e4da4c011c24a31443488",
+						"10ad3f5012ce514f409e4da4c011c24a31443488",
+						"10ad3f5012ce514f409e4da4c011c24a31443488",
 						"f37dfa5b009ea001acd3617886d9efecf31bb153",
 						"97bff01bcad316a4b534ef221bd66da97018df90",
-						"7375f9e28095638cb5761795f3d67fae1837129b",
-						"7375f9e28095638cb5761795f3d67fae1837129b"
+						"36248218d2808d668ae3c0d35990c12712f6b9d2",
+						"36248218d2808d668ae3c0d35990c12712f6b9d2",
+						"36248218d2808d668ae3c0d35990c12712f6b9d2"
 					]
 					.iter()
 					.map(|&hash| {
@@ -71,6 +72,11 @@ impl Server {
 					})
 					.collect::<Vec<_>>()
 				);
+				cache::set_godot_callback(String::from("start_game"), Box::new(|_: String, _: HashMap<String, GodotType>| {
+					let mut response = HashMap::new();
+					response.insert(String::from("role"), GodotType::I64(1));
+					response
+				}));
 				println!("[SERVER] client connected.");
 			}
 		})
@@ -82,6 +88,10 @@ impl Server {
 
 	fn get_cards(&self) -> &Vec<String> {
 		&self.hand_cards
+	}
+
+	fn discard_cards(&mut self) {
+		self.hand_cards = vec![];
 	}
 
 	fn add_card(&mut self, nft: String) {
@@ -120,7 +130,7 @@ impl Server {
 				}
 			});
 		if sync {
-			server::sync_operation(code);
+			server::sync_operation(code).unwrap();
 		}
 	}
 }
@@ -165,17 +175,17 @@ fn main() {
 		{
 			let mut demo_server = SERVER.lock().unwrap();
 			assert!(demo_server.lua.is_none());
-			let clone = cache::get_clone();
+			let channel = cache::get_clone();
 			let mut ckb_time: i64 = 0;
 			for i in 0..8 {
-				ckb_time = (ckb_time << 8) | (clone.script_hash[i] as i64 >> 1);
+				ckb_time = (ckb_time << 8) | (channel.script_hash[i] as i64 >> 1);
 			}
 			let mut ckb_clock: i64 = 0;
 			for i in 8..16 {
-				ckb_clock = (ckb_clock << 8) | (clone.script_hash[i] as i64 >> 1);
+				ckb_clock = (ckb_clock << 8) | (channel.script_hash[i] as i64 >> 1);
 			}
 			let lua = Lua::new(ckb_time, ckb_clock);
-			lua.inject_nfts(from_nfts(clone.opponent_nfts), from_nfts(clone.user_nfts));
+			lua.inject_nfts(from_nfts(channel.opponent_nfts.clone()), from_nfts(channel.user_nfts.clone()));
 			lua.boost(demo_server.entry.clone());
 			demo_server.lua = Some(lua);
 		}
@@ -192,15 +202,7 @@ fn main() {
 		println!("[SERVER] receive switch_round");
 		randomseed(signature);
 		if cache::get_clone().round == 2 {
-			run_code(
-				String::from("game:draw_card()\n") +
-				"game:draw_card()\n" +
-				"game:draw_card()\n" +
-				"game:draw_card()\n" +
-				"game:draw_card()\n" +
-				"game:draw_card()\n",
-				true
-			);
+			run_code(String::from("game:draw_card(6)"), true);
 		}
 		sender.send(1).unwrap();
 	});
@@ -243,7 +245,7 @@ fn main() {
 				},
 				Ok(3) => {
 					run_code(String::from("game:switch_round()"), true);
-					let signature = server::switch_round();
+					let signature = server::switch_round().unwrap();
 					randomseed(&signature);
 					println!("[SERVER] move round to {}", cache::get_clone().round);
 					break

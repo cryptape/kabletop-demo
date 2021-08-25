@@ -4,45 +4,32 @@ onready var special = $"../cards/special"
 onready var custom = $"../cards/custom"
 onready var controller = $"/root/controller"
 
-var ROLE = 4
 var ID_ONE = 1
 var ID_TWO = 2
+var FIRSTHAND = false
+var LUA_QUEUE = []
 
 func _ready():
 	special.connect("special_card_spelled", self, "on_special_card_spelled")
 	custom.connect("custom_card_spelled", self, "on_custom_card_spelled")
 	Sdk.connect("disconnect", self, "_on_sdk_disconnect")
 	Sdk.connect("lua_events", self, "_on_sdk_lua_events")
-
+	Sdk.connect("p2p_message_reply", self, "_on_sdk_p2p_message_reply")
+	
 	controller.player_id = ID_ONE
-	controller.set_player_role(ID_ONE, ROLE)
-	controller.set_player_role(ID_TWO, 2)
+	controller.set_player_role(ID_ONE, Config.player_hero)
 	controller.set_player_hp(ID_ONE, 30)
 	controller.set_player_hp(ID_TWO, 30)
-
-func init_sdk():
-	var cards = [
-		"b9aaddf96f7f5c742950611835c040af6b7024ad",
-		"b9aaddf96f7f5c742950611835c040af6b7024ad",
-		"b9aaddf96f7f5c742950611835c040af6b7024ad",
-		"10ad3f5012ce514f409e4da4c011c24a31443488",
-		"f37dfa5b009ea001acd3617886d9efecf31bb153",
-		"f37dfa5b009ea001acd3617886d9efecf31bb153",
-		"10ad3f5012ce514f409e4da4c011c24a31443488",
-		"7375f9e28095638cb5761795f3d67fae1837129b",
-		"7375f9e28095638cb5761795f3d67fae1837129b",
-	]
-	Sdk.set_entry("./lua/boost.lua")	
-	Sdk.create_channel("ws://127.0.0.1:11550", cards)
-	run("game = Tabletop.new(%d, Role.Cultist, %d)" % [ROLE, ID_ONE])
-	run(
-		"game:draw_card()\n" +
-		"game:draw_card()\n" +
-		"game:draw_card()\n" +
-		"game:draw_card()\n" +
-		"game:draw_card()\n" +
-		"game:draw_card()\n"
-	)
+	Sdk.send_p2p_message("start_game", {
+		"role": Config.player_hero
+	})
+	FIRSTHAND = Sdk.is_firsthand()
+	
+func _process(_delta):
+	if !LUA_QUEUE.empty():
+		for status in LUA_QUEUE:
+			Sdk.run(status.code, status.close_round)
+		LUA_QUEUE = []
 	
 func on_special_card_spelled(_card):
 	assert(controller.acting_player_id == controller.player_id)
@@ -58,10 +45,16 @@ func on_custom_card_spelled(card):
 	run("game:spell_card(%d)" % offset)
 
 func run(code):
-	Sdk.run(code, false)
+	LUA_QUEUE.push_back({
+		code = code,
+		close_round = false
+	})
 	
 func switch_round():
-	Sdk.run("game:switch_round()", true)
+	LUA_QUEUE.push_back({
+		code = "game:switch_round()",
+		close_round = true
+	})
 
 func _on_sdk_lua_events(events):
 	for params in events:
@@ -107,9 +100,16 @@ func _on_sdk_lua_events(events):
 				print("unknown event " + event)
 
 func _on_sdk_disconnect():
-	print("client disconnect")
-
-func _on_start_button_toggled(button_pressed):
-	if button_pressed:
-		$start_button.queue_free()
-		init_sdk()
+	assert(false, "server disconnected")
+	
+func _on_sdk_p2p_message_reply(message, parameters):
+	match message:
+		"start_game":
+			Config.opposite_hero = parameters["role"]
+			assert(Config.opposite_hero > 0)
+			controller.set_player_role(ID_TWO, Config.opposite_hero)
+			if FIRSTHAND:
+				run("game = Tabletop.new(%d, %d, %d)" % [
+					Config.player_hero, Config.opposite_hero, ID_ONE
+				])
+				run("game:draw_card(6)")

@@ -20,6 +20,9 @@ func set_count(count, total):
 	$frame/indicator/total.text = "/" + String(total)
 	if total > 0:
 		owned = total
+		if count > 0:
+			selected = count
+			$frame/indicator_icon.frame = 1
 	else:
 		$frame/indicator_icon.frame = 2
 		$frame/locked.show()

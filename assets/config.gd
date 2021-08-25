@@ -14,6 +14,17 @@ class Card:
 		card.description = _desc
 		return card
 
+var player_hero = 0
+var opposite_hero = 0
+
+var HeroNames = {
+	0: "Unknown",
+	1: "Cultist",
+	2: "Ironclad",
+	3: "Chosen",
+	4: "Silent"
+}
+
 var NativeNFTs = {
 	1: Card.generate(0, "破壁", 2, "随机去掉对方一个BUFF，如果成功则恢复2点血量"),
 	2: Card.generate(1, "嗜血", 4, "造成3点伤害，恢复3点血量"),
@@ -49,3 +60,6 @@ func get_native_card(role):
 	var nft = NativeNFTs[role]
 	assert(nft != null, "unknown role " + String(role))
 	return nft
+	
+func get_hero_name():
+	return HeroNames[player_hero]

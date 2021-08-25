@@ -44,8 +44,8 @@ local templates = {
 	-- Ironclad 火焰匕首
 	[3] = generate(
 		1,
-		pack(effects.damage(1, "bluefire")),
-		pack(effects.damage(3, "bluefire")),
+		pack(effects.damage(1, "thunder")),
+		pack(effects.damage(3, "thunder")),
 		nil,
 		nil
 	),

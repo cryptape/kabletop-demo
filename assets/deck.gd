@@ -9,6 +9,9 @@ func _ready():
 	var owned_nfts = Sdk.get_owned_nfts()
 	if owned_nfts != null:
 		selected_nfts = Sdk.get_nfts()
+		for _hash in selected_nfts:
+			selected += selected_nfts[_hash]
+		$status/selected.text = String(selected)
 		render_cards(owned_nfts)
 	Sdk.connect("owned_nfts_updated", self, "on_owned_nfts_updated")
 

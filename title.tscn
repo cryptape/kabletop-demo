@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://assets/background/main.jpg" type="Texture" id=1]
 [ext_resource path="res://assets/ui/menu/menu_battleclient.png" type="Texture" id=2]
@@ -9,10 +9,14 @@
 [ext_resource path="res://assets/ui/menu/icon_battleclient.png" type="Texture" id=7]
 [ext_resource path="res://assets/ui/menu/icon_battleserver.png" type="Texture" id=8]
 [ext_resource path="res://assets/ui/menu/icon_deckmanage.png" type="Texture" id=9]
-[ext_resource path="res://assets/ui/menu/icon_statistic.png" type="Texture" id=10]
+[ext_resource path="res://assets/ui/menu/icon_herochoose.png" type="Texture" id=10]
 [ext_resource path="res://assets/cards/light_frame.png" type="Texture" id=11]
 [ext_resource path="res://assets/ui/title-button.gd" type="Script" id=12]
 [ext_resource path="res://assets/title.gd" type="Script" id=13]
+[ext_resource path="res://assets/ui/quit_server.png" type="Texture" id=14]
+[ext_resource path="res://assets/ui/server_button.gd" type="Script" id=15]
+[ext_resource path="res://assets/ui/panel_confirm.png" type="Texture" id=16]
+[ext_resource path="res://assets/ui/panel_confirm_pressed.png" type="Texture" id=17]
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://assets/font/medium.otf"
@@ -48,19 +52,74 @@ font_data = SubResource( 7 )
 
 [sub_resource type="RectangleShape2D" id=9]
 
+[sub_resource type="DynamicFontData" id=10]
+font_path = "res://assets/font/regular.otf"
+
+[sub_resource type="DynamicFont" id=11]
+size = 40
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 10 )
+
+[sub_resource type="RectangleShape2D" id=12]
+
+[sub_resource type="DynamicFontData" id=13]
+font_path = "res://assets/font/regular.otf"
+
+[sub_resource type="DynamicFont" id=14]
+size = 35
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 13 )
+
+[sub_resource type="DynamicFontData" id=15]
+font_path = "res://assets/font/medium.otf"
+
+[sub_resource type="DynamicFont" id=16]
+size = 50
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 15 )
+
+[sub_resource type="DynamicFontData" id=17]
+font_path = "res://assets/font/medium.otf"
+
+[sub_resource type="DynamicFont" id=18]
+size = 80
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 17 )
+
+[sub_resource type="DynamicFontData" id=19]
+font_path = "res://assets/font/medium.otf"
+
+[sub_resource type="DynamicFont" id=20]
+size = 80
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 19 )
+
+[sub_resource type="DynamicFontData" id=21]
+font_path = "res://assets/font/medium.otf"
+
+[sub_resource type="DynamicFont" id=22]
+size = 35
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 21 )
+
 [node name="controller" type="Node2D"]
-position = Vector2( 337.227, 305.493 )
 scale = Vector2( 0.6, 0.6 )
 script = ExtResource( 13 )
 
 [node name="background" type="Sprite" parent="."]
-position = Vector2( 458.808, 512.358 )
+position = Vector2( 1021.99, 1020.51 )
 texture = ExtResource( 1 )
 
 [node name="title" type="Label" parent="background"]
-margin_left = -566.647
+margin_left = -586.647
 margin_top = -938.065
-margin_right = 464.353
+margin_right = 444.353
 margin_bottom = -857.065
 custom_fonts/font = SubResource( 2 )
 text = "Kabletop Card Game Demo"
@@ -80,7 +139,7 @@ __meta__ = {
 }
 
 [node name="battleclient" type="Node2D" parent="background"]
-position = Vector2( -744.412, -308.564 )
+position = Vector2( -744.412, -296.898 )
 script = ExtResource( 12 )
 
 [node name="light_frame" type="Node2D" parent="background/battleclient"]
@@ -148,11 +207,11 @@ __meta__ = {
 [node name="mouse_check" type="Area2D" parent="background/battleclient"]
 
 [node name="rect" type="CollisionShape2D" parent="background/battleclient/mouse_check"]
-scale = Vector2( 18.9333, 34.0667 )
+scale = Vector2( 18.4666, 34.0667 )
 shape = SubResource( 9 )
 
 [node name="battleserver" type="Node2D" parent="background"]
-position = Vector2( -289.701, -308.564 )
+position = Vector2( -289.701, -296.898 )
 script = ExtResource( 12 )
 
 [node name="light_frame" type="Node2D" parent="background/battleserver"]
@@ -220,11 +279,49 @@ __meta__ = {
 [node name="mouse_check" type="Area2D" parent="background/battleserver"]
 
 [node name="rect" type="CollisionShape2D" parent="background/battleserver/mouse_check"]
-scale = Vector2( 18.9333, 34.0667 )
+position = Vector2( 3.33331, 0 )
+scale = Vector2( 18.4, 34.0667 )
 shape = SubResource( 9 )
 
+[node name="cancel" type="Sprite" parent="background/battleserver"]
+visible = false
+position = Vector2( 3.40887, 403.971 )
+texture = ExtResource( 14 )
+region_enabled = true
+region_rect = Rect2( 134, 211, 244, 90 )
+script = ExtResource( 15 )
+
+[node name="text" type="Label" parent="background/battleserver/cancel"]
+margin_left = -39.7722
+margin_top = -33.0298
+margin_right = 40.2278
+margin_bottom = 26.9702
+custom_fonts/font = SubResource( 11 )
+text = "取消"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="click" type="Area2D" parent="background/battleserver/cancel"]
+
+[node name="rect" type="CollisionShape2D" parent="background/battleserver/cancel/click"]
+scale = Vector2( 11.1333, 4.2 )
+shape = SubResource( 12 )
+
+[node name="serverinfo" type="Label" parent="background/battleserver/cancel"]
+margin_left = -182.481
+margin_top = 59.0286
+margin_right = 184.519
+margin_bottom = 112.029
+custom_fonts/font = SubResource( 14 )
+text = "ws://0.0.0.0:11550"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="deckmanage" type="Node2D" parent="background"]
-position = Vector2( 177.475, -308.564 )
+position = Vector2( 174.142, -296.898 )
 script = ExtResource( 12 )
 
 [node name="light_frame" type="Node2D" parent="background/deckmanage"]
@@ -292,54 +389,201 @@ __meta__ = {
 [node name="mouse_check" type="Area2D" parent="background/deckmanage"]
 
 [node name="rect" type="CollisionShape2D" parent="background/deckmanage/mouse_check"]
-scale = Vector2( 18.9333, 34.0667 )
+position = Vector2( 4.99988, 0 )
+scale = Vector2( 18.4, 34.0667 )
 shape = SubResource( 9 )
 
-[node name="statistic" type="Sprite" parent="background"]
-position = Vector2( 633.926, -300 )
+[node name="overview" type="Label" parent="background/deckmanage"]
+margin_left = -60.0773
+margin_top = -412.052
+margin_right = 75.9227
+margin_bottom = -362.052
+custom_fonts/font = SubResource( 16 )
+text = "0/40"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="herochoose" type="Node2D" parent="background"]
+position = Vector2( 639.576, -297.074 )
+script = ExtResource( 12 )
+
+[node name="light_frame" type="Node2D" parent="background/herochoose"]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 1.99597, 0.052124 )
+scale = Vector2( 1.65, 2.05 )
+
+[node name="up" type="Sprite" parent="background/herochoose/light_frame"]
+position = Vector2( 0.796967, 78.6287 )
+scale = Vector2( 1.48, 1.12 )
+texture = ExtResource( 11 )
+region_enabled = true
+region_rect = Rect2( 10, 10, 181, 181 )
+
+[node name="down" type="Sprite" parent="background/herochoose/light_frame"]
+position = Vector2( 1.22733, -78.6764 )
+scale = Vector2( 1.48, 1.12 )
+texture = ExtResource( 11 )
+region_enabled = true
+region_rect = Rect2( 10, 10, 181, 181 )
+
+[node name="panel" type="Sprite" parent="background/herochoose"]
+position = Vector2( -0.650024, 8.74097 )
 texture = ExtResource( 5 )
 region_enabled = true
 region_rect = Rect2( 64, 48, 385, 711 )
 
-[node name="icon_statistic" type="Sprite" parent="background/statistic"]
+[node name="icon" type="Sprite" parent="background/herochoose/panel"]
 position = Vector2( -0.48999, -146.066 )
 scale = Vector2( 0.65, 0.65 )
 texture = ExtResource( 10 )
 region_enabled = true
 region_rect = Rect2( 4, 0, 488, 363 )
 
-[node name="frame" type="Sprite" parent="background/statistic"]
+[node name="frame" type="Sprite" parent="background/herochoose/panel"]
 modulate = Color( 1, 1, 1, 0.666667 )
 position = Vector2( 0.691833, -147.529 )
 scale = Vector2( 0.533403, 0.399548 )
 texture = ExtResource( 6 )
 
-[node name="title" type="Label" parent="background/statistic"]
+[node name="title" type="Label" parent="background/herochoose/panel"]
 margin_left = -70.26
 margin_top = -323.644
 margin_right = 69.74
 margin_bottom = -287.644
 custom_fonts/font = SubResource( 6 )
-text = "数据统计"
+text = "英雄召唤"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="content" type="Label" parent="background/statistic"]
+[node name="content" type="Label" parent="background/herochoose/panel"]
 margin_left = -147.0
 margin_top = 28.7042
 margin_right = 154.0
 margin_bottom = 237.704
 custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0.94902, 0.917647, 0.917647, 1 )
-text = "对战统计界面：展示历史对战记录
-（暂未开放）"
+text = "英雄召唤界面：召唤一位来自不同宇宙的英雄，可以使用其独特的卡牌技能"
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="mouse_check" type="Area2D" parent="background/herochoose"]
+position = Vector2( -5.00024, 0 )
+
+[node name="rect" type="CollisionShape2D" parent="background/herochoose/mouse_check"]
+position = Vector2( 4.99988, 0 )
+scale = Vector2( 18.4, 34.0667 )
+shape = SubResource( 9 )
+
+[node name="hero" type="Label" parent="background/herochoose"]
+margin_left = -153.693
+margin_top = -412.0
+margin_right = 146.307
+margin_bottom = -362.0
+custom_fonts/font = SubResource( 16 )
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Tween" type="Tween" parent="."]
+
+[node name="coverlayer" type="Panel" parent="."]
+visible = false
+self_modulate = Color( 1, 1, 1, 0.803922 )
+margin_left = -0.589193
+margin_right = 1920.41
+margin_bottom = 1300.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="server" type="Control" parent="coverlayer"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="prefix" type="Label" parent="coverlayer/server"]
+margin_left = 598.247
+margin_top = 541.722
+margin_right = 1068.25
+margin_bottom = 622.722
+custom_fonts/font = SubResource( 18 )
+text = "ws://0.0.0.0:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="port" type="LineEdit" parent="coverlayer/server"]
+margin_left = 1074.0
+margin_top = 537.333
+margin_right = 1353.0
+margin_bottom = 628.333
+custom_fonts/font = SubResource( 20 )
+text = "11550"
+max_length = 5
+caret_blink = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="client" type="Control" parent="coverlayer"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="prefix" type="Label" parent="coverlayer/client"]
+margin_left = 598.247
+margin_top = 541.722
+margin_right = 788.247
+margin_bottom = 622.722
+custom_fonts/font = SubResource( 18 )
+text = "ws://"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="socket" type="LineEdit" parent="coverlayer/client"]
+margin_left = 791.0
+margin_top = 537.0
+margin_right = 1710.0
+margin_bottom = 628.0
+custom_fonts/font = SubResource( 20 )
+text = "127.0.0.1:11550"
+max_length = 21
+caret_blink = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="confirm" type="TextureButton" parent="coverlayer"]
+margin_left = 527.0
+margin_top = 783.333
+margin_right = 1417.0
+margin_bottom = 860.333
+toggle_mode = true
+texture_normal = ExtResource( 16 )
+texture_pressed = ExtResource( 17 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="name" type="Label" parent="coverlayer/confirm"]
+margin_left = 421.748
+margin_top = 20.7311
+margin_right = 491.748
+margin_bottom = 56.7311
+custom_fonts/font = SubResource( 22 )
+text = "确认"
 
 [connection signal="input_event" from="background/battleclient/mouse_check" to="background/battleclient" method="_on_mouse_check_input_event"]
 [connection signal="mouse_entered" from="background/battleclient/mouse_check" to="background/battleclient" method="_on_mouse_check_mouse_entered"]
@@ -347,6 +591,13 @@ __meta__ = {
 [connection signal="input_event" from="background/battleserver/mouse_check" to="background/battleserver" method="_on_mouse_check_input_event"]
 [connection signal="mouse_entered" from="background/battleserver/mouse_check" to="background/battleserver" method="_on_mouse_check_mouse_entered"]
 [connection signal="mouse_exited" from="background/battleserver/mouse_check" to="background/battleserver" method="_on_mouse_check_mouse_exited"]
+[connection signal="input_event" from="background/battleserver/cancel/click" to="background/battleserver/cancel" method="_on_click_input_event"]
+[connection signal="mouse_entered" from="background/battleserver/cancel/click" to="background/battleserver/cancel" method="_on_click_mouse_entered"]
+[connection signal="mouse_exited" from="background/battleserver/cancel/click" to="background/battleserver/cancel" method="_on_click_mouse_exited"]
 [connection signal="input_event" from="background/deckmanage/mouse_check" to="background/deckmanage" method="_on_mouse_check_input_event"]
 [connection signal="mouse_entered" from="background/deckmanage/mouse_check" to="background/deckmanage" method="_on_mouse_check_mouse_entered"]
 [connection signal="mouse_exited" from="background/deckmanage/mouse_check" to="background/deckmanage" method="_on_mouse_check_mouse_exited"]
+[connection signal="input_event" from="background/herochoose/mouse_check" to="background/herochoose" method="_on_mouse_check_input_event"]
+[connection signal="mouse_entered" from="background/herochoose/mouse_check" to="background/herochoose" method="_on_mouse_check_mouse_entered"]
+[connection signal="mouse_exited" from="background/herochoose/mouse_check" to="background/herochoose" method="_on_mouse_check_mouse_exited"]
+[connection signal="toggled" from="coverlayer/confirm" to="." method="_on_confirm_toggled"]

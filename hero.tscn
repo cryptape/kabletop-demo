@@ -1,0 +1,179 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://assets/hero.gd" type="Script" id=1]
+[ext_resource path="res://assets/ui/choose_hero_hover.png" type="Texture" id=2]
+[ext_resource path="res://assets/ui/choose_hero.png" type="Texture" id=3]
+[ext_resource path="res://assets/background/hero_scene.jpg" type="Texture" id=4]
+[ext_resource path="res://assets/charactors/ironclad/ironclad.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/charactors/silent/silent.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/charactors/chosen/chosen.tscn" type="PackedScene" id=7]
+[ext_resource path="res://assets/charactors/cultist/cultist.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/cards/special.tscn" type="PackedScene" id=9]
+
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://assets/font/regular.otf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 30
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 1 )
+
+[node name="controller" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="background" type="Sprite" parent="."]
+position = Vector2( 624.34, 702.877 )
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 4 )
+
+[node name="charactors" type="Node2D" parent="background"]
+position = Vector2( -31.1778, -77.9836 )
+scale = Vector2( 0.857143, 0.928571 )
+
+[node name="ironclad" parent="background/charactors" instance=ExtResource( 5 )]
+position = Vector2( -683.864, -301.492 )
+scale = Vector2( 1.6, 1.6 )
+
+[node name="silent" parent="background/charactors" instance=ExtResource( 6 )]
+position = Vector2( -263.179, -219.634 )
+scale = Vector2( 1.6, 1.6 )
+
+[node name="cultist" parent="background/charactors" instance=ExtResource( 8 )]
+position = Vector2( 151.453, -250.822 )
+scale = Vector2( 1.5, 1.5 )
+
+[node name="chosen" parent="background/charactors" instance=ExtResource( 7 )]
+position = Vector2( 595.417, -248.081 )
+scale = Vector2( 1.5, 1.5 )
+
+[node name="special_cards" type="Node2D" parent="background"]
+position = Vector2( -31.1778, -89.412 )
+scale = Vector2( 0.857143, 0.928571 )
+
+[node name="ironclad" parent="background/special_cards" instance=ExtResource( 9 )]
+position = Vector2( -687.477, -707.544 )
+scale = Vector2( 1.3, 1.3 )
+
+[node name="silent" parent="background/special_cards" instance=ExtResource( 9 )]
+position = Vector2( -261.029, -707.544 )
+scale = Vector2( 1.3, 1.3 )
+
+[node name="cultist" parent="background/special_cards" instance=ExtResource( 9 )]
+position = Vector2( 163.277, -707.544 )
+scale = Vector2( 1.3, 1.3 )
+
+[node name="chosen" parent="background/special_cards" instance=ExtResource( 9 )]
+position = Vector2( 589.781, -707.544 )
+scale = Vector2( 1.3, 1.3 )
+
+[node name="buttons" type="Control" parent="background"]
+margin_left = -31.1778
+margin_top = -138.661
+margin_right = 8.8222
+margin_bottom = -98.6613
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ironclad" type="TextureButton" parent="background/buttons"]
+margin_left = -722.878
+margin_top = -40.2301
+margin_right = -466.878
+margin_bottom = 215.77
+toggle_mode = true
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 3 )
+texture_hover = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="text" type="Label" parent="background/buttons/ironclad"]
+margin_left = 68.6524
+margin_top = 104.284
+margin_right = 188.652
+margin_bottom = 149.284
+custom_fonts/font = SubResource( 2 )
+text = "Ironclad"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="silent" type="TextureButton" parent="background/buttons"]
+margin_left = -353.709
+margin_top = -40.23
+margin_right = -97.7086
+margin_bottom = 215.77
+toggle_mode = true
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 3 )
+texture_hover = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="text" type="Label" parent="background/buttons/silent"]
+margin_left = 83.1906
+margin_top = 104.284
+margin_right = 173.191
+margin_bottom = 149.284
+custom_fonts/font = SubResource( 2 )
+text = "Silent"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cultist" type="TextureButton" parent="background/buttons"]
+margin_left = 27.3087
+margin_top = -40.23
+margin_right = 283.309
+margin_bottom = 215.77
+toggle_mode = true
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 3 )
+texture_hover = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="text" type="Label" parent="background/buttons/cultist"]
+margin_left = 74.8211
+margin_top = 104.284
+margin_right = 179.821
+margin_bottom = 149.284
+custom_fonts/font = SubResource( 2 )
+text = "Cultist"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="chosen" type="TextureButton" parent="background/buttons"]
+margin_left = 396.607
+margin_top = -40.23
+margin_right = 652.607
+margin_bottom = 215.77
+toggle_mode = true
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 3 )
+texture_hover = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="text" type="Label" parent="background/buttons/chosen"]
+margin_left = 84.0914
+margin_top = 104.284
+margin_right = 174.091
+margin_bottom = 149.284
+rect_pivot_offset = Vector2( 2.54944, 0 )
+custom_fonts/font = SubResource( 2 )
+text = "Chosen"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="toggled" from="background/buttons/ironclad" to="." method="_on_ironclad_toggled"]
+[connection signal="toggled" from="background/buttons/silent" to="." method="_on_silent_toggled"]
+[connection signal="toggled" from="background/buttons/cultist" to="." method="_on_cultist_toggled"]
+[connection signal="toggled" from="background/buttons/chosen" to="." method="_on_chosen_toggled"]

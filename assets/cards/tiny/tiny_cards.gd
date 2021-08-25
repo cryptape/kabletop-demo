@@ -1,7 +1,6 @@
 extends Node2D
 
 onready var controller = $"/root/controller"
-onready var cards = controller.get_node("cards")
 onready var tiny_special = $"special"
 onready var tiny_custom = $"custom"
 onready var tween = $"Tween"
@@ -64,7 +63,7 @@ func show_tiny(path, card_info):
 	return tiny
 
 func on_spell_tiny_special(role):
-	var native_card = cards.get_native_card(role)
+	var native_card = Config.get_native_card(role)
 	var special = show_tiny("res://assets/cards/special.tscn", native_card)
 	spelling_info = {
 		"card": special,
@@ -72,7 +71,7 @@ func on_spell_tiny_special(role):
 	}
 	
 func on_spell_tiny_custom(id):
-	var card = cards.get_card(id)
+	var card = Config.get_card(id)
 	var custom = show_tiny("res://assets/cards/card.tscn", card)
 	spelling_info = {
 		"card": custom,

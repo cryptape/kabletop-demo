@@ -28,9 +28,9 @@ var acting_player_id = 0
 
 # roles map to models
 var role_models = {
-	1: "res://assets/charactors/chosen/chosen.tscn",
-	2: "res://assets/charactors/cultist/cultist.tscn",
-	3: "res://assets/charactors/ironclad/ironclad.tscn",
+	1: "res://assets/charactors/cultist/cultist.tscn",
+	2: "res://assets/charactors/ironclad/ironclad.tscn",
+	3: "res://assets/charactors/chosen/chosen.tscn",
 	4: "res://assets/charactors/silent/silent.tscn"
 }
 

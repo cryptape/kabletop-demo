@@ -6,6 +6,9 @@ var box_count = 0
 var enable = true
 
 func _ready():
+	var status = Sdk.get_box_status()
+	if status != null:
+		on_box_status_updated(status["count"], status["ready"])
 	Sdk.connect("box_status_updated", self, "on_box_status_updated")
 
 func _on_click_mouse_entered():
@@ -46,6 +49,8 @@ func on_box_status_updated(count, ready):
 	$count.text = "x" + String(box_count)
 	$package_buy.hide()
 	$package_reveal.hide()
+	$package_create.hide()
+	$box/lock.hide()
 	if box_count > 0:
 		enable = false
 		if ready:
@@ -53,19 +58,29 @@ func on_box_status_updated(count, ready):
 			$box.frame = 1
 		else:
 			$box.playing = true
-	else:
+	elif ready:
 		enable = true
 		$box.frame = 0
 		$box.playing = false
+	else:
+		enable = false
+		$box/lock.show()
+		$package_create.show()
+		$box.frame = 0
+		$box.playing = false
 
-func on_purchase_or_reveal_nfts(error):
+func on_side_button_click(error):
 	if error != null:
 		print(error)
 		return
 
 func click_button(button):
-	assert(box_count > 0)
 	if button == $package_buy:
-		Sdk.purchase_nfts(box_count, funcref(self, "on_purchase_or_reveal_nfts"))
+		assert(box_count > 0)
+		Sdk.purchase_nfts(box_count, funcref(self, "on_side_button_click"))
+	elif button == $package_reveal:
+		assert(box_count > 0)
+		Sdk.reveal_nfts(funcref(self, "on_side_button_click"))
 	else:
-		Sdk.reveal_nfts(funcref(self, "on_purchase_or_reveal_nfts"))
+		assert(box_count == 0)
+		Sdk.create_nft_wallet(funcref(self, "on_side_button_click"))

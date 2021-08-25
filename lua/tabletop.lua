@@ -27,9 +27,11 @@ function Tabletop:spell_card(which)
 	end
 end
 
-function Tabletop:draw_card()
+function Tabletop:draw_card(count)
 	local player = self.players[self.acting_player]
-	player:draw()
+	for _ = 1, count or 1 do
+		player:draw()
+	end
 end
 
 function Tabletop:switch_round()

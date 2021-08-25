@@ -1,17 +1,61 @@
 extends Node2D
 
-onready var battleclient = $background/battleclient
-onready var battleserver = $background/battleserver
-onready var deckmanage   = $background/deckmanage
-onready var statistic    = $background/statistic
+onready var battleclient  = $background/battleclient
+onready var battleserver  = $background/battleserver
+onready var deckmanage    = $background/deckmanage
+onready var herochoose    = $background/herochoose
+onready var ui            = $coverlayer
+onready var ui_server     = $coverlayer/server
+onready var ui_client     = $coverlayer/client
+onready var server_cancel = $background/battleserver/cancel
+
+func _ready():
+	var overview = $background/deckmanage/overview
+	var nfts = Sdk.get_nfts()
+	var total = 0
+	for i in nfts:
+		total += nfts[i]
+	overview.text = "%d/40" % total
+	var hero = $background/herochoose/hero
+	hero.text = Config.get_hero_name()
+	Sdk.set_entry("./lua/boost.lua")
 
 func click_menu(menu):
 	if menu == battleclient:
-		print("click battleclient")
+		ui.show()
+		ui_server.hide()
+		ui_client.show()
 	elif menu == battleserver:
-		print("click battleserver")
+		ui.show()
+		ui_server.show()
+		ui_client.hide()
 	elif menu == deckmanage:
 # warning-ignore:return_value_discarded
 		get_tree().change_scene("res://deck.tscn")
+	elif menu == herochoose:
+# warning-ignore:return_value_discarded
+		get_tree().change_scene("res://hero.tscn")
 	else:
-		print("click statistic")
+		assert(false, "bad menu")
+
+func stop_server():
+	pass
+
+func _on_confirm_toggled(button_pressed):
+	assert(ui.visible == true)
+	if button_pressed:
+		if ui_client.visible:
+			var socket = "ws://" + $coverlayer/client/socket.text
+			print("connect to ", socket)
+			if Sdk.create_channel(socket):
+# warning-ignore:return_value_discarded
+				get_tree().change_scene("res://main.tscn")
+			else:
+				print("please currectly set cards")
+				# 弹出提示
+		else:
+			var socket = "ws://0.0.0.0:" + $coverlayer/server/port.text
+			print("listen at ", socket)
+			server_cancel.show()
+			server_cancel.get_node("serverinfo").text = socket
+		ui.hide()

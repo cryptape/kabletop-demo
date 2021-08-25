@@ -54,6 +54,7 @@ script = ExtResource( 2 )
 [node name="anchor" type="Node2D" parent="."]
 
 [node name="player" type="Node2D" parent="anchor"]
+visible = false
 
 [node name="left_wing" type="Sprite" parent="anchor/player"]
 position = Vector2( 36.9749, 13.1082 )
@@ -72,6 +73,7 @@ region_enabled = true
 region_rect = Rect2( 402, 226, 44, 26 )
 
 [node name="shadow" type="Sprite" parent="anchor/player"]
+self_modulate = Color( 1, 1, 1, 0.313726 )
 position = Vector2( -11.9149, 107.865 )
 texture = ExtResource( 1 )
 flip_h = true
@@ -144,7 +146,6 @@ region_enabled = true
 region_rect = Rect2( 241, 105, 77, 52 )
 
 [node name="opposite" type="Node2D" parent="anchor"]
-visible = false
 
 [node name="left_wing" type="Sprite" parent="anchor/opposite"]
 position = Vector2( -40.8948, 1.3098 )
@@ -161,6 +162,7 @@ region_enabled = true
 region_rect = Rect2( 402, 226, 44, 26 )
 
 [node name="shadow" type="Sprite" parent="anchor/opposite"]
+self_modulate = Color( 1, 1, 1, 0.313726 )
 position = Vector2( 12.6259, 109.281 )
 texture = ExtResource( 1 )
 region_enabled = true
