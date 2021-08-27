@@ -42,7 +42,7 @@ var NFTs = {
 	"97bff01bcad316a4b534ef221bd66da97018df90":
 		Card.generate(3, "心灵净化", 5, "恢复2点血量，抽一张牌"),
 	"36248218d2808d668ae3c0d35990c12712f6b9d2":
-		Card.generate(6, "雷鸣", 2, "造成3点伤害"),
+		Card.generate(6, "雷鸣", 2, "造成15点伤害"),
 	"f49ac4925959733cc4c2b3a2663bde8c27b8dde2":
 		Card.generate(7, "缴械", 4, "防守反击4: 持续4回合，最多吸收3点伤害，消失后造成吸收的总伤害"),
 }

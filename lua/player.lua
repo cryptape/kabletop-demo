@@ -12,6 +12,7 @@ function Player:ctor(role, nfts, id, tabletop)
 	self.max_energy = Cfg.MAX_ENERGY
 	self.hp = self.max_hp
 	self.energy = 0
+	self.untapped_count = 6
 	self.master_card = assert(NFTs[role], "no role nft " .. role).new()
 	self.custom_cards = {}
 	self.active_cards = {}
@@ -37,17 +38,28 @@ function Player:spell_master()
 	Emit("spell_end", self.id, 0, self.master_card.hash)
 end
 
-function Player:draw()
-	local which = math.random(1, #self.custom_cards)
-	local draw_card = self.custom_cards[which]
-	table.remove(self.custom_cards, which)
-	table.insert(self.active_cards, draw_card)
-	Emit("draw", self.id, draw_card.hash)
+function Player:draw(count)
+	for _ = 1, count or 1 do
+		local which = math.random(1, #self.custom_cards)
+		local draw_card = self.custom_cards[which]
+		table.remove(self.custom_cards, which)
+		table.insert(self.active_cards, draw_card)
+		Emit("draw", self.id, draw_card.hash)
+	end
 end
 
 function Player:elapse_buffs()
 	for i, buff in ipairs(self.buffs) do
 		buff:elapse(self, i)
+	end
+end
+
+function Player:draw_untapped(acting_player)
+	if acting_player == self.id then
+		self:draw(self.untapped_count)
+		self.untapped_count = 0
+	else
+		self.untapped_count = self.untapped_count + 1
 	end
 end
 

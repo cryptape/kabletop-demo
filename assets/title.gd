@@ -46,16 +46,15 @@ func _on_confirm_toggled(button_pressed):
 	if button_pressed:
 		if ui_client.visible:
 			var socket = "ws://" + $coverlayer/client/socket.text
-			print("connect to ", socket)
-			if Sdk.create_channel(socket):
-# warning-ignore:return_value_discarded
-				get_tree().change_scene("res://main.tscn")
-			else:
-				print("please currectly set cards")
+			if !Sdk.create_channel(socket, funcref(self, "on_channel_opened")):
+				print("channel creation failed")
 				# 弹出提示
 		else:
 			var socket = "ws://0.0.0.0:" + $coverlayer/server/port.text
 			print("listen at ", socket)
 			server_cancel.show()
 			server_cancel.get_node("serverinfo").text = socket
-		ui.hide()
+
+func on_channel_opened():
+# warning-ignore:return_value_discarded
+	get_tree().change_scene("res://main.tscn")

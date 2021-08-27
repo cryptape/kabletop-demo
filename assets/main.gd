@@ -25,6 +25,7 @@ var player_roles = {
 # identify my player id
 var player_id = 0
 var acting_player_id = 0
+var winner_id = 0
 
 # roles map to models
 var role_models = {
@@ -238,4 +239,3 @@ func switch_enable(cards = null, switch = true, buffs = true):
 	get_node("switch").set_enable(switch)
 	get_node("panel/player_hp/buffs").set_enable(buffs)
 	get_node("panel/opposite_hp/buffs").set_enable(buffs)
-	

@@ -91,7 +91,7 @@ local templates = {
 	["36248218d2808d668ae3c0d35990c12712f6b9d2"] = generate(
 		2,
 		nil,
-		pack(effects.damage(3, "firebomb")),
+		pack(effects.damage(15, "firebomb")),
 		nil,
 		nil
 	),

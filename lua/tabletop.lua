@@ -5,7 +5,7 @@ local Player = require "player"
 -- 游戏桌面
 local Tabletop = class()
 
-function Tabletop:ctor(role_1, role_2, first_hand)
+function Tabletop:ctor(role_1, role_2)
 	assert(_winner, "global var _winner is NIL")
 	assert(_user1_nfts, "global var _user1_nfts is NIL")
 	assert(_user2_nfts, "global var _user2_nfts is NIL")
@@ -14,8 +14,12 @@ function Tabletop:ctor(role_1, role_2, first_hand)
 		[1] = Player.new(role_1, _user1_nfts, PlayerId.One, self),
 		[2] = Player.new(role_2, _user2_nfts, PlayerId.Two, self)
 	}
-	self.acting_player = first_hand
+	-- self.acting_player = math.random(PlayerId.One, PlayerId.Two)
+	self.acting_player = PlayerId.One
 	Emit("new_round", self.acting_player, self.round)
+	for _, player in ipairs(self.players) do
+		player:draw_untapped(self.acting_player)
+	end
 end
 
 function Tabletop:spell_card(which)
@@ -25,13 +29,14 @@ function Tabletop:spell_card(which)
 	else
 		player:spell(which)
 	end
+	if self:check_winner() then
+		Emit("game_over", _winner)
+	end
 end
 
 function Tabletop:draw_card(count)
 	local player = self.players[self.acting_player]
-	for _ = 1, count or 1 do
-		player:draw()
-	end
+	player:draw(count)
 end
 
 function Tabletop:switch_round()
@@ -40,17 +45,24 @@ function Tabletop:switch_round()
 	for _, player in ipairs(self.players) do
 		player:elapse_buffs()
 	end
-	Emit("new_round", self.acting_player, self.round)
+	if self:check_winner() then
+		Emit("game_over", _winner)
+	else
+		Emit("new_round", self.acting_player, self.round)
+		for _, player in ipairs(self.players) do
+			player:draw_untapped(self.acting_player)
+		end
+	end
 end
 
 function Tabletop:check_winner()
 	for i, player in ipairs(self.players) do
 		if player.hp <= 0 then
 			_winner = i % 2 + 1
-			break
+			return true
 		end
 	end
-	return _winner
+	return false
 end
 
 function Tabletop:other_player()

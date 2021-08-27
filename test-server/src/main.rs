@@ -116,7 +116,6 @@ impl Server {
 			.run(code.clone())
 			.iter()
 			.for_each(|event| {
-				println!("[SERVER] [EVENT] {:?}", event);
 				if let lua_Event::String(name) = &event[0] {
 					if name == &String::from("draw") {
 						if let lua_Event::Number(value) = &event[1] {
@@ -125,6 +124,10 @@ impl Server {
 									self.add_card(nft.clone())
 								}
 							}
+						}
+					} else if name == &String::from("game_over") {
+						if let lua_Event::Number(value) = &event[1] {
+							cache::set_winner(*value as u8);
 						}
 					}
 				}
@@ -201,10 +204,15 @@ fn main() {
 	hook::add("switch_round", move |signature| {
 		println!("[SERVER] receive switch_round");
 		randomseed(signature);
-		if cache::get_clone().round == 2 {
-			run_code(String::from("game:draw_card(6)"), true);
-		}
 		sender.send(1).unwrap();
+	});
+
+	hook::add("game_over", |_| {
+		println!("[SERVER] receive game_over");
+	});
+
+	hook::add("close_kabletop_channel", |_| {
+		println!("[SERVER] receive close_kabletop_channel");
 	});
 
 	SERVER
@@ -212,12 +220,20 @@ fn main() {
 		.unwrap()
 		.listen();
 
+	let mut nft_config = HashMap::new();
+	nft_config.insert("10ad3f5012ce514f409e4da4c011c24a31443488", "充能0");
+	nft_config.insert("d046a18f7e01cb42e911fae2f11ba60c9c6834f8", "光明5");
+	nft_config.insert("f37dfa5b009ea001acd3617886d9efecf31bb153", "毒瘴2");
+	nft_config.insert("97bff01bcad316a4b534ef221bd66da97018df90", "心灵净化5");
+	nft_config.insert("36248218d2808d668ae3c0d35990c12712f6b9d2", "雷鸣2");
+	nft_config.insert("f49ac4925959733cc4c2b3a2663bde8c27b8dde2", "缴械4");
+
 	loop {
 		println!("[SERVER] waiting server playing turn...");
 		receiver.recv().unwrap();
 
 		loop {
-			println!("1: show cards  2: spell card  3: switch round  4: exit");
+			println!("1: show_cards  2: spell_card  3: switch_round  4: exit");
 			print!(">> ");
 			stdout().flush().unwrap();
 			let mut command = String::new();
@@ -227,10 +243,12 @@ fn main() {
 			}
 			match command[..1].parse() {
 				Ok(1) => {
-					println!("{:?}", SERVER.lock().unwrap().get_cards());
+					println!(
+						"{:?}", SERVER.lock().unwrap().get_cards().iter().map(|n| nft_config[n.as_str()]).collect::<Vec<_>>()
+					);
 				},
 				Ok(2) => loop {
-					print!("insert card offset: ");
+					print!("insert card offset (press Enter to return): ");
 					stdout().flush().unwrap();
 					let mut choose = String::new();
 					stdin().read_line(&mut choose).unwrap();
@@ -242,6 +260,9 @@ fn main() {
 					} else {
 						break
 					}
+					println!(
+						"{:?}", SERVER.lock().unwrap().get_cards().iter().map(|n| nft_config[n.as_str()]).collect::<Vec<_>>()
+					);
 				},
 				Ok(3) => {
 					run_code(String::from("game:switch_round()"), true);

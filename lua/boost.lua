@@ -19,6 +19,16 @@ Cfg = {
 }
 
 function Emit(...)
+	local event = table.pack(...)
+	local output = "["
+	for i, v in ipairs(event) do
+		if i == 1 then
+			output = output .. v
+		else
+			output = output .. ", " .. v
+		end
+	end
+	print(output .. "]")
 	__events__ = __events__ or {}
-	table.insert(__events__, table.pack(...))
+	table.insert(__events__, event)
 end

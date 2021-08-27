@@ -3,11 +3,12 @@ extends Area2D
 onready var special = $"../cards/special"
 onready var custom = $"../cards/custom"
 onready var controller = $"/root/controller"
+onready var settlement = controller.get_node("settlement")
 
 var ID_ONE = 1
 var ID_TWO = 2
-var FIRSTHAND = false
-var LUA_QUEUE = []
+var DRAW_COUNT = 6
+var EVENT_QUEUE = []
 
 func _ready():
 	special.connect("special_card_spelled", self, "on_special_card_spelled")
@@ -23,13 +24,14 @@ func _ready():
 	Sdk.send_p2p_message("start_game", {
 		"role": Config.player_hero
 	})
-	FIRSTHAND = Sdk.is_firsthand()
 	
 func _process(_delta):
-	if !LUA_QUEUE.empty():
-		for status in LUA_QUEUE:
-			Sdk.run(status.code, status.close_round)
-		LUA_QUEUE = []
+	if !EVENT_QUEUE.empty():
+		for event in EVENT_QUEUE:
+			match event.call_func:
+				"run": Sdk.run(event.code, event.close_round)
+				"close_game": Sdk.close_game(event.winner, event.callback)
+		EVENT_QUEUE = []
 	
 func on_special_card_spelled(_card):
 	assert(controller.acting_player_id == controller.player_id)
@@ -45,20 +47,24 @@ func on_custom_card_spelled(card):
 	run("game:spell_card(%d)" % offset)
 
 func run(code):
-	LUA_QUEUE.push_back({
+	EVENT_QUEUE.push_back({
+		call_func = "run",
 		code = code,
 		close_round = false
 	})
 	
 func switch_round():
-	LUA_QUEUE.push_back({
+	EVENT_QUEUE.push_back({
+		call_func = "run",
 		code = "game:switch_round()",
 		close_round = true
 	})
+	
+func game_over(winner):
+	settlement.show_settlement(winner)
 
 func _on_sdk_lua_events(events):
 	for params in events:
-		print(params)
 		var event = params[0]
 		var player_id = params[1]
 		match event:
@@ -96,6 +102,12 @@ func _on_sdk_lua_events(events):
 				var current_round = params[2]
 				controller.set_acting_player(player_id)
 				controller.set_round(current_round)
+			"game_over":
+				EVENT_QUEUE.push_back({
+					call_func = "close_game",
+					winner = player_id,
+					callback = funcref(self, "game_over")
+				})
 			_:
 				print("unknown event " + event)
 
@@ -108,8 +120,6 @@ func _on_sdk_p2p_message_reply(message, parameters):
 			Config.opposite_hero = parameters["role"]
 			assert(Config.opposite_hero > 0)
 			controller.set_player_role(ID_TWO, Config.opposite_hero)
-			if FIRSTHAND:
-				run("game = Tabletop.new(%d, %d, %d)" % [
-					Config.player_hero, Config.opposite_hero, ID_ONE
-				])
-				run("game:draw_card(6)")
+			run("game = Tabletop.new(%d, %d)" % [
+				Config.player_hero, Config.opposite_hero
+			])
