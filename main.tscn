@@ -93,14 +93,14 @@ use_mipmaps = true
 use_filter = true
 font_data = SubResource( 14 )
 
-[sub_resource type="DynamicFontData" id=21]
+[sub_resource type="DynamicFontData" id=16]
 font_path = "res://assets/font/medium.otf"
 
-[sub_resource type="DynamicFont" id=22]
+[sub_resource type="DynamicFont" id=17]
 size = 35
 use_mipmaps = true
 use_filter = true
-font_data = SubResource( 21 )
+font_data = SubResource( 16 )
 
 [node name="controller" type="Node2D"]
 script = ExtResource( 15 )
@@ -485,9 +485,9 @@ __meta__ = {
 }
 
 [node name="result" type="Label" parent="settlement"]
-margin_left = 336.358
+margin_left = 345.358
 margin_top = 238.815
-margin_right = 814.358
+margin_right = 823.358
 margin_bottom = 338.815
 custom_fonts/font = SubResource( 15 )
 text = "YOU WIN"
@@ -497,12 +497,11 @@ __meta__ = {
 }
 
 [node name="confirm" type="TextureButton" parent="settlement"]
-margin_left = 269.106
-margin_top = 480.61
-margin_right = 1159.11
-margin_bottom = 557.61
-rect_scale = Vector2( 0.7, 0.7 )
-toggle_mode = true
+margin_left = 317.311
+margin_top = 550.614
+margin_right = 1207.31
+margin_bottom = 627.614
+rect_scale = Vector2( 0.6, 0.6 )
 texture_normal = ExtResource( 4 )
 texture_pressed = ExtResource( 5 )
 __meta__ = {
@@ -514,7 +513,7 @@ margin_left = 364.605
 margin_top = 20.7311
 margin_right = 539.605
 margin_bottom = 56.7311
-custom_fonts/font = SubResource( 22 )
+custom_fonts/font = SubResource( 17 )
 text = "返回主界面"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -531,4 +530,4 @@ __meta__ = {
 [connection signal="input_event" from="switch/click" to="switch" method="_on_click_input_event"]
 [connection signal="mouse_entered" from="switch/click" to="switch" method="_on_click_mouse_entered"]
 [connection signal="mouse_exited" from="switch/click" to="switch" method="_on_click_mouse_exited"]
-[connection signal="toggled" from="settlement/confirm" to="settlement" method="_on_confirm_toggled"]
+[connection signal="pressed" from="settlement/confirm" to="settlement" method="_on_confirm_pressed"]

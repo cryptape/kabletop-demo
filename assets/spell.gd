@@ -112,7 +112,7 @@ func _on_sdk_lua_events(events):
 				print("unknown event " + event)
 
 func _on_sdk_disconnect():
-	assert(false, "server disconnected")
+	print("connection down")
 	
 func _on_sdk_p2p_message_reply(message, parameters):
 	match message:

@@ -7,7 +7,6 @@ onready var herochoose    = $background/herochoose
 onready var ui            = $coverlayer
 onready var ui_server     = $coverlayer/server
 onready var ui_client     = $coverlayer/client
-onready var server_cancel = $background/battleserver/cancel
 
 func _ready():
 	var overview = $background/deckmanage/overview
@@ -19,6 +18,7 @@ func _ready():
 	var hero = $background/herochoose/hero
 	hero.text = Config.get_hero_name()
 	Sdk.set_entry("./lua/boost.lua")
+	get_node("/root").call_deferred("move_child", self, 0)
 
 func click_menu(menu):
 	if menu == battleclient:
@@ -38,23 +38,39 @@ func click_menu(menu):
 	else:
 		assert(false, "bad menu")
 
-func stop_server():
-	pass
-
-func _on_confirm_toggled(button_pressed):
-	assert(ui.visible == true)
-	if button_pressed:
-		if ui_client.visible:
-			var socket = "ws://" + $coverlayer/client/socket.text
-			if !Sdk.create_channel(socket, funcref(self, "on_channel_opened")):
-				print("channel creation failed")
-				# 弹出提示
-		else:
-			var socket = "ws://0.0.0.0:" + $coverlayer/server/port.text
-			print("listen at ", socket)
-			server_cancel.show()
-			server_cancel.get_node("serverinfo").text = socket
-
-func on_channel_opened():
+func on_channel_opened(ok):
+	if ok:
 # warning-ignore:return_value_discarded
-	get_tree().change_scene("res://main.tscn")
+		get_tree().change_scene("res://main.tscn")
+		
+func on_shutdown():
+	Sdk.shutdown()
+
+func _on_confirm_pressed():
+	if ui_client.visible:
+		var socket = "ws://" + $coverlayer/client/socket.text
+		ui.hide()
+		Wait.set_wait(null, "服务器连接中...")
+		var error = Sdk.connect_to(socket)
+		if error != null:
+			Wait.set_failed(error, "服务器连接失败:")
+			return
+		Wait.set_wait(funcref(self, "on_channel_opened"), null)
+		error = Sdk.create_channel(funcref(Wait, "set_result"))
+		if error != null:
+			Wait.set_failed(error, null)
+	else:
+		var socket = "0.0.0.0:" + $coverlayer/server/port.text
+		ui.hide()
+		Wait.set_wait(funcref(self, "on_channel_opened"), "服务器创建中...")
+		var error = Sdk.listen_at(
+			socket, Config.player_hero, funcref(Wait, "set_result")
+		)
+		if error != null:
+			Wait.set_failed(error, "服务器创建失败:")
+		else:
+			Wait.set_manual_cancel(
+				"连接成功自动进入对战，点击[确定]可关闭服务器",
+				"等待客户端连接中...",
+				funcref(self, "on_shutdown")
+			)

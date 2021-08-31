@@ -14,6 +14,7 @@ func _ready():
 		$status/selected.text = String(selected)
 		render_cards(owned_nfts)
 	Sdk.connect("owned_nfts_updated", self, "on_owned_nfts_updated")
+	get_node("/root").call_deferred("move_child", self, 0)
 
 func on_owned_nfts_updated(nfts):
 	selected_nfts = {}
@@ -21,13 +22,7 @@ func on_owned_nfts_updated(nfts):
 	$status/selected.text = String(0)
 	render_cards(nfts)
 
-func on_delete_nfts(error):
-	if error != null:
-		print(error)
-		# 弹出提示
-
 func render_cards(nfts_count):
-	#print("total nfts: ", nfts_count)
 	var anchor = $scroll/anchor
 	for card in anchor.get_children():
 		card.free()
@@ -60,7 +55,10 @@ func click_button(button):
 				print("no cards in deck")
 				# 弹出提示
 	elif button == $delete:
-		Sdk.delete_nfts(selected_nfts, funcref(self, "on_delete_nfts"))
+		Wait.set_wait(null, null)
+		var error = Sdk.delete_nfts(selected_nfts, funcref(Wait, "set_result"))
+		if error != null:
+			Wait.set_failed(error, null)
 	else:
 # warning-ignore:return_value_discarded
 		get_tree().change_scene("res://title.tscn")

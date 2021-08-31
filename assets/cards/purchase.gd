@@ -69,18 +69,23 @@ func on_box_status_updated(count, ready):
 		$box.frame = 0
 		$box.playing = false
 
-func on_side_button_click(error):
-	if error != null:
-		print(error)
-		return
+func on_side_button_click(ok, hash_or_error):
+	if ok:
+		print("hash = ", hash_or_error)
+	else:
+		print("nft error: ", hash_or_error)
 
 func click_button(button):
+	var error
+	Wait.set_wait(null, null)
 	if button == $package_buy:
 		assert(box_count > 0)
-		Sdk.purchase_nfts(box_count, funcref(self, "on_side_button_click"))
+		error = Sdk.purchase_nfts(box_count, funcref(Wait, "set_result"))
 	elif button == $package_reveal:
 		assert(box_count > 0)
-		Sdk.reveal_nfts(funcref(self, "on_side_button_click"))
+		error = Sdk.reveal_nfts(funcref(Wait, "set_result"))
 	else:
 		assert(box_count == 0)
-		Sdk.create_nft_wallet(funcref(self, "on_side_button_click"))
+		error = Sdk.create_nft_wallet(funcref(Wait, "set_result"))
+	if error != null:
+		Wait.set_failed(error, null)

@@ -41,6 +41,9 @@ var defer_funcs = {
 	2: []
 }
 
+func _ready():
+	get_node("/root").call_deferred("move_child", self, 0)
+
 func apply_defer_funcs(id):
 	while !defer_funcs[id].empty():
 		var defer = defer_funcs[id].pop_front()

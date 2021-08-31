@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://assets/background/main.jpg" type="Texture" id=1]
 [ext_resource path="res://assets/ui/menu/menu_battleclient.png" type="Texture" id=2]
@@ -13,8 +13,6 @@
 [ext_resource path="res://assets/cards/light_frame.png" type="Texture" id=11]
 [ext_resource path="res://assets/ui/title-button.gd" type="Script" id=12]
 [ext_resource path="res://assets/title.gd" type="Script" id=13]
-[ext_resource path="res://assets/ui/quit_server.png" type="Texture" id=14]
-[ext_resource path="res://assets/ui/server_button.gd" type="Script" id=15]
 [ext_resource path="res://assets/ui/panel_confirm.png" type="Texture" id=16]
 [ext_resource path="res://assets/ui/panel_confirm_pressed.png" type="Texture" id=17]
 
@@ -52,26 +50,6 @@ font_data = SubResource( 7 )
 
 [sub_resource type="RectangleShape2D" id=9]
 
-[sub_resource type="DynamicFontData" id=10]
-font_path = "res://assets/font/regular.otf"
-
-[sub_resource type="DynamicFont" id=11]
-size = 40
-use_mipmaps = true
-use_filter = true
-font_data = SubResource( 10 )
-
-[sub_resource type="RectangleShape2D" id=12]
-
-[sub_resource type="DynamicFontData" id=13]
-font_path = "res://assets/font/regular.otf"
-
-[sub_resource type="DynamicFont" id=14]
-size = 35
-use_mipmaps = true
-use_filter = true
-font_data = SubResource( 13 )
-
 [sub_resource type="DynamicFontData" id=15]
 font_path = "res://assets/font/medium.otf"
 
@@ -99,14 +77,14 @@ use_mipmaps = true
 use_filter = true
 font_data = SubResource( 19 )
 
-[sub_resource type="DynamicFontData" id=21]
+[sub_resource type="DynamicFontData" id=23]
 font_path = "res://assets/font/medium.otf"
 
 [sub_resource type="DynamicFont" id=22]
 size = 35
 use_mipmaps = true
 use_filter = true
-font_data = SubResource( 21 )
+font_data = SubResource( 23 )
 
 [node name="controller" type="Node2D"]
 scale = Vector2( 0.6, 0.6 )
@@ -282,43 +260,6 @@ __meta__ = {
 position = Vector2( 3.33331, 0 )
 scale = Vector2( 18.4, 34.0667 )
 shape = SubResource( 9 )
-
-[node name="cancel" type="Sprite" parent="background/battleserver"]
-visible = false
-position = Vector2( 3.40887, 403.971 )
-texture = ExtResource( 14 )
-region_enabled = true
-region_rect = Rect2( 134, 211, 244, 90 )
-script = ExtResource( 15 )
-
-[node name="text" type="Label" parent="background/battleserver/cancel"]
-margin_left = -39.7722
-margin_top = -33.0298
-margin_right = 40.2278
-margin_bottom = 26.9702
-custom_fonts/font = SubResource( 11 )
-text = "取消"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="click" type="Area2D" parent="background/battleserver/cancel"]
-
-[node name="rect" type="CollisionShape2D" parent="background/battleserver/cancel/click"]
-scale = Vector2( 11.1333, 4.2 )
-shape = SubResource( 12 )
-
-[node name="serverinfo" type="Label" parent="background/battleserver/cancel"]
-margin_left = -182.481
-margin_top = 59.0286
-margin_right = 184.519
-margin_bottom = 112.029
-custom_fonts/font = SubResource( 14 )
-text = "ws://0.0.0.0:11550"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="deckmanage" type="Node2D" parent="background"]
 position = Vector2( 174.142, -296.898 )
@@ -566,11 +507,10 @@ __meta__ = {
 }
 
 [node name="confirm" type="TextureButton" parent="coverlayer"]
-margin_left = 527.0
-margin_top = 783.333
-margin_right = 1417.0
-margin_bottom = 860.333
-toggle_mode = true
+margin_left = 535.909
+margin_top = 924.392
+margin_right = 1425.91
+margin_bottom = 1001.39
 texture_normal = ExtResource( 16 )
 texture_pressed = ExtResource( 17 )
 __meta__ = {
@@ -591,13 +531,10 @@ text = "确认"
 [connection signal="input_event" from="background/battleserver/mouse_check" to="background/battleserver" method="_on_mouse_check_input_event"]
 [connection signal="mouse_entered" from="background/battleserver/mouse_check" to="background/battleserver" method="_on_mouse_check_mouse_entered"]
 [connection signal="mouse_exited" from="background/battleserver/mouse_check" to="background/battleserver" method="_on_mouse_check_mouse_exited"]
-[connection signal="input_event" from="background/battleserver/cancel/click" to="background/battleserver/cancel" method="_on_click_input_event"]
-[connection signal="mouse_entered" from="background/battleserver/cancel/click" to="background/battleserver/cancel" method="_on_click_mouse_entered"]
-[connection signal="mouse_exited" from="background/battleserver/cancel/click" to="background/battleserver/cancel" method="_on_click_mouse_exited"]
 [connection signal="input_event" from="background/deckmanage/mouse_check" to="background/deckmanage" method="_on_mouse_check_input_event"]
 [connection signal="mouse_entered" from="background/deckmanage/mouse_check" to="background/deckmanage" method="_on_mouse_check_mouse_entered"]
 [connection signal="mouse_exited" from="background/deckmanage/mouse_check" to="background/deckmanage" method="_on_mouse_check_mouse_exited"]
 [connection signal="input_event" from="background/herochoose/mouse_check" to="background/herochoose" method="_on_mouse_check_input_event"]
 [connection signal="mouse_entered" from="background/herochoose/mouse_check" to="background/herochoose" method="_on_mouse_check_mouse_entered"]
 [connection signal="mouse_exited" from="background/herochoose/mouse_check" to="background/herochoose" method="_on_mouse_check_mouse_exited"]
-[connection signal="toggled" from="coverlayer/confirm" to="." method="_on_confirm_toggled"]
+[connection signal="pressed" from="coverlayer/confirm" to="." method="_on_confirm_pressed"]

@@ -1,16 +1,24 @@
 extends Panel
 
+var win = false
+
 func show_settlement(winner):
 	if get_parent().player_id == winner:
+		win = true
 		$result.text = "YOU WIN"
 	else:
+		win = false
 		$result.text = "YOU LOSE"
 	self.show()
-
-func _on_confirm_toggled(button_pressed):
-	if button_pressed:
-		Sdk.close_channel(funcref(self, "on_channel_closed"))
 
 func on_channel_closed():
 # warning-ignore:return_value_discarded
 	get_tree().change_scene("res://title.tscn")
+
+func _on_confirm_pressed():
+	if win:
+		hide()
+		Wait.set_wait(funcref(self, "on_channel_closed"), null)
+		Sdk.close_channel(funcref(Wait, "set_result"))
+	else:
+		on_channel_closed()

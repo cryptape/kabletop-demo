@@ -72,14 +72,14 @@ impl Server {
 					})
 					.collect::<Vec<_>>()
 				);
-				cache::set_godot_callback(String::from("start_game"), Box::new(|_: String, _: HashMap<String, GodotType>| {
+				cache::set_godot_callback("start_game", Box::new(|_: String, _: HashMap<String, GodotType>| {
 					let mut response = HashMap::new();
 					response.insert(String::from("role"), GodotType::I64(1));
 					response
 				}));
 				println!("[SERVER] client connected.");
 			}
-		})
+		}).unwrap();
 	}
 
 	fn get_id(&self) -> i64 {
