@@ -16,6 +16,8 @@ class Card:
 
 var player_hero = 0
 var opposite_hero = 0
+var game_ready = false
+var opposite_ready_func = null
 
 var HeroNames = {
 	0: "Unknown",
@@ -50,6 +52,7 @@ var NFTs = {
 func _ready():
 	for _hash in NFTs:
 		NFTs[_hash]._hash = _hash
+	Sdk.reply_p2p_message("game_ready", funcref(self, "_on_p2p_game_ready"))
 
 func get_card(card_hash):
 	var nft = NFTs[card_hash]
@@ -63,3 +66,10 @@ func get_native_card(role):
 	
 func get_hero_name():
 	return HeroNames[player_hero]
+	
+func _on_p2p_game_ready(_parameters):
+	if opposite_ready_func != null:
+		opposite_ready_func.call_func()
+	return {
+		"ready": game_ready
+	}

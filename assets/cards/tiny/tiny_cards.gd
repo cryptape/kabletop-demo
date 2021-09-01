@@ -102,7 +102,9 @@ func card_spelled():
 	tween.disconnect("tween_all_completed", self, "card_spelled")
 	spelling_info.card.queue_free()
 	spelling_info = null
-	controller.apply_defer_funcs(controller.get_opposite_id())
+	controller.apply_defer_funcs(
+		controller.get_opposite_id(), spell_cards.empty()
+	)
 	running = false
 	run()
 

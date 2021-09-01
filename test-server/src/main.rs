@@ -72,7 +72,12 @@ impl Server {
 					})
 					.collect::<Vec<_>>()
 				);
-				cache::set_godot_callback("start_game", Box::new(|_: String, _: HashMap<String, GodotType>| {
+				cache::set_godot_callback("game_ready", Box::new(|_: HashMap<String, GodotType>| {
+					let mut response = HashMap::new();
+					response.insert(String::from("ready"), GodotType::Bool(true));
+					response
+				}));
+				cache::set_godot_callback("start_game", Box::new(|_: HashMap<String, GodotType>| {
 					let mut response = HashMap::new();
 					response.insert(String::from("role"), GodotType::I64(1));
 					response

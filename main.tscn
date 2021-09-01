@@ -88,7 +88,7 @@ font_data = SubResource( 12 )
 font_path = "res://assets/font/medium.otf"
 
 [sub_resource type="DynamicFont" id=15]
-size = 100
+size = 70
 use_mipmaps = true
 use_filter = true
 font_data = SubResource( 14 )
@@ -515,6 +515,28 @@ margin_right = 539.605
 margin_bottom = 56.7311
 custom_fonts/font = SubResource( 17 )
 text = "返回主界面"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="wait" type="Panel" parent="."]
+self_modulate = Color( 1, 1, 1, 0.882353 )
+margin_left = 1.0
+margin_top = -1.0
+margin_right = 1151.0
+margin_bottom = 780.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="tips" type="Label" parent="wait"]
+margin_left = 278.89
+margin_top = 358.316
+margin_right = 901.89
+margin_bottom = 429.316
+custom_fonts/font = SubResource( 15 )
+text = "等待对手进入游戏..."
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }

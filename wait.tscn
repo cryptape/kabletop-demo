@@ -5,25 +5,25 @@
 [ext_resource path="res://assets/ui/waiting.png" type="Texture" id=3]
 [ext_resource path="res://assets/wait.gd" type="Script" id=4]
 
-[sub_resource type="DynamicFontData" id=22]
+[sub_resource type="DynamicFontData" id=1]
 font_path = "res://assets/font/medium.otf"
 
-[sub_resource type="DynamicFont" id=23]
+[sub_resource type="DynamicFont" id=2]
 size = 35
 use_mipmaps = true
 use_filter = true
-font_data = SubResource( 22 )
+font_data = SubResource( 1 )
 
-[sub_resource type="DynamicFontData" id=21]
+[sub_resource type="DynamicFontData" id=3]
 font_path = "res://assets/font/medium.otf"
 
-[sub_resource type="DynamicFont" id=24]
+[sub_resource type="DynamicFont" id=4]
 size = 35
 use_mipmaps = true
 use_filter = true
-font_data = SubResource( 21 )
+font_data = SubResource( 3 )
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=5]
 resource_name = "rotate"
 length = 1.5
 loop = true
@@ -62,7 +62,7 @@ margin_left = 352.931
 margin_top = 211.0
 margin_right = 785.931
 margin_bottom = 252.0
-custom_fonts/font = SubResource( 23 )
+custom_fonts/font = SubResource( 2 )
 text = "交易提交中..."
 align = 1
 __meta__ = {
@@ -75,7 +75,7 @@ margin_left = 95.0
 margin_top = 341.0
 margin_right = 1070.0
 margin_bottom = 455.0
-custom_fonts/font = SubResource( 23 )
+custom_fonts/font = SubResource( 2 )
 text = "ddddddddddddddddddddddddddddddddddddddd"
 align = 1
 autowrap = true
@@ -84,9 +84,9 @@ __meta__ = {
 }
 
 [node name="confirm" type="TextureButton" parent="panel"]
-margin_left = 312.047
+margin_left = 316.047
 margin_top = 553.777
-margin_right = 1202.05
+margin_right = 1206.05
 margin_bottom = 630.777
 rect_scale = Vector2( 0.6, 0.6 )
 texture_normal = ExtResource( 1 )
@@ -100,7 +100,7 @@ margin_left = 412.998
 margin_top = 20.7311
 margin_right = 482.998
 margin_bottom = 56.7311
-custom_fonts/font = SubResource( 24 )
+custom_fonts/font = SubResource( 4 )
 text = "确认"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -124,7 +124,7 @@ margin_left = 412.998
 margin_top = 20.7311
 margin_right = 482.998
 margin_bottom = 56.7311
-custom_fonts/font = SubResource( 24 )
+custom_fonts/font = SubResource( 4 )
 text = "取消"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -132,7 +132,7 @@ __meta__ = {
 
 [node name="rotater" type="AnimationPlayer" parent="."]
 autoplay = "rotate"
-anims/rotate = SubResource( 25 )
+anims/rotate = SubResource( 5 )
 
 [connection signal="pressed" from="panel/confirm" to="." method="_on_confirm_pressed"]
 [connection signal="pressed" from="panel/cancel" to="." method="_on_cancel_pressed"]

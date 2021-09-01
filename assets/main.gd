@@ -22,10 +22,11 @@ var player_roles = {
 	1: 0, 2: 0
 }
 
-# identify my player id
+# identify player id
 var player_id = 0
+var opposite_id = 0
 var acting_player_id = 0
-var winner_id = 0
+var battle_finished = false
 
 # roles map to models
 var role_models = {
@@ -44,11 +45,14 @@ var defer_funcs = {
 func _ready():
 	get_node("/root").call_deferred("move_child", self, 0)
 
-func apply_defer_funcs(id):
+func apply_defer_funcs(id, no_tiny_cards = false):
 	while !defer_funcs[id].empty():
 		var defer = defer_funcs[id].pop_front()
 		if defer.ref == null:
-			break
+			if battle_finished and no_tiny_cards:
+				continue
+			else:
+				break
 		defer.ref.call_funcv(defer.args)
 
 func apply_change(id, card_index, hash_code):
@@ -242,3 +246,13 @@ func switch_enable(cards = null, switch = true, buffs = true):
 	get_node("switch").set_enable(switch)
 	get_node("panel/player_hp/buffs").set_enable(buffs)
 	get_node("panel/opposite_hp/buffs").set_enable(buffs)
+
+func set_battle_result(id, defer_funcref):
+	battle_finished = true
+	if id == player_id:
+		defer_funcref.call_func(player_id)
+	else:
+		defer_funcs[acting_player_id].push_back({
+			"ref": defer_funcref,
+			"args": [player_id]
+		})

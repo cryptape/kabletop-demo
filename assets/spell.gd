@@ -7,8 +7,10 @@ onready var settlement = controller.get_node("settlement")
 
 var ID_ONE = 1
 var ID_TWO = 2
-var DRAW_COUNT = 6
 var EVENT_QUEUE = []
+
+var MY_ID = 0
+var OPPOSITE_ID = 0
 
 func _ready():
 	special.connect("special_card_spelled", self, "on_special_card_spelled")
@@ -17,13 +19,17 @@ func _ready():
 	Sdk.connect("lua_events", self, "_on_sdk_lua_events")
 	Sdk.connect("p2p_message_reply", self, "_on_sdk_p2p_message_reply")
 	
-	controller.player_id = ID_ONE
-	controller.set_player_role(ID_ONE, Config.player_hero)
+	controller.player_id = Sdk.get_player_id()
+	if controller.player_id == ID_ONE:
+		controller.opposite_id = ID_TWO
+	else:
+		controller.opposite_id = ID_ONE
+	controller.set_player_role(controller.player_id, Config.player_hero)
 	controller.set_player_hp(ID_ONE, 30)
 	controller.set_player_hp(ID_TWO, 30)
-	Sdk.send_p2p_message("start_game", {
-		"role": Config.player_hero
-	})
+	Config.game_ready = true
+	Sdk.reply_p2p_message("start_game", funcref(self, "_on_p2p_start_game"))
+	Sdk.send_p2p_message("game_ready", {})
 	
 func _process(_delta):
 	if !EVENT_QUEUE.empty():
@@ -31,6 +37,7 @@ func _process(_delta):
 			match event.call_func:
 				"run": Sdk.run(event.code, event.close_round)
 				"close_game": Sdk.close_game(event.winner, event.callback)
+				"p2p": Sdk.send_p2p_message(event.message, event.value)
 		EVENT_QUEUE = []
 	
 func on_special_card_spelled(_card):
@@ -61,7 +68,10 @@ func switch_round():
 	})
 	
 func game_over(winner):
-	settlement.show_settlement(winner)
+	settlement.winner = winner
+	controller.set_battle_result(
+		controller.acting_player_id, funcref(settlement, "show_settlement")
+	)
 
 func _on_sdk_lua_events(events):
 	for params in events:
@@ -109,17 +119,45 @@ func _on_sdk_lua_events(events):
 					callback = funcref(self, "game_over")
 				})
 			_:
-				print("unknown event " + event)
+				assert(false, "unknown event " + event)
 
 func _on_sdk_disconnect():
 	print("connection down")
 	
 func _on_sdk_p2p_message_reply(message, parameters):
 	match message:
+		"game_ready":
+			if controller.player_id == ID_ONE:
+				if parameters["ready"]:
+					on_opposite_ready()
+				else:
+					Config.opposite_ready_func = funcref(self, "on_opposite_ready")
 		"start_game":
+			controller.get_node("wait").hide()
 			Config.opposite_hero = parameters["role"]
 			assert(Config.opposite_hero > 0)
-			controller.set_player_role(ID_TWO, Config.opposite_hero)
+			controller.set_player_role(
+				controller.opposite_id, Config.opposite_hero
+			)
 			run("game = Tabletop.new(%d, %d)" % [
 				Config.player_hero, Config.opposite_hero
 			])
+
+func _on_p2p_start_game(parameters):
+	controller.get_node("wait").hide()
+	Config.opposite_hero = parameters["role"]
+	controller.set_player_role(
+		controller.opposite_id, Config.opposite_hero
+	)
+	return {
+		"role": Config.player_hero
+	}
+
+func on_opposite_ready():
+	EVENT_QUEUE.push_back({
+		call_func = "p2p",
+		message = "start_game",
+		value = {
+			"role": Config.player_hero
+		}
+	})

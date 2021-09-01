@@ -50,41 +50,41 @@ font_data = SubResource( 7 )
 
 [sub_resource type="RectangleShape2D" id=9]
 
-[sub_resource type="DynamicFontData" id=15]
+[sub_resource type="DynamicFontData" id=10]
 font_path = "res://assets/font/medium.otf"
 
-[sub_resource type="DynamicFont" id=16]
+[sub_resource type="DynamicFont" id=11]
 size = 50
 use_mipmaps = true
 use_filter = true
-font_data = SubResource( 15 )
+font_data = SubResource( 10 )
 
-[sub_resource type="DynamicFontData" id=17]
+[sub_resource type="DynamicFontData" id=12]
 font_path = "res://assets/font/medium.otf"
 
-[sub_resource type="DynamicFont" id=18]
+[sub_resource type="DynamicFont" id=13]
 size = 80
 use_mipmaps = true
 use_filter = true
-font_data = SubResource( 17 )
+font_data = SubResource( 12 )
 
-[sub_resource type="DynamicFontData" id=19]
+[sub_resource type="DynamicFontData" id=14]
 font_path = "res://assets/font/medium.otf"
 
-[sub_resource type="DynamicFont" id=20]
+[sub_resource type="DynamicFont" id=15]
 size = 80
 use_mipmaps = true
 use_filter = true
-font_data = SubResource( 19 )
+font_data = SubResource( 14 )
 
-[sub_resource type="DynamicFontData" id=23]
+[sub_resource type="DynamicFontData" id=16]
 font_path = "res://assets/font/medium.otf"
 
-[sub_resource type="DynamicFont" id=22]
+[sub_resource type="DynamicFont" id=17]
 size = 35
 use_mipmaps = true
 use_filter = true
-font_data = SubResource( 23 )
+font_data = SubResource( 16 )
 
 [node name="controller" type="Node2D"]
 scale = Vector2( 0.6, 0.6 )
@@ -339,7 +339,7 @@ margin_left = -60.0773
 margin_top = -412.052
 margin_right = 75.9227
 margin_bottom = -362.052
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 11 )
 text = "0/40"
 align = 2
 __meta__ = {
@@ -425,7 +425,7 @@ margin_left = -153.693
 margin_top = -412.0
 margin_right = 146.307
 margin_bottom = -362.0
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 11 )
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -456,7 +456,7 @@ margin_left = 598.247
 margin_top = 541.722
 margin_right = 1068.25
 margin_bottom = 622.722
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 13 )
 text = "ws://0.0.0.0:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -467,7 +467,7 @@ margin_left = 1074.0
 margin_top = 537.333
 margin_right = 1353.0
 margin_bottom = 628.333
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 15 )
 text = "11550"
 max_length = 5
 caret_blink = true
@@ -487,7 +487,7 @@ margin_left = 598.247
 margin_top = 541.722
 margin_right = 788.247
 margin_bottom = 622.722
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 13 )
 text = "ws://"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -498,7 +498,7 @@ margin_left = 791.0
 margin_top = 537.0
 margin_right = 1710.0
 margin_bottom = 628.0
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 15 )
 text = "127.0.0.1:11550"
 max_length = 21
 caret_blink = true
@@ -522,7 +522,7 @@ margin_left = 421.748
 margin_top = 20.7311
 margin_right = 491.748
 margin_bottom = 56.7311
-custom_fonts/font = SubResource( 22 )
+custom_fonts/font = SubResource( 17 )
 text = "确认"
 
 [connection signal="input_event" from="background/battleclient/mouse_check" to="background/battleclient" method="_on_mouse_check_input_event"]

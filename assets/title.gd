@@ -19,6 +19,7 @@ func _ready():
 	hero.text = Config.get_hero_name()
 	Sdk.set_entry("./lua/boost.lua")
 	get_node("/root").call_deferred("move_child", self, 0)
+	Config.game_ready = false
 
 func click_menu(menu):
 	if menu == battleclient:
@@ -63,9 +64,7 @@ func _on_confirm_pressed():
 		var socket = "0.0.0.0:" + $coverlayer/server/port.text
 		ui.hide()
 		Wait.set_wait(funcref(self, "on_channel_opened"), "服务器创建中...")
-		var error = Sdk.listen_at(
-			socket, Config.player_hero, funcref(Wait, "set_result")
-		)
+		var error = Sdk.listen_at(socket, funcref(Wait, "set_result"))
 		if error != null:
 			Wait.set_failed(error, "服务器创建失败:")
 		else:
