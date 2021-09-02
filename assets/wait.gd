@@ -5,6 +5,7 @@ var cancel_funcref = null
 var success_or_fail = null
 
 func set_wait(callback, text):
+	show()
 	if text == null:
 		text = "交易提交中..."
 	$panel/title.text = text
@@ -14,7 +15,6 @@ func set_wait(callback, text):
 	$panel/waiting.show()
 	confirm_funcref = callback
 	success_or_fail = null
-	show()
 	
 func set_result(ok, hash_or_error):
 	if ok:
@@ -23,6 +23,7 @@ func set_result(ok, hash_or_error):
 		set_failed(hash_or_error, null)
 
 func set_commited(tx_hash, text):
+	show()
 	if text == null:
 		text = "交易提交完成:"
 	$panel/title.text = text
@@ -34,6 +35,7 @@ func set_commited(tx_hash, text):
 	success_or_fail = true
 	
 func set_failed(error, text):
+	show()
 	if text == null:
 		text = "交易提交失败:"
 	$panel/title.text = text
@@ -44,14 +46,18 @@ func set_failed(error, text):
 	$panel/cancel.hide()
 	success_or_fail = false
 
-func set_manual_cancel(info, title, callback):
+func set_manual_cancel(info, title, callback = null):
+	show()
 	$panel/title.text = title
 	$panel/hash.text = info
 	$panel/hash.show()
-	$panel/cancel.show()
 	$panel/waiting.hide()
 	$panel/confirm.hide()
-	cancel_funcref = callback
+	if callback != null:
+		$panel/cancel.show()
+		cancel_funcref = callback
+	else:
+		$panel/cancel.hide()
 
 func _on_confirm_pressed():
 	hide()

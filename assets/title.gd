@@ -10,14 +10,11 @@ onready var ui_client     = $coverlayer/client
 
 func _ready():
 	var overview = $background/deckmanage/overview
-	var nfts = Sdk.get_nfts()
-	var total = 0
-	for i in nfts:
-		total += nfts[i]
-	overview.text = "%d/40" % total
+	overview.text = "%d/40" % Sdk.get_nfts_count(0)
 	var hero = $background/herochoose/hero
 	hero.text = Config.get_hero_name()
 	Sdk.set_entry("./lua/boost.lua")
+	Sdk.connect("connect_status", self, "_on_sdk_connect_status")
 	get_node("/root").call_deferred("move_child", self, 0)
 	Config.game_ready = false
 
@@ -47,7 +44,19 @@ func on_channel_opened(ok):
 func on_shutdown():
 	Sdk.shutdown()
 
+func _on_sdk_connect_status(mode, status):
+	if mode == "SERVER" and status == true:
+		Wait.set_manual_cancel("等待通道创建交易提交中...", "连接成功:")
+
 func _on_confirm_pressed():
+	if Config.player_hero == 0 or Sdk.get_nfts_count(0) == 0:
+		ui.hide()
+		Wait.set_manual_cancel(
+			"请先确保卡牌和英雄都已进行了选择",
+			"操作失败:",
+			funcref(Wait, "hide")
+		)
+		return
 	if ui_client.visible:
 		var socket = "ws://" + $coverlayer/client/socket.text
 		ui.hide()

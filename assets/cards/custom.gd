@@ -14,8 +14,8 @@ signal custom_card_spelled
 var cards_pool = []
 
 func add_card(card_hash):
-	var card = Config.get_card(card_hash)
-	cards_pool.push_back(card)
+	var meta = Config.get_card(card_hash)
+	cards_pool.push_back(meta)
 	if running == false:
 		run()
 
@@ -37,8 +37,10 @@ func run():
 	card.connect("card_spell", self, "card_spelled")
 	card.position = born
 	anchor.add_child(card)
+	card.apply_enable()
 	sort_out(0.3)
 	running = true
+	controller.short_deck(controller.player_id, 1)
 
 func sort_out(interval):
 	var valid_children = []

@@ -40,11 +40,15 @@ end
 
 function Player:draw(count)
 	for _ = 1, count or 1 do
-		local which = math.random(1, #self.custom_cards)
-		local draw_card = self.custom_cards[which]
-		table.remove(self.custom_cards, which)
-		table.insert(self.active_cards, draw_card)
-		Emit("draw", self.id, draw_card.hash)
+		if #self.custom_cards > 0 then
+			local which = math.random(1, #self.custom_cards)
+			local draw_card = self.custom_cards[which]
+			table.remove(self.custom_cards, which)
+			table.insert(self.active_cards, draw_card)
+			Emit("draw", self.id, draw_card.hash)
+		else
+			break
+		end
 	end
 end
 
@@ -55,10 +59,9 @@ function Player:elapse_buffs()
 end
 
 function Player:draw_untapped(acting_player)
-	if acting_player == self.id then
-		self:draw(self.untapped_count)
-		self.untapped_count = 0
-	else
+	self:draw(self.untapped_count)
+	self.untapped_count = 0
+	if acting_player ~= self.id then
 		self.untapped_count = self.untapped_count + 1
 	end
 end

@@ -84,10 +84,10 @@ __meta__ = {
 }
 
 [node name="confirm" type="TextureButton" parent="panel"]
-margin_left = 316.047
-margin_top = 553.777
-margin_right = 1206.05
-margin_bottom = 630.777
+margin_left = 322.047
+margin_top = 552.777
+margin_right = 1212.05
+margin_bottom = 629.777
 rect_scale = Vector2( 0.6, 0.6 )
 texture_normal = ExtResource( 1 )
 texture_pressed = ExtResource( 2 )
@@ -108,10 +108,10 @@ __meta__ = {
 
 [node name="cancel" type="TextureButton" parent="panel"]
 visible = false
-margin_left = 312.047
-margin_top = 553.777
-margin_right = 1202.05
-margin_bottom = 630.777
+margin_left = 324.047
+margin_top = 552.777
+margin_right = 1214.05
+margin_bottom = 629.777
 rect_scale = Vector2( 0.6, 0.6 )
 texture_normal = ExtResource( 1 )
 texture_pressed = ExtResource( 2 )

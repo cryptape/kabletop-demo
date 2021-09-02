@@ -26,10 +26,12 @@ use_filter = true
 font_data = SubResource( 1 )
 
 [sub_resource type="DynamicFontData" id=3]
-font_path = "res://assets/font/regular.otf"
+font_path = "res://assets/font/medium.otf"
 
 [sub_resource type="DynamicFont" id=4]
 size = 40
+use_mipmaps = true
+use_filter = true
 font_data = SubResource( 3 )
 
 [sub_resource type="DynamicFontData" id=5]
@@ -111,13 +113,14 @@ margin_top = -821.268
 margin_right = 819.077
 margin_bottom = -761.268
 custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.819608, 0.858824, 0.105882, 1 )
 text = "——美术资源全部来自《尖塔奇兵》"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="battleclient" type="Node2D" parent="background"]
-position = Vector2( -744.412, -296.898 )
+position = Vector2( -752.745, -296.898 )
 script = ExtResource( 12 )
 
 [node name="light_frame" type="Node2D" parent="background/battleclient"]
@@ -189,7 +192,7 @@ scale = Vector2( 18.4666, 34.0667 )
 shape = SubResource( 9 )
 
 [node name="battleserver" type="Node2D" parent="background"]
-position = Vector2( -289.701, -296.898 )
+position = Vector2( -298.034, -296.898 )
 script = ExtResource( 12 )
 
 [node name="light_frame" type="Node2D" parent="background/battleserver"]
@@ -262,7 +265,7 @@ scale = Vector2( 18.4, 34.0667 )
 shape = SubResource( 9 )
 
 [node name="deckmanage" type="Node2D" parent="background"]
-position = Vector2( 174.142, -296.898 )
+position = Vector2( 165.809, -296.898 )
 script = ExtResource( 12 )
 
 [node name="light_frame" type="Node2D" parent="background/deckmanage"]
@@ -347,7 +350,7 @@ __meta__ = {
 }
 
 [node name="herochoose" type="Node2D" parent="background"]
-position = Vector2( 639.576, -297.074 )
+position = Vector2( 631.243, -297.074 )
 script = ExtResource( 12 )
 
 [node name="light_frame" type="Node2D" parent="background/herochoose"]

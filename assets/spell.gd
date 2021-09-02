@@ -15,7 +15,7 @@ var OPPOSITE_ID = 0
 func _ready():
 	special.connect("special_card_spelled", self, "on_special_card_spelled")
 	custom.connect("custom_card_spelled", self, "on_custom_card_spelled")
-	Sdk.connect("disconnect", self, "_on_sdk_disconnect")
+	Sdk.connect("connect_status", self, "_on_sdk_connect_status")
 	Sdk.connect("lua_events", self, "_on_sdk_lua_events")
 	Sdk.connect("p2p_message_reply", self, "_on_sdk_p2p_message_reply")
 	
@@ -24,9 +24,12 @@ func _ready():
 		controller.opposite_id = ID_TWO
 	else:
 		controller.opposite_id = ID_ONE
+	controller.set_acting_player(ID_ONE)
 	controller.set_player_role(controller.player_id, Config.player_hero)
-	controller.set_player_hp(ID_ONE, 30)
-	controller.set_player_hp(ID_TWO, 30)
+	controller.set_player_hp(ID_ONE, 30, false)
+	controller.set_player_hp(ID_TWO, 30, false)
+	controller.set_deck_capcacity(ID_ONE, Sdk.get_nfts_count(ID_ONE))
+	controller.set_deck_capcacity(ID_TWO, Sdk.get_nfts_count(ID_TWO))
 	Config.game_ready = true
 	Sdk.reply_p2p_message("start_game", funcref(self, "_on_p2p_start_game"))
 	Sdk.send_p2p_message("game_ready", {})
@@ -72,7 +75,13 @@ func game_over(winner):
 	controller.set_battle_result(
 		controller.acting_player_id, funcref(settlement, "show_settlement")
 	)
-
+	
+func new_round(round_owner, round_count, last_owner):
+	controller.set_acting_player(round_owner)
+	controller.set_round(round_count)
+	controller.apply_change(last_owner)
+	controller.round_switching = false
+	
 func _on_sdk_lua_events(events):
 	for params in events:
 		var event = params[0]
@@ -84,15 +93,15 @@ func _on_sdk_lua_events(events):
 			"damage":
 				var hp = params[2]
 				var effect = params[3]
-				controller.set_player_hp(player_id, hp, true)
-				controller.damage_player(player_id, effect, true)
+				controller.set_player_hp(player_id, hp)
+				controller.damage_player(player_id, effect)
 			"heal":
 				var hp = params[2]
-				controller.set_player_hp(player_id, hp, true)
-				controller.heal_player(player_id, true)
+				controller.set_player_hp(player_id, hp)
+				controller.heal_player(player_id)
 			"empower", "cost":
 				var energy = params[2]
-				controller.set_player_energy(player_id, energy, true)
+				controller.set_player_energy(player_id, energy)
 			"strip":
 				var buffs = params[2]
 				print("strip buffs = ", buffs)
@@ -101,7 +110,7 @@ func _on_sdk_lua_events(events):
 				var offset = params[3]
 				var life = params[4]
 				if offset <= 0:
-					controller.add_player_buff(player_id, id, life, true)
+					controller.add_player_buff(player_id, id, life)
 				else:
 					controller.update_player_buff(player_id, offset - 1, life)
 			"spell_end":
@@ -110,8 +119,14 @@ func _on_sdk_lua_events(events):
 				controller.apply_change(player_id, card_offset, hash_code)
 			"new_round":
 				var current_round = params[2]
-				controller.set_acting_player(player_id)
-				controller.set_round(current_round)
+				var last_player = params[3]
+				if current_round > 1:
+					controller.switch_round(
+						last_player, funcref(self, "new_round"),
+						[player_id, current_round, last_player]
+					)
+				else:
+					new_round(player_id, current_round, last_player)
 			"game_over":
 				EVENT_QUEUE.push_back({
 					call_func = "close_game",
@@ -121,9 +136,18 @@ func _on_sdk_lua_events(events):
 			_:
 				assert(false, "unknown event " + event)
 
-func _on_sdk_disconnect():
-	print("connection down")
-	
+func _on_sdk_connect_status(_mode, status):
+	if !status and !controller.battle_finished:
+		Wait.set_manual_cancel(
+			"匹配节点已掉线，点击[取消]按钮回到主界面",
+			"网络连接错误:",
+			funcref(self, "on_cancel_game")
+		)
+
+func on_cancel_game():
+# warning-ignore:return_value_discarded
+	get_tree().change_scene("res://title.tscn")
+
 func _on_sdk_p2p_message_reply(message, parameters):
 	match message:
 		"game_ready":

@@ -10,7 +10,7 @@ var spell_cards = []
 var running = false
 var card_adding = false
 
-func add_card():
+func add_card(_hash):
 	tiny_custom.add_card()
 	card_adding = true
 

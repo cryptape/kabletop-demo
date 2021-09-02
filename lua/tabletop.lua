@@ -16,10 +16,10 @@ function Tabletop:ctor(role_1, role_2)
 	}
 	-- self.acting_player = math.random(PlayerId.One, PlayerId.Two)
 	self.acting_player = PlayerId.One
-	Emit("new_round", self.acting_player, self.round)
 	for _, player in ipairs(self.players) do
 		player:draw_untapped(self.acting_player)
 	end
+	Emit("new_round", self.acting_player, self.round, self.acting_player)
 end
 
 function Tabletop:spell_card(which)
@@ -40,7 +40,6 @@ function Tabletop:draw_card(count)
 end
 
 function Tabletop:switch_round()
-	self.acting_player = self.acting_player % 2 + 1
 	self.round = self.round + 1
 	for _, player in ipairs(self.players) do
 		player:elapse_buffs()
@@ -48,10 +47,12 @@ function Tabletop:switch_round()
 	if self:check_winner() then
 		Emit("game_over", _winner)
 	else
-		Emit("new_round", self.acting_player, self.round)
+		local last_player = self.acting_player
+		self.acting_player = self.acting_player % 2 + 1
 		for _, player in ipairs(self.players) do
 			player:draw_untapped(self.acting_player)
 		end
+		Emit("new_round", self.acting_player, self.round, last_player)
 	end
 end
 

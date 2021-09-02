@@ -2,18 +2,30 @@ extends Node2D
 
 onready var tween = $Tween
 onready var anchor = $anchor
+onready var controller = get_node("/root/controller")
 
 var width = 350
 var step = 60
+var pending_count = 0
+var running = false
 
 func _ready():
 	tween.connect("tween_all_completed", self, "sort_complete")
 
 func add_card():
+	pending_count += 1
+	run()
+	
+func run():
+	if running or pending_count == 0:
+		return
 	var tiny = load("res://assets/cards/tiny/tiny.tscn").instance()
 	anchor.add_child(tiny)
 	sort_out()
-	
+	pending_count -= 1
+	running = true
+	controller.short_deck(controller.opposite_id, 1)
+
 func spell(i, id):
 	var tiny = anchor.get_child(i)
 	tiny.spell(id)
@@ -41,4 +53,8 @@ func sort_out():
 	tween.start()
 
 func sort_complete():
-	self.get_parent().complete_add_card()
+	running = false
+	if pending_count > 0:
+		run()
+	else:
+		self.get_parent().complete_add_card()

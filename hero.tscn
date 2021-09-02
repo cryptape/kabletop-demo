@@ -32,20 +32,16 @@ position = Vector2( -31.1778, -77.9836 )
 scale = Vector2( 0.857143, 0.928571 )
 
 [node name="ironclad" parent="background/charactors" instance=ExtResource( 5 )]
-position = Vector2( -683.864, -301.492 )
-scale = Vector2( 1.6, 1.6 )
+position = Vector2( -683.864, -256.557 )
 
 [node name="silent" parent="background/charactors" instance=ExtResource( 6 )]
-position = Vector2( -263.179, -219.634 )
-scale = Vector2( 1.6, 1.6 )
+position = Vector2( -263.179, -256.557 )
 
 [node name="cultist" parent="background/charactors" instance=ExtResource( 8 )]
-position = Vector2( 151.453, -250.822 )
-scale = Vector2( 1.5, 1.5 )
+position = Vector2( 151.453, -256.557 )
 
 [node name="chosen" parent="background/charactors" instance=ExtResource( 7 )]
-position = Vector2( 595.417, -248.081 )
-scale = Vector2( 1.5, 1.5 )
+position = Vector2( 595.417, -256.557 )
 
 [node name="special_cards" type="Node2D" parent="background"]
 position = Vector2( -31.1778, -89.412 )

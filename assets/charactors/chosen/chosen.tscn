@@ -52,6 +52,8 @@ tracks/1/keys = {
 script = ExtResource( 2 )
 
 [node name="anchor" type="Node2D" parent="."]
+position = Vector2( 0, 6 )
+scale = Vector2( 1.5, 1.5 )
 
 [node name="player" type="Node2D" parent="anchor"]
 visible = false
