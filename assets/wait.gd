@@ -15,7 +15,7 @@ func set_wait(callback, text):
 	$panel/waiting.show()
 	confirm_funcref = callback
 	success_or_fail = null
-	
+
 func set_result(ok, hash_or_error):
 	if ok:
 		set_commited(hash_or_error, null)
@@ -33,7 +33,8 @@ func set_commited(tx_hash, text):
 	$panel/waiting.hide()
 	$panel/cancel.hide()
 	success_or_fail = true
-	
+	print(tx_hash)
+
 func set_failed(error, text):
 	show()
 	if text == null:
@@ -58,6 +59,15 @@ func set_manual_cancel(info, title, callback = null):
 		cancel_funcref = callback
 	else:
 		$panel/cancel.hide()
+
+func set_manual_confirm(info, title):
+	show()
+	$panel/title.text = title
+	$panel/hash.text = info
+	$panel/hash.show()
+	$panel/waiting.hide()
+	$panel/confirm.show()
+	confirm_funcref = null
 
 func _on_confirm_pressed():
 	hide()

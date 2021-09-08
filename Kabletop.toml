@@ -1,21 +1,23 @@
 [common]
-ckb_uri = "http://localhost:8114"
-ckb_indexer_uri = "http://localhost:8116"
+ckb_uri = "https://testnet.ckbapp.dev"
+ckb_indexer_uri = "https://testnet.ckbapp.dev/indexer"
 composer_privkey = "8d929e962f940f75aa32054f19a5ea2ce70ae30bfe4ff7cf2dbed70d556265df" # pubkey_hash = "58b85c196e5fe80e25b4dab596e7121d219f79fb"
 user_privkey = "010a51a0fa2260b710624d201ec24124f53ddf0c9abe81448b4b0c89e5a06057" # pubkey_hash = "40e88263ef526a8248570e931cfb2f2fb3ed044f"
+# user_privkey = "7df17db8b1b07d594eb121189e9cab6fa4a99b5f49e72919f9014eaabce0e209"
+# user_privkey = "d44955b4770247b233c284268c961085e622febb61d364c9a5cabe0c238f08d4"
 
 [nft]
-tx_hash = "41a632a4e101ad47a6271f07b11d2f0e9fad334881dac4078aae48d54ef937b8"
+tx_hash = "dc09e6821358227d50e50e1dbb41bb3b37aac602461b206c61f301dcf5778c24"
 code_hash = "b79c9e435742b9c939439303b279afdc3f92b377be7a187f4e690fd726141553"
 
 [wallet]
-tx_hash = "f302ff2f4f9cbc89f0e5e44958203912ef2907afde3697acfb3133d3552da538"
-code_hash = "89eab80e842d6937ea5b266828284ab67d4c9a1b66651c5c6ece397bc6c47d0e"
+tx_hash = "f0ebe2baae1c6339426b012d8f9acf3655f3594c7d0cede16ab266e7e95fc6b7"
+code_hash = "7335651d92dd3759ec6626cadaba9257959a2fe38f80b0752780936f735355cd"
 
 [payment]
-tx_hash = "eb586636680ea002f77058f01fdf0143d0f6675c25a624462f94688cd07d7e5c"
+tx_hash = "7a3ce30b55d77df0be57a3548accf25f5db2609e3cbea280d5a134afbd3cbd4a"
 code_hash = "80d351c92602c4ad201d0cad2645ea02c45a026c7d70d92f79399dfaf8540ff4"
 
 [kabletop]
-tx_hash = "f9e8715b1f779ad13d2f8acfcd2c15201c964d1af89216c4ca993600c1183bb0"
+tx_hash = "bccf73e933abb37685119c45c1129d357bae92502075dc1fb3c077196870f87b"
 code_hash = "2215dcec1762a60ba92bc6b541ab73dc90248777af5a29bd6612df56d4d58040"

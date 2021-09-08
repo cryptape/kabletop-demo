@@ -15,7 +15,7 @@ buffs.counterattack = function (value, live_round)
 				opposite.hp = math.max(opposite.hp - self.accumulate, 0)
 				Emit("damage", opposite.id, opposite.hp, "firebomb")
 				Emit("buff", opposite.id, self.id, offset, self.life)
-				Emit("spell_end", opposite.id, 0, "")
+				-- Emit("spell_end", opposite.id, 0, "")
 			end
 			return self.life <= 0
 		end,
@@ -39,7 +39,7 @@ buffs.holylight = function (value, live_round)
 			player.hp = math.min(player.hp + value, player.max_hp)
 			Emit("heal", player.id, player.hp)
 			Emit("buff", player.id, self.id, offset, self.life)
-			Emit("spell_end", player.id, 0, "")
+			-- Emit("spell_end", player.id, 0, "")
 			return self.life <= 0
 		end
 	}

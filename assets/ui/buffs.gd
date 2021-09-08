@@ -28,15 +28,21 @@ func add_buff(id, life):
 	sort_out()
 	
 func remove_buff(i):
-	var buff = self.get_child(i)
-	if buff != null:
-		buff.free()
-		sort_out()
+	if i < self.get_child_count():
+		var buff = self.get_child(i)
+		if buff != null:
+			buff.free()
+			sort_out()
+	else:
+		print("remove_buff ", i, " fail")
 	
 func update_buff(i, life):
-	var buff = self.get_child(i)
-	if buff != null:
-		buff.set_tips(buffs_template[buff.frame] % life)
+	if i < self.get_child_count():
+		var buff = self.get_child(i)
+		if buff != null:
+			buff.set_tips(buffs_template[buff.frame] % life)
+	else:
+		print("update_buff ", i, " fail")
 
 func sort_out():
 	var step_num = self.get_child_count() - 1

@@ -199,12 +199,24 @@ func add_player_buff(id, buff_id, life, defer = true):
 		})
 	else:
 		_add_buff(path, buff_id, life)
-		
-func update_player_buff(id, which, life):
+
+func _update_buff(who, which, life):
+	var buffs = get_node("panel/%s_hp/buffs" % who)
+	buffs.update_buff(which, life)
+
+func update_player_buff(id, which, life, defer = true):
+	var path = ""
 	if id == player_id:
-		get_node("panel/player_hp/buffs").update_buff(which, life)
+		path = "player"
 	else:
-		get_node("panel/opposite_hp/buffs").update_buff(which, life)
+		path = "opposite"
+	if defer:
+		defer_funcs[acting_player_id].push_back({
+			"ref": funcref(self, "_update_buff"),
+			"args": [path, which, life]
+		})
+	else:
+		_update_buff(path, which, life)
 
 # player card operation
 func add_player_card(id, hash_code, defer = true):
