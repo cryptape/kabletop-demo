@@ -202,7 +202,10 @@ func add_player_buff(id, buff_id, life, defer = true):
 
 func _update_buff(who, which, life):
 	var buffs = get_node("panel/%s_hp/buffs" % who)
-	buffs.update_buff(which, life)
+	if life > 0:
+		buffs.update_buff(which, life)
+	else:
+		buffs.remove_buff(which)
 
 func update_player_buff(id, which, life, defer = true):
 	var path = ""
@@ -267,7 +270,8 @@ func set_round(count):
 	emit_signal("game_round", count)
 	
 func switch_round(id, defer_funcref, params):
-	if id == player_id or defer_funcs[acting_player_id].size() < 2:
+	var tiny_cards = get_node("panel/opposite_hp/tiny_cards")
+	if id == player_id or tiny_cards.no_card_to_spell():
 		defer_funcref.call_funcv(params)
 	else:
 		round_switching = true

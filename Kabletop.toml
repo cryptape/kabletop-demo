@@ -1,6 +1,8 @@
 [common]
-ckb_uri = "https://testnet.ckbapp.dev"
-ckb_indexer_uri = "https://testnet.ckbapp.dev/indexer"
+# ckb_uri = "https://testnet.ckbapp.dev"
+ckb_uri = "http://localhost:8114"
+# ckb_indexer_uri = "https://testnet.ckbapp.dev/indexer"
+ckb_indexer_uri = "http://localhost:8116"
 composer_privkey = "8d929e962f940f75aa32054f19a5ea2ce70ae30bfe4ff7cf2dbed70d556265df" # pubkey_hash = "58b85c196e5fe80e25b4dab596e7121d219f79fb"
 user_privkey = "010a51a0fa2260b710624d201ec24124f53ddf0c9abe81448b4b0c89e5a06057" # pubkey_hash = "40e88263ef526a8248570e931cfb2f2fb3ed044f"
 # user_privkey = "7df17db8b1b07d594eb121189e9cab6fa4a99b5f49e72919f9014eaabce0e209"
@@ -19,5 +21,5 @@ tx_hash = "7a3ce30b55d77df0be57a3548accf25f5db2609e3cbea280d5a134afbd3cbd4a"
 code_hash = "80d351c92602c4ad201d0cad2645ea02c45a026c7d70d92f79399dfaf8540ff4"
 
 [kabletop]
-tx_hash = "bccf73e933abb37685119c45c1129d357bae92502075dc1fb3c077196870f87b"
-code_hash = "2215dcec1762a60ba92bc6b541ab73dc90248777af5a29bd6612df56d4d58040"
+tx_hash = "b52ddacaaa3d9bc3a6f5fa73a7065758cf63e3895ff475af349dcbab9b6de59c"
+code_hash = "bc6d8f75b9407adb55aaa8f47fe707f09fa6eb8583e0d09688e239a7a4f80656"

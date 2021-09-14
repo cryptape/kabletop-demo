@@ -38,15 +38,15 @@ var NFTs = {
 	"10ad3f5012ce514f409e4da4c011c24a31443488":
 		Card.generate(0, "充能", 0, "增加2点能量"),
 	"d046a18f7e01cb42e911fae2f11ba60c9c6834f8":
-		Card.generate(1, "光明", 5, "圣光3: 持续3回合，每回合恢复2点血量"),
+		Card.generate(1, "光明", 5, "圣光3: 持续3回合，每回合结束时恢复2点血量"),
 	"f37dfa5b009ea001acd3617886d9efecf31bb153":
 		Card.generate(2, "毒瘴", 2, "对自己造成3点伤害，抽一张牌"),
 	"97bff01bcad316a4b534ef221bd66da97018df90":
 		Card.generate(3, "心灵净化", 5, "恢复2点血量，抽一张牌"),
 	"36248218d2808d668ae3c0d35990c12712f6b9d2":
-		Card.generate(6, "雷鸣", 2, "造成15点伤害"),
+		Card.generate(6, "雷鸣", 2, "造成10点伤害"),
 	"f49ac4925959733cc4c2b3a2663bde8c27b8dde2":
-		Card.generate(7, "缴械", 4, "防守反击4: 持续4回合，最多吸收3点伤害，消失后造成吸收的总伤害"),
+		Card.generate(4, "内力觉醒", 4, "金钟罩3: 持续3回合，最多吸收10点伤害，消失后恢复吸收伤害的生命值"),
 }
 
 func _ready():

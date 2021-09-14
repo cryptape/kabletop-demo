@@ -91,7 +91,7 @@ local templates = {
 	["36248218d2808d668ae3c0d35990c12712f6b9d2"] = generate(
 		2,
 		nil,
-		pack(effects.damage(15, "firebomb")),
+		pack(effects.damage(10, "firebomb")),
 		nil,
 		nil
 	),
@@ -100,7 +100,7 @@ local templates = {
 		4,
 		nil,
 		nil,
-		pack(buffs.counterattack(3, 4)),
+		pack(buffs.healdefend(10, 3)),
 		nil
 	)
 }
@@ -114,9 +114,27 @@ for hash, template in pairs(templates) do
 		self.cost = template.cost or 0
 		self.caster_effects = template.caster_effects or {}
 		self.opposite_effects = template.opposite_effects or {}
-		self.caster_buffs = template.caster_buffs or {}
-		self.opposite_buffs = template.opposite_buffs or {}
+		self.caster_buffs = table.clone(template.caster_buffs or {})
+		self.opposite_buffs = table.clone(template.opposite_buffs or {})
 	end
+end
+
+function table.clone(object)
+    local lookup_table = {}
+    local function _copy(object)
+        if type(object) ~= "table" then
+            return object
+        elseif lookup_table[object] then
+            return lookup_table[object]
+        end
+        local new_table = {}
+        lookup_table[object] = new_table
+        for key, value in pairs(object) do
+            new_table[_copy(key)] = _copy(value)
+        end
+        return setmetatable(new_table, getmetatable(object))
+    end
+    return _copy(object)
 end
 
 return instances

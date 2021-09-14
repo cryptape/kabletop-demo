@@ -54,7 +54,10 @@ end
 
 function Player:elapse_buffs()
 	for i, buff in ipairs(self.buffs) do
-		buff:elapse(self, i)
+		local alive = buff:elapse(self, i)
+		if not alive then
+			table.remove(self.buffs, i)
+		end
 	end
 end
 

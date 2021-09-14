@@ -332,7 +332,7 @@ __meta__ = {
 [node name="Tween" type="Tween" parent="panel/player_hp/hp_bar"]
 
 [node name="buffs" type="Node2D" parent="panel/player_hp"]
-position = Vector2( 28.169, 746.712 )
+position = Vector2( 28.169, 794.331 )
 script = ExtResource( 29 )
 
 [node name="player_deck" type="Sprite" parent="panel"]
@@ -430,7 +430,7 @@ position = Vector2( 0, -119.048 )
 [node name="Tween" type="Tween" parent="panel/opposite_hp/tiny_cards"]
 
 [node name="buffs" type="Node2D" parent="panel/opposite_hp"]
-position = Vector2( 85.0926, 746.712 )
+position = Vector2( 85.0926, 794.331 )
 script = ExtResource( 29 )
 
 [node name="opposite_deck" type="Label" parent="panel"]

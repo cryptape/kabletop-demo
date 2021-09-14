@@ -8,6 +8,8 @@ onready var ui            = $coverlayer
 onready var ui_server     = $coverlayer/server
 onready var ui_client     = $coverlayer/client
 
+var connected = false
+
 func _ready():
 	var overview = $background/deckmanage/overview
 	overview.text = "%d/40" % Sdk.get_nfts_count(0)
@@ -45,8 +47,17 @@ func on_shutdown():
 	Sdk.shutdown()
 
 func _on_sdk_connect_status(mode, status):
-	if mode == "SERVER" and status == true:
-		Wait.set_manual_cancel("等待通道创建交易提交中...", "连接成功:")
+	if mode == "SERVER":
+		if status == true:
+			Wait.set_manual_cancel("等待通道创建交易提交中...", "连接成功:")
+			connected = true
+		elif connected:
+			Wait.set_manual_cancel(
+				"通道创建失败，点击[取消]回到主界面",
+				"链接已断开:",
+				funcref(Wait, "hide")
+			)
+			connected = false
 
 func _on_confirm_pressed():
 	if Config.player_hero == 0 or Sdk.get_nfts_count(0) == 0:
