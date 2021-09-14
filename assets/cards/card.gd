@@ -12,6 +12,7 @@ onready var anchor          = get_node("/root/controller")
 var dragging = false
 var spelling = false
 var checking = false
+var reseting = false
 var mouse_moved = false
 var mouse_offset = Vector2.ZERO
 var origin_global_position = Vector2.ZERO
@@ -64,6 +65,9 @@ func _on_card_mouse_exited():
 	)
 	tween.start()
 	card.z_index = 0
+	reseting = true
+	yield(tween, "tween_all_completed")
+	reseting = false
 	
 func _process(_delta):
 	if dragging and !checking:
@@ -77,6 +81,7 @@ func _on_card_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton \
 			and event.button_index == BUTTON_LEFT \
 			and !checking \
+			and !reseting \
 			and card.z_index == 1:
 		if event.is_pressed():
 			if origin_global_position == Vector2.ZERO:
@@ -111,7 +116,8 @@ func _on_card_input_event(_viewport, event, _shape_idx):
 				_on_card_mouse_exited()
 	if event is InputEventMouseButton \
 			and event.button_index == BUTTON_RIGHT \
-			and event.is_pressed():
+			and event.is_pressed() \
+			and !reseting:
 		if origin_global_position == Vector2.ZERO:
 			origin_global_position = self.global_position
 		if !checking:
