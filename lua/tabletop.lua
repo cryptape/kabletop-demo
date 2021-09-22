@@ -14,12 +14,11 @@ function Tabletop:ctor(role_1, role_2)
 		[1] = Player.new(role_1, _user1_nfts, PlayerId.One, self),
 		[2] = Player.new(role_2, _user2_nfts, PlayerId.Two, self)
 	}
-	-- self.acting_player = math.random(PlayerId.One, PlayerId.Two)
-	self.acting_player = PlayerId.One
+	self.acting_player = FirstPlayer
 	for _, player in ipairs(self.players) do
 		player:draw_untapped(self.acting_player)
 	end
-	Emit("new_round", self.acting_player, self.round, self.acting_player)
+	Emit("new_round", self.acting_player, self.round, 0)
 end
 
 function Tabletop:spell_card(which)

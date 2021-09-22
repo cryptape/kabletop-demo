@@ -24,10 +24,7 @@ func _ready():
 		controller.opposite_id = ID_TWO
 	else:
 		controller.opposite_id = ID_ONE
-	controller.set_acting_player(ID_ONE)
 	controller.set_player_role(controller.player_id, Config.player_hero)
-	controller.set_player_hp(ID_ONE, 30, false)
-	controller.set_player_hp(ID_TWO, 30, false)
 	controller.set_deck_capcacity(ID_ONE, Sdk.get_nfts_count(ID_ONE))
 	controller.set_deck_capcacity(ID_TWO, Sdk.get_nfts_count(ID_TWO))
 	Config.game_ready = true
@@ -38,8 +35,10 @@ func _process(_delta):
 	if !EVENT_QUEUE.empty():
 		for event in EVENT_QUEUE:
 			match event.call_func:
-				"run": Sdk.run(event.code, event.close_round)
+				"run": Sdk.run(event.code)
 				"close_game": Sdk.close_game(event.winner, event.callback)
+				"set_round": Sdk.set_round(event.count, event.owner)
+				"sync": Sdk.sync(event.code, event.close_round, event.callback)
 				"p2p": Sdk.send_p2p_message(event.message, event.value)
 		EVENT_QUEUE = []
 	
@@ -59,22 +58,36 @@ func on_custom_card_spelled(card):
 func run(code):
 	EVENT_QUEUE.push_back({
 		call_func = "run",
-		code = code,
-		close_round = false
+		code = "Emit('sync', 0, '%s')\n" % code + code
 	})
 	
 func switch_round():
+	var code = "game:switch_round()"
 	EVENT_QUEUE.push_back({
 		call_func = "run",
-		code = "game:switch_round()",
-		close_round = true
+		code = "Emit('sync', 1, '%s')\n" % code + code
 	})
 	
-func game_over(winner):
-	settlement.winner = winner
-	controller.set_battle_result(
-		controller.acting_player_id, funcref(settlement, "show_settlement")
-	)
+func game_over(ok, winner_or_error):
+	if ok:
+		settlement.winner = winner_or_error
+		controller.set_battle_result(
+			controller.acting_player_id, funcref(settlement, "show_settlement")
+		)
+	else:
+		Wait.set_manual_cancel(
+			winner_or_error,
+			"游戏关闭失败:",
+			funcref(self, "on_cancel_game")
+		)
+
+func on_sync(ok, error):
+	if !ok:
+		Wait.set_manual_cancel(
+			error,
+			"操作同步失败:",
+			funcref(self, "on_cancel_game")
+		)
 	
 func new_round(round_owner, round_count, last_owner):
 	controller.set_acting_player(round_owner)
@@ -87,6 +100,24 @@ func _on_sdk_lua_events(events):
 		var event = params[0]
 		var player_id = params[1]
 		match event:
+			"init":
+				var init_hp = params[2]
+				controller.set_player_hp(ID_ONE, init_hp, false)
+				controller.set_player_hp(ID_TWO, init_hp, false)
+				EVENT_QUEUE.push_back({
+					call_func = "set_round",
+					count = 1,
+					owner = player_id
+				})
+			"sync":
+				var close_round = (player_id == 1)
+				var lua_code = params[2]
+				EVENT_QUEUE.push_back({
+					call_func = "sync",
+					code = lua_code,
+					close_round = close_round,
+					callback = funcref(self, "on_sync")
+				})
 			"draw":
 				var card_hash = params[2]
 				controller.add_player_card(player_id, card_hash)
@@ -127,6 +158,11 @@ func _on_sdk_lua_events(events):
 					)
 				else:
 					new_round(player_id, current_round, last_player)
+				EVENT_QUEUE.push_back({
+					call_func = "set_round",
+					count = current_round,
+					owner = player_id
+				})
 			"game_over":
 				EVENT_QUEUE.push_back({
 					call_func = "close_game",
@@ -163,6 +199,7 @@ func _on_sdk_p2p_message_reply(message, parameters):
 			controller.set_player_role(
 				controller.opposite_id, Config.opposite_hero
 			)
+			run("Init()")
 			run("game = Tabletop.new(%d, %d)" % [
 				Config.player_hero, Config.opposite_hero
 			])

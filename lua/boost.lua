@@ -18,6 +18,14 @@ Cfg = {
 	MAX_ENERGY = 10,
 }
 
+FirstPlayer = 0
+
+function Init()
+	FirstPlayer = math.random(PlayerId.One, PlayerId.Two)
+	-- FirstPlayer = PlayerId.Two
+	Emit("init", FirstPlayer, Cfg.MAX_HP)
+end
+
 function Emit(...)
 	local event = table.pack(...)
 	local output = "["

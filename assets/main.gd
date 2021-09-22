@@ -39,6 +39,7 @@ var role_models = {
 
 # deferred functions queue
 var defer_funcs = {
+	0: [],
 	1: [],
 	2: []
 }
