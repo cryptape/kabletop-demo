@@ -40,16 +40,11 @@ impl Server {
 
 	fn listen(&self) {
 		println!("[SERVER] server listen at {}", self.socket);
-		server::listen(self.socket.as_str(), |connected| {
+		server::listen(self.socket.as_str(), |id, connected_receivers| {
 			let mut demo_server = SERVER.lock().unwrap();
-			if !connected {
-				if let Some(lua) = demo_server.lua.as_ref() {
-					lua.close();
-				}
-				demo_server.lua = None;
-				demo_server.discard_cards();
-				println!("[SERVER] client disconnected.");
-			} else {
+			if let Some(receivers) = connected_receivers {
+				server::change_client(id);
+				server::set_client_receivers(id, receivers);
 				cache::init(cache::PLAYER_TYPE::TWO);
 				cache::set_playing_nfts(
 					vec![
@@ -83,6 +78,13 @@ impl Server {
 					response
 				}));
 				println!("[SERVER] client connected.");
+			} else {
+				if let Some(lua) = demo_server.lua.as_ref() {
+					lua.close();
+				}
+				demo_server.lua = None;
+				demo_server.discard_cards();
+				println!("[SERVER] client disconnected.");
 			}
 		}).unwrap();
 	}
@@ -133,6 +135,16 @@ impl Server {
 					} else if name == &String::from("game_over") {
 						if let lua_Event::Number(value) = &event[1] {
 							cache::set_winner(*value as u8);
+						}
+					} else if name == &String::from("init") {
+						if let lua_Event::Number(value) = &event[1] {
+							cache::set_round_status(1, *value as u8);
+						}
+					} else if name == &String::from("new_round") {
+						if let lua_Event::Number(player_id) = &event[1] {
+							if let lua_Event::Number(current_round) = &event[2] {
+								cache::set_round_status(*current_round as u8, *player_id as u8);
+							}
 						}
 					}
 				}
