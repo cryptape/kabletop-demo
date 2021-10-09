@@ -1,4 +1,4 @@
-[submodule "kabletop-godot-sdk"]
+[submodule "kabletop-godot"]
 	path = kabletop-godot
 	url = https://github.com/ashuralyk/kabletop-godot-sdk
 [submodule "kabletop-ckb-sdk"]
