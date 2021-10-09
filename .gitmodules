@@ -1,3 +1,6 @@
 [submodule "kabletop-godot-sdk"]
-	path = kabletop-godot-sdk
+	path = kabletop-godot
 	url = https://github.com/ashuralyk/kabletop-godot-sdk
+[submodule "kabletop-ckb-sdk"]
+	path = kabletop-ckb-sdk
+	url = https://github.com/ashuralyk/kabletop-ckb-sdk

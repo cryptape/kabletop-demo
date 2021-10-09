@@ -7,8 +7,8 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-# kabletop-godot-util = { git = "https://github.com/ashuralyk/kabletop-godot-sdk" }
+# kabletop-godot-sdk = { git = "https://github.com/ashuralyk/kabletop-godot-sdk" }
+kabletop-godot-sdk = { path = "../kabletop-godot/kabletop-godot-sdk" }
 gdnative = "0.9.0"
-kabletop-godot-util = { path = "../kabletop-godot-sdk/kabletop-godot-util" }
 lazy_static = "1.4.0"
 hex = "0.4.3"

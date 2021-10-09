@@ -1,6 +1,8 @@
-use kabletop_godot_util::{
+use kabletop_godot_sdk::{
 	cache, p2p::{
-		server, hook, GodotType
+		server, protocol::{
+			methods::reply::hook, types::GodotType
+		}
 	},
 	lua::{
 		highlevel::Lua, ffi::lua_Event

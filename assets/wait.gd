@@ -72,7 +72,7 @@ func set_manual_confirm(info, title):
 func _on_confirm_pressed():
 	hide()
 	if confirm_funcref != null:
-		confirm_funcref.call_func([success_or_fail])
+		confirm_funcref.call_func(success_or_fail)
 
 func _on_cancel_pressed():
 	hide()
