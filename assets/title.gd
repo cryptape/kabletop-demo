@@ -18,7 +18,7 @@ func _ready():
 	Sdk.set_entry("./lua/boost.lua")
 	Sdk.connect("connect_status", self, "_on_sdk_connect_status")
 	get_node("/root").call_deferred("move_child", self, 0)
-	Config.game_ready = false
+	Config.reset_game_ready()
 
 func click_menu(menu):
 	if menu == battleclient:
@@ -42,7 +42,7 @@ func on_channel_opened(ok):
 	if ok:
 # warning-ignore:return_value_discarded
 		get_tree().change_scene("res://main.tscn")
-		
+
 func on_shutdown():
 	Sdk.shutdown()
 
@@ -69,6 +69,9 @@ func _on_confirm_pressed():
 		)
 		return
 	if ui_client.visible:
+		var nickname = $coverlayer/client/nickname.text
+		var staking_ckb = int($coverlayer/client/staking_ckb.text)
+		var bet_ckb = int($coverlayer/client/bet_ckb.text)
 		var socket = "ws://" + $coverlayer/client/socket.text
 		ui.hide()
 		Wait.set_wait(null, "服务器连接中...")
@@ -76,20 +79,44 @@ func _on_confirm_pressed():
 		if error != null:
 			Wait.set_failed(error, "服务器连接失败:")
 			return
-		Wait.set_wait(funcref(self, "on_channel_opened"), null)
-		error = Sdk.create_channel(funcref(Wait, "set_result"))
-		if error != null:
-			Wait.set_failed(error, null)
+		# 连接本地p2p服务器
+		if Config.native_mode:
+			Wait.set_wait(funcref(self, "on_channel_opened"), null)
+			error = Sdk.create_channel(
+				staking_ckb, bet_ckb, funcref(Wait, "set_result")
+			)
+			if error != null:
+				Sdk.shutdown()
+				Wait.set_failed(error, null)
+			else:
+				Config.player_name = nickname
+		# 连接远程中转服务器
+		else:
+			Wait.hide()
+			Config.player_name = nickname
+			Config.player_staking_ckb = staking_ckb
+			Config.player_bet_ckb = bet_ckb
+# warning-ignore:return_value_discarded
+			get_tree().change_scene("res://relay.tscn")
 	else:
+		var nickname = $coverlayer/server/nickname.text
+		var staking_ckb = int($coverlayer/server/staking_ckb.text)
+		var bet_ckb = int($coverlayer/server/bet_ckb.text)
 		var socket = "0.0.0.0:" + $coverlayer/server/port.text
 		ui.hide()
 		Wait.set_wait(funcref(self, "on_channel_opened"), "服务器创建中...")
-		var error = Sdk.listen_at(socket, funcref(Wait, "set_result"))
+		var error = Sdk.listen_at(
+			socket, staking_ckb, bet_ckb, funcref(Wait, "set_result")
+		)
 		if error != null:
 			Wait.set_failed(error, "服务器创建失败:")
 		else:
 			Wait.set_manual_cancel(
-				"连接成功自动进入对战，点击[确定]可关闭服务器",
+				"连接成功自动进入对战，点击[取消]可关闭服务器",
 				"等待客户端连接中...",
 				funcref(self, "on_shutdown")
 			)
+			Config.player_name = nickname
+
+func _on_coverclose_pressed():
+	$coverlayer.hide()

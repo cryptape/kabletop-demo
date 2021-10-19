@@ -45,7 +45,7 @@ visible = false
 script = ExtResource( 4 )
 
 [node name="panel" type="Panel" parent="."]
-self_modulate = Color( 1, 1, 1, 0.784314 )
+self_modulate = Color( 1, 1, 1, 0.941176 )
 margin_right = 1150.0
 margin_bottom = 780.0
 __meta__ = {

@@ -60,14 +60,18 @@ func set_manual_cancel(info, title, callback = null):
 	else:
 		$panel/cancel.hide()
 
-func set_manual_confirm(info, title):
+func set_manual_confirm(info, title, callback = null):
 	show()
 	$panel/title.text = title
 	$panel/hash.text = info
 	$panel/hash.show()
 	$panel/waiting.hide()
-	$panel/confirm.show()
-	confirm_funcref = null
+	$panel/cancel.hide()
+	if callback != null:
+		$panel/confirm.show()
+		confirm_funcref = callback
+	else:
+		$panel/confirm.hide()
 
 func _on_confirm_pressed():
 	hide()

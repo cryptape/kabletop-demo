@@ -1,0 +1,222 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://assets/relay/menu/frame.png" type="Texture" id=1]
+[ext_resource path="res://assets/background/relay_scene.jpg" type="Texture" id=2]
+[ext_resource path="res://assets/relay/menu/positive.png" type="Texture" id=3]
+[ext_resource path="res://assets/relay/menu/negative.png" type="Texture" id=4]
+[ext_resource path="res://assets/cards/light_frame.png" type="Texture" id=5]
+[ext_resource path="res://assets/ui/title-button.gd" type="Script" id=6]
+[ext_resource path="res://assets/relay.gd" type="Script" id=7]
+[ext_resource path="res://assets/ui/quit.png" type="Texture" id=8]
+[ext_resource path="res://assets/relay/quit.gd" type="Script" id=9]
+
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://assets/font/medium.otf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 50
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 1 )
+
+[sub_resource type="DynamicFontData" id=3]
+font_path = "res://assets/font/regular.otf"
+
+[sub_resource type="DynamicFont" id=4]
+size = 32
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 3 )
+
+[sub_resource type="RectangleShape2D" id=5]
+
+[sub_resource type="DynamicFontData" id=6]
+font_path = "res://assets/font/medium.otf"
+
+[sub_resource type="DynamicFont" id=7]
+size = 50
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 6 )
+
+[sub_resource type="RectangleShape2D" id=8]
+
+[node name="controller" type="Node2D"]
+script = ExtResource( 7 )
+
+[node name="background" type="Sprite" parent="."]
+position = Vector2( 575.653, 389.21 )
+scale = Vector2( 0.598827, 0.649886 )
+texture = ExtResource( 2 )
+
+[node name="menus" type="Node2D" parent="."]
+
+[node name="connect" type="Node2D" parent="menus"]
+script = ExtResource( 6 )
+
+[node name="light_frame" type="Node2D" parent="menus/connect"]
+modulate = Color( 1, 1, 1, 0.235294 )
+position = Vector2( 338.224, 376.937 )
+scale = Vector2( 1.35, 1.19527 )
+
+[node name="up" type="Sprite" parent="menus/connect/light_frame"]
+position = Vector2( 0.796967, 78.6287 )
+scale = Vector2( 1.48, 1.12 )
+texture = ExtResource( 5 )
+region_enabled = true
+region_rect = Rect2( 10, 10, 181, 181 )
+
+[node name="down" type="Sprite" parent="menus/connect/light_frame"]
+position = Vector2( 1.22733, -78.6764 )
+scale = Vector2( 1.48, 1.12 )
+texture = ExtResource( 5 )
+region_enabled = true
+region_rect = Rect2( 10, 10, 181, 181 )
+
+[node name="panel" type="Sprite" parent="menus/connect"]
+position = Vector2( 341.286, 379.276 )
+scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 40, 26, 542, 678 )
+
+[node name="title" type="Label" parent="menus/connect/panel"]
+margin_left = -100.216
+margin_top = -269.423
+margin_right = 99.7835
+margin_bottom = -219.423
+custom_fonts/font = SubResource( 2 )
+text = "主动连接"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="info" type="Label" parent="menus/connect/panel"]
+margin_left = -189.837
+margin_top = 84.6892
+margin_right = 214.163
+margin_bottom = 289.689
+custom_fonts/font = SubResource( 4 )
+text = "进入游戏大厅，查看当前所有正在等待连接对战的客户端，可以选择其中一个开始对战"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="positive" type="Sprite" parent="menus/connect/panel"]
+position = Vector2( -3.83795, -63.6335 )
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 3 )
+
+[node name="mouse_check" type="Area2D" parent="menus/connect/panel"]
+position = Vector2( -3.33331, -5 )
+scale = Vector2( 1.46667, 1 )
+
+[node name="rect" type="CollisionShape2D" parent="menus/connect/panel/mouse_check"]
+scale = Vector2( 18.4666, 34.0667 )
+shape = SubResource( 5 )
+
+[node name="register" type="Node2D" parent="menus"]
+script = ExtResource( 6 )
+
+[node name="light_frame" type="Node2D" parent="menus/register"]
+modulate = Color( 1, 1, 1, 0.235294 )
+position = Vector2( 802.615, 376.937 )
+scale = Vector2( 1.35, 1.19527 )
+
+[node name="up" type="Sprite" parent="menus/register/light_frame"]
+position = Vector2( 0.796967, 78.6287 )
+scale = Vector2( 1.48, 1.12 )
+texture = ExtResource( 5 )
+region_enabled = true
+region_rect = Rect2( 10, 10, 181, 181 )
+
+[node name="down" type="Sprite" parent="menus/register/light_frame"]
+position = Vector2( 1.22733, -78.6764 )
+scale = Vector2( 1.48, 1.12 )
+texture = ExtResource( 5 )
+region_enabled = true
+region_rect = Rect2( 10, 10, 181, 181 )
+
+[node name="panel" type="Sprite" parent="menus/register"]
+position = Vector2( 805.475, 379.276 )
+scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 40, 26, 542, 678 )
+
+[node name="title" type="Label" parent="menus/register/panel"]
+margin_left = -97.8007
+margin_top = -271.207
+margin_right = 102.199
+margin_bottom = -221.207
+custom_fonts/font = SubResource( 2 )
+text = "被动连接"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="info" type="Label" parent="menus/register/panel"]
+margin_left = -189.837
+margin_top = 84.6892
+margin_right = 214.163
+margin_bottom = 289.689
+custom_fonts/font = SubResource( 4 )
+text = "向中转服务器注册客户端信息，包括昵称、质押和赌注，之后便可被其他客户端看到并等待连接"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="negative" type="Sprite" parent="menus/register/panel"]
+position = Vector2( -3.83795, -63.6335 )
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 4 )
+
+[node name="mouse_check" type="Area2D" parent="menus/register/panel"]
+position = Vector2( -3.33331, -5 )
+scale = Vector2( 1.46667, 1 )
+
+[node name="rect" type="CollisionShape2D" parent="menus/register/panel/mouse_check"]
+scale = Vector2( 18.4666, 34.0667 )
+shape = SubResource( 5 )
+
+[node name="quit" type="Sprite" parent="."]
+position = Vector2( 994.41, 600.018 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 8 )
+region_enabled = true
+region_rect = Rect2( 25, 24, 581, 440 )
+script = ExtResource( 9 )
+
+[node name="text" type="Label" parent="quit"]
+margin_left = -83.0953
+margin_top = 147.117
+margin_right = 166.905
+margin_bottom = 197.117
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "离开服务器"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="click" type="Area2D" parent="quit"]
+position = Vector2( 51.6721, 171.052 )
+
+[node name="check" type="CollisionShape2D" parent="quit/click"]
+position = Vector2( -16.0361, 3.5636 )
+scale = Vector2( 26.5253, 5.8 )
+shape = SubResource( 8 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="input_event" from="menus/connect/panel/mouse_check" to="menus/connect" method="_on_mouse_check_input_event"]
+[connection signal="mouse_entered" from="menus/connect/panel/mouse_check" to="menus/connect" method="_on_mouse_check_mouse_entered"]
+[connection signal="mouse_exited" from="menus/connect/panel/mouse_check" to="menus/connect" method="_on_mouse_check_mouse_exited"]
+[connection signal="input_event" from="menus/register/panel/mouse_check" to="menus/register" method="_on_mouse_check_input_event"]
+[connection signal="mouse_entered" from="menus/register/panel/mouse_check" to="menus/register" method="_on_mouse_check_mouse_entered"]
+[connection signal="mouse_exited" from="menus/register/panel/mouse_check" to="menus/register" method="_on_mouse_check_mouse_exited"]
+[connection signal="input_event" from="quit/click" to="quit" method="_on_click_input_event"]
+[connection signal="mouse_entered" from="quit/click" to="quit" method="_on_click_mouse_entered"]
+[connection signal="mouse_exited" from="quit/click" to="quit" method="_on_click_mouse_exited"]

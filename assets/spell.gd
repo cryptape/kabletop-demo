@@ -24,6 +24,7 @@ func _ready():
 		controller.opposite_id = ID_TWO
 	else:
 		controller.opposite_id = ID_ONE
+	controller.set_player_name(controller.player_id, Config.player_name)
 	controller.set_player_role(controller.player_id, Config.player_hero)
 	controller.set_deck_capcacity(ID_ONE, Sdk.get_nfts_count(ID_ONE))
 	controller.set_deck_capcacity(ID_TWO, Sdk.get_nfts_count(ID_TWO))
@@ -172,17 +173,31 @@ func _on_sdk_lua_events(events):
 			_:
 				assert(false, "unknown event " + event)
 
-func _on_sdk_connect_status(_mode, status):
+func _on_sdk_connect_status(mode, status):
 	if !status and !controller.battle_finished:
-		Wait.set_manual_cancel(
-			"匹配节点已掉线，点击[取消]按钮回到主界面",
-			"网络连接错误:",
-			funcref(self, "on_cancel_game")
-		)
+		if mode == "PARTNER":
+			Wait.set_manual_cancel(
+				"匹配节点已掉线，点击[取消]按钮回到主界面",
+				"网络连接错误:",
+				funcref(self, "on_cancel_partner")
+			)
+		else:
+			var content = ""
+			if Config.native_mode:
+				content = "匹配节点已掉线，点击[取消]按钮回到主界面"
+			else:
+				content = "与中转服务器断开连接，点击[取消]按钮回到主界面"
+			Wait.set_manual_cancel(
+				content, "网络连接错误:", funcref(self, "on_cancel_game")
+			)
 
 func on_cancel_game():
 # warning-ignore:return_value_discarded
 	get_tree().change_scene("res://title.tscn")
+	
+func on_cancel_partner():
+# warning-ignore:return_value_discarded
+	get_tree().change_scene("res://relay.tscn")
 
 func _on_sdk_p2p_message_reply(message, parameters):
 	match message:
@@ -191,13 +206,18 @@ func _on_sdk_p2p_message_reply(message, parameters):
 				if parameters["ready"]:
 					on_opposite_ready()
 				else:
-					Config.opposite_ready_func = funcref(self, "on_opposite_ready")
+					Config.opposite_ready_func = \
+						funcref(self, "on_opposite_ready")
 		"start_game":
 			controller.get_node("wait").hide()
 			Config.opposite_hero = parameters["role"]
+			Config.opposite_name = parameters["name"]
 			assert(Config.opposite_hero > 0)
 			controller.set_player_role(
 				controller.opposite_id, Config.opposite_hero
+			)
+			controller.set_player_name(
+				controller.opposite_id, Config.opposite_name
 			)
 			run("Init()")
 			run("game = Tabletop.new(%d, %d)" % [
@@ -205,13 +225,19 @@ func _on_sdk_p2p_message_reply(message, parameters):
 			])
 
 func _on_p2p_start_game(parameters):
+	print("calling _on_p2p_start_game")
 	controller.get_node("wait").hide()
 	Config.opposite_hero = parameters["role"]
+	Config.opposite_name = parameters["name"]
 	controller.set_player_role(
 		controller.opposite_id, Config.opposite_hero
 	)
+	controller.set_player_name(
+		controller.opposite_id, Config.opposite_name
+	)
 	return {
-		"role": Config.player_hero
+		"role": Config.player_hero,
+		"name": Config.player_name
 	}
 
 func on_opposite_ready():
@@ -219,6 +245,7 @@ func on_opposite_ready():
 		call_func = "p2p",
 		message = "start_game",
 		value = {
-			"role": Config.player_hero
+			"role": Config.player_hero,
+			"name": Config.player_name
 		}
 	})

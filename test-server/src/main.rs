@@ -77,6 +77,7 @@ impl Server {
 				cache::set_godot_callback("start_game", Box::new(|_: HashMap<String, GodotType>| {
 					let mut response = HashMap::new();
 					response.insert(String::from("role"), GodotType::I64(1));
+					response.insert(String::from("name"), GodotType::String(String::from("TestServer")));
 					response
 				}));
 				println!("[SERVER] client connected.");

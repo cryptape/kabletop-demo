@@ -1,0 +1,126 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/relay/relay_client.png" type="Texture" id=1]
+[ext_resource path="res://assets/cards/light_frame.png" type="Texture" id=2]
+[ext_resource path="res://assets/relay/client.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://assets/font/medium.otf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 30
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 1 )
+
+[sub_resource type="DynamicFontData" id=3]
+font_path = "res://assets/font/medium.otf"
+
+[sub_resource type="DynamicFont" id=4]
+size = 20
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 3 )
+
+[node name="client" type="Control"]
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="mouse_check" type="Button" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -2.0
+margin_top = 5.0
+margin_right = 254.0
+margin_bottom = 155.0
+toggle_mode = true
+button_mask = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="light_frame" type="Node2D" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 124.802, 80.5606 )
+scale = Vector2( 0.93, 0.44 )
+
+[node name="up" type="Sprite" parent="light_frame"]
+position = Vector2( 0.796967, 78.6287 )
+scale = Vector2( 1.48, 1.12 )
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 10, 10, 181, 181 )
+
+[node name="down" type="Sprite" parent="light_frame"]
+position = Vector2( 1.22733, -78.6764 )
+scale = Vector2( 1.48, 1.12 )
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 10, 10, 181, 181 )
+
+[node name="frame" type="Sprite" parent="."]
+position = Vector2( 125.802, 80.5606 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 18, 59, 220, 143 )
+
+[node name="nickname" type="Label" parent="frame"]
+margin_left = -107.0
+margin_top = -51.0
+margin_right = 104.0
+margin_bottom = -20.0
+custom_fonts/font = SubResource( 2 )
+text = "Vimchain"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="prefix_staking" type="Label" parent="frame"]
+margin_left = -100.0
+margin_top = -3.0
+margin_right = -54.0
+margin_bottom = 22.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.12549, 0.580392, 0.603922, 1 )
+text = "质押:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="staking_ckb" type="Label" parent="frame/prefix_staking"]
+margin_left = 53.329
+margin_right = 185.329
+margin_bottom = 25.0
+custom_fonts/font = SubResource( 4 )
+text = "20000000 CKB"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="prefix_bet" type="Label" parent="frame"]
+margin_left = -99.5281
+margin_top = 26.2601
+margin_right = -53.5281
+margin_bottom = 51.2601
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.662745, 0.352941, 0.454902, 1 )
+text = "赌注:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="bet_ckb" type="Label" parent="frame/prefix_bet"]
+margin_left = 53.329
+margin_right = 185.329
+margin_bottom = 25.0
+custom_fonts/font = SubResource( 4 )
+text = "20000000 CKB"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="gui_input" from="mouse_check" to="." method="_on_mouse_check_gui_input"]
+[connection signal="mouse_entered" from="mouse_check" to="." method="_on_mouse_check_mouse_entered"]
+[connection signal="mouse_exited" from="mouse_check" to="." method="_on_mouse_check_mouse_exited"]

@@ -14,8 +14,18 @@ class Card:
 		card.description = _desc
 		return card
 
+var native_mode = false
+
 var player_hero = 0
+var player_name = ""
+var player_staking_ckb = 0
+var player_bet_ckb = 0
+
 var opposite_hero = 0
+var opposite_name = ""
+var opposite_staking_ckb = 0
+var opposite_bet_ckb = 0
+
 var game_ready = false
 var opposite_ready_func = null
 
@@ -52,6 +62,10 @@ var NFTs = {
 func _ready():
 	for _hash in NFTs:
 		NFTs[_hash]._hash = _hash
+
+func reset_game_ready():
+	Config.game_ready = false
+	Config.opposite_ready_func = null
 	Sdk.reply_p2p_message("game_ready", funcref(self, "_on_p2p_game_ready"))
 
 func get_card(card_hash):
