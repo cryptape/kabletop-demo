@@ -14,7 +14,7 @@ function Tabletop:ctor(role_1, role_2)
 		[1] = Player.new(role_1, _user1_nfts, PlayerId.One, self),
 		[2] = Player.new(role_2, _user2_nfts, PlayerId.Two, self)
 	}
-	self.acting_player = FirstPlayer
+	self.acting_player = Init()
 	for _, player in ipairs(self.players) do
 		player:draw_untapped(self.acting_player)
 	end

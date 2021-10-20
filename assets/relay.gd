@@ -5,6 +5,7 @@ onready var register_menu = $menus/register
 
 func _ready():
 	Sdk.connect("connect_status", self, "_on_connect_status")
+	Sdk.connect("channel_status", self, "_on_channel_status")
 	get_node("/root").call_deferred("move_child", self, 0)
 	Config.reset_game_ready()
 
@@ -20,8 +21,7 @@ func click_menu(menu):
 			var error = Sdk.register_relay(
 				Config.player_name,
 				Config.player_staking_ckb,
-				Config.player_bet_ckb,
-				funcref(Wait, "set_result")
+				Config.player_bet_ckb
 			)
 			if error != null:
 				Wait.set_manual_confirm(
@@ -67,3 +67,6 @@ func _on_connect_status(mode, status):
 			Wait.set_manual_cancel(
 				"对手客户端已断开连接", "连接失败:", funcref(Wait, "hide")
 			)
+
+func _on_channel_status(status, tx_hash):
+	Wait.set_result(status, tx_hash)

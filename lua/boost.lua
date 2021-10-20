@@ -18,12 +18,11 @@ Cfg = {
 	MAX_ENERGY = 10,
 }
 
-FirstPlayer = 0
-
 function Init()
-	FirstPlayer = math.random(PlayerId.One, PlayerId.Two)
-	-- FirstPlayer = PlayerId.Two
-	Emit("init", FirstPlayer, Cfg.MAX_HP)
+	local first_player = math.random(PlayerId.One, PlayerId.Two)
+	-- first_player = PlayerId.Two
+	Emit("init", first_player, Cfg.MAX_HP)
+	return first_player
 end
 
 function Emit(...)

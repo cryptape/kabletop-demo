@@ -17,6 +17,7 @@ func _ready():
 	hero.text = Config.get_hero_name()
 	Sdk.set_entry("./lua/boost.lua")
 	Sdk.connect("connect_status", self, "_on_sdk_connect_status")
+	Sdk.connect("channel_status", self, "_on_sdk_channel_status")
 	get_node("/root").call_deferred("move_child", self, 0)
 	Config.reset_game_ready()
 
@@ -58,6 +59,9 @@ func _on_sdk_connect_status(mode, status):
 				funcref(Wait, "hide")
 			)
 			connected = false
+			
+func _on_sdk_channel_status(status, tx_hash):
+	Wait.set_result(status, tx_hash)
 
 func _on_confirm_pressed():
 	if Config.player_hero == 0 or Sdk.get_nfts_count(0) == 0:
@@ -105,9 +109,7 @@ func _on_confirm_pressed():
 		var socket = "0.0.0.0:" + $coverlayer/server/port.text
 		ui.hide()
 		Wait.set_wait(funcref(self, "on_channel_opened"), "服务器创建中...")
-		var error = Sdk.listen_at(
-			socket, staking_ckb, bet_ckb, funcref(Wait, "set_result")
-		)
+		var error = Sdk.listen_at(socket, staking_ckb, bet_ckb)
 		if error != null:
 			Wait.set_failed(error, "服务器创建失败:")
 		else:

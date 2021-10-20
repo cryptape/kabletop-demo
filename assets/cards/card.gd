@@ -34,7 +34,7 @@ func apply_enable():
 func set_dragging(flag):
 	dragging = flag
 	if dragging:
-		anchor.switch_enable(self, false, false)
+		anchor.switch_enable(self, true, false)
 	else:
 		anchor.switch_enable()
 

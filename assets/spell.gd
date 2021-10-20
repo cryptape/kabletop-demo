@@ -219,7 +219,6 @@ func _on_sdk_p2p_message_reply(message, parameters):
 			controller.set_player_name(
 				controller.opposite_id, Config.opposite_name
 			)
-			run("Init()")
 			run("game = Tabletop.new(%d, %d)" % [
 				Config.player_hero, Config.opposite_hero
 			])

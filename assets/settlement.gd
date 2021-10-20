@@ -3,6 +3,9 @@ extends Panel
 var win = false
 var winner = 0
 
+func _ready():
+	Sdk.connect("channel_status", self, "_on_sdk_channel_status")
+
 func show_settlement(player_id):
 	if player_id == winner:
 		win = true
@@ -23,9 +26,15 @@ func on_channel_closed(_ok):
 		get_tree().change_scene("res://relay.tscn")
 
 func _on_confirm_pressed():
+	hide()
 	if win:
-		hide()
 		Wait.set_wait(funcref(self, "on_channel_closed"), null)
 		Sdk.close_channel(funcref(Wait, "set_result"))
 	else:
-		on_channel_closed(null)
+		Wait.set_wait(
+			funcref(self, "on_channel_closed"), "等待通道关闭交易提交中..."
+		)
+
+func _on_sdk_channel_status(status, tx_hash):
+	if !status:
+		Wait.set_result(true, tx_hash)
