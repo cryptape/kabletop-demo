@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/positive.png-7d3145e03adb970267fa2460a266623b.stex"
+path="res://.import/positive.png-f6767a3fa8495044d53ca28ceaef731e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/relay/menu/positive.png"
-dest_files=[ "res://.import/positive.png-7d3145e03adb970267fa2460a266623b.stex" ]
+source_file="res://assets/ui/relay/menu/positive.png"
+dest_files=[ "res://.import/positive.png-f6767a3fa8495044d53ca28ceaef731e.stex" ]
 
 [params]
 

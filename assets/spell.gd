@@ -4,13 +4,13 @@ onready var special = $"../cards/special"
 onready var custom = $"../cards/custom"
 onready var controller = $"/root/controller"
 onready var settlement = controller.get_node("settlement")
+onready var challenge = controller.get_node("challenge")
+onready var sdk_cache = Sdk.get_cache()
 
 var ID_ONE = 1
 var ID_TWO = 2
 var EVENT_QUEUE = []
-
-var MY_ID = 0
-var OPPOSITE_ID = 0
+var MANUAL_MODE = false
 
 func _ready():
 	special.connect("special_card_spelled", self, "on_special_card_spelled")
@@ -19,35 +19,48 @@ func _ready():
 	Sdk.connect("lua_events", self, "_on_sdk_lua_events")
 	Sdk.connect("p2p_message_reply", self, "_on_sdk_p2p_message_reply")
 	
-	controller.player_id = Sdk.get_player_id()
+	controller.player_id = sdk_cache.user_type
 	if controller.player_id == ID_ONE:
 		controller.opposite_id = ID_TWO
 	else:
 		controller.opposite_id = ID_ONE
-	controller.set_player_name(controller.player_id, Config.player_name)
-	controller.set_player_role(controller.player_id, Config.player_hero)
-	controller.set_deck_capcacity(ID_ONE, Sdk.get_nfts_count(ID_ONE))
-	controller.set_deck_capcacity(ID_TWO, Sdk.get_nfts_count(ID_TWO))
-	Config.game_ready = true
-	Sdk.reply_p2p_message("start_game", funcref(self, "_on_p2p_start_game"))
-	Sdk.send_p2p_message("game_ready", {})
+		
+	if !Config.challenge_mode:
+		controller.get_node("wait").show()
+		controller.set_player_name(controller.player_id, Config.player_name)
+		controller.set_player_role(controller.player_id, Config.player_hero)
+		controller.set_deck_capcacity(ID_ONE, Sdk.get_nfts_count(ID_ONE))
+		controller.set_deck_capcacity(ID_TWO, Sdk.get_nfts_count(ID_TWO))
+		Config.game_ready = true
+		Sdk.reply_p2p_message("start_game", funcref(self, "_on_p2p_start_game"))
+		Sdk.send_p2p_message("game_ready", {})
+	else:
+		controller.get_node("wait").hide()
+		controller.set_player_name(ID_ONE, "Unknown")
+		controller.set_player_name(ID_TWO, "Unknown")
+		run("game:context_snapshot()", false)
+		for code in Config.challenge_info.operations:
+			run(code)
 	
 func _process(_delta):
 	if !EVENT_QUEUE.empty():
-		for event in EVENT_QUEUE:
-			match event.call_func:
-				"run": Sdk.run(event.code)
-				"close_game": Sdk.close_game(event.winner, event.callback)
-				"set_round": Sdk.set_round(event.count, event.owner)
-				"sync": Sdk.sync(event.code, event.close_round, event.callback)
-				"p2p": Sdk.send_p2p_message(event.message, event.value)
+		for e in EVENT_QUEUE:
+			match e.call_func:
+				"run": Sdk.run(e.code, e.cache)
+				"close_game": Sdk.close_game(e.winner, e.challenge, e.callback)
+				"set_round": Sdk.set_round(e.count, e.owner)
+				"sync": Sdk.sync(e.close_round, e.callback)
+				"p2p": Sdk.send_p2p_message(e.message, e.value)
+				"close_challenge": challenge.finish_challenge(e.game_over)
 		EVENT_QUEUE = []
 	
 func on_special_card_spelled(_card):
+	MANUAL_MODE = true
 	assert(controller.acting_player_id == controller.player_id)
 	run("game:spell_card(0)")
 
 func on_custom_card_spelled(card):
+	MANUAL_MODE = true
 	assert(controller.acting_player_id == controller.player_id)
 	var offset = 0
 	for child in card.get_parent().get_children():
@@ -56,38 +69,49 @@ func on_custom_card_spelled(card):
 			break
 	run("game:spell_card(%d)" % offset)
 
-func run(code):
+func run(code, cache = true):
 	EVENT_QUEUE.push_back({
 		call_func = "run",
-		code = "Emit('sync', 0, '%s')\n" % code + code
+		code = code,
+		cache = cache
 	})
+	if !Config.challenge_mode:
+		EVENT_QUEUE.push_back({
+			call_func = "sync",
+			close_round = false,
+			callback = funcref(self, "on_sync")
+		})
 	
 func switch_round():
 	var code = "game:switch_round()"
 	EVENT_QUEUE.push_back({
 		call_func = "run",
-		code = "Emit('sync', 1, '%s')\n" % code + code
+		code = code,
+		cache = true
 	})
+	if !Config.challenge_mode:
+		EVENT_QUEUE.push_back({
+			call_func = "sync",
+			close_round = true,
+			callback = funcref(self, "on_sync")
+		})
 	
 func game_over(ok, winner_or_error):
 	if ok:
 		settlement.winner = winner_or_error
+		settlement.manual = MANUAL_MODE
 		controller.set_battle_result(
 			controller.acting_player_id, funcref(settlement, "show_settlement")
 		)
 	else:
 		Wait.set_manual_cancel(
-			winner_or_error,
-			"游戏关闭失败:",
-			funcref(self, "on_cancel_game")
+			winner_or_error, "游戏关闭失败:", funcref(self, "on_cancel_game")
 		)
 
 func on_sync(ok, error):
 	if !ok:
 		Wait.set_manual_cancel(
-			error,
-			"操作同步失败:",
-			funcref(self, "on_cancel_game")
+			error, "操作同步失败:", funcref(self, "on_cancel_game")
 		)
 	
 func new_round(round_owner, round_count, last_owner):
@@ -98,6 +122,7 @@ func new_round(round_owner, round_count, last_owner):
 	
 func _on_sdk_lua_events(events):
 	for params in events:
+		print(params)
 		var event = params[0]
 		var player_id = params[1]
 		match event:
@@ -109,15 +134,6 @@ func _on_sdk_lua_events(events):
 					call_func = "set_round",
 					count = 1,
 					owner = player_id
-				})
-			"sync":
-				var close_round = (player_id == 1)
-				var lua_code = params[2]
-				EVENT_QUEUE.push_back({
-					call_func = "sync",
-					code = lua_code,
-					close_round = close_round,
-					callback = funcref(self, "on_sync")
 				})
 			"draw":
 				var card_hash = params[2]
@@ -168,36 +184,80 @@ func _on_sdk_lua_events(events):
 				EVENT_QUEUE.push_back({
 					call_func = "close_game",
 					winner = player_id,
+					challenge = Config.challenge_mode,
 					callback = funcref(self, "game_over")
 				})
+			"context":
+				var round_count = params[2]
+				var player1_base = params[3]
+				var player1_handcards = params[4]
+				var player1_ownedcards = player1_base[3] + player1_handcards.size()
+				var player1_buffs = params[5]
+				var player2_base = params[6]
+				var player2_handcards = params[7]
+				var player2_ownedcards = player2_base[3] + player2_handcards.size()
+				var player2_buffs = params[8]
+				var winner = params[9]
+				controller.set_round(round_count)
+				controller.set_player_role(ID_ONE, player1_base[0])
+				controller.set_player_hp(ID_ONE, player1_base[1], false)
+				controller.set_player_energy(ID_ONE, player1_base[2], false)
+				controller.set_deck_capcacity(
+					ID_ONE, player1_base[4], player1_ownedcards
+				)
+				for card_hash in player1_handcards:
+					controller.add_player_card(ID_ONE, card_hash, false)
+				for i in range(0, player1_buffs.size(), 2):
+					var buff_id = player1_buffs[i]
+					var live_count = player1_buffs[i + 1]
+					controller.add_player_buff(
+						ID_ONE, buff_id, live_count, false
+					)
+				controller.set_player_role(ID_TWO, player2_base[0])
+				controller.set_player_hp(ID_TWO, player2_base[1], false)
+				controller.set_player_energy(ID_TWO, player2_base[2], false)
+				controller.set_deck_capcacity(
+					ID_TWO, player2_base[4], player2_ownedcards
+				)
+				for card_hash in player2_handcards:
+					controller.add_player_card(ID_TWO, card_hash, false)
+				for i in range(0, player2_buffs.size(), 2):
+					var buff_id = player2_buffs[i]
+					var live_count = player2_buffs[i + 1]
+					controller.add_player_buff(
+						ID_TWO, buff_id, live_count, false
+					)
+				controller.set_acting_player(player_id)
+				if winner != 0:
+					game_over(true, winner)
 			_:
 				assert(false, "unknown event " + event)
 
 func _on_sdk_connect_status(mode, status):
 	if !status and !controller.battle_finished:
-		if mode == "PARTNER":
+		if mode != "PARTNER" and !Config.native_mode:
 			Wait.set_manual_cancel(
-				"匹配节点已掉线，点击[取消]按钮回到主界面",
+				"与中转服务器断开连接，点击[取消]按钮回到主界面",
 				"网络连接错误:",
-				funcref(self, "on_cancel_partner")
+				funcref(self, "on_cancel_game")
 			)
 		else:
-			var content = ""
-			if Config.native_mode:
-				content = "匹配节点已掉线，点击[取消]按钮回到主界面"
-			else:
-				content = "与中转服务器断开连接，点击[取消]按钮回到主界面"
 			Wait.set_manual_cancel(
-				content, "网络连接错误:", funcref(self, "on_cancel_game")
+				"匹配节点已掉线，点击[取消]进入离线挑战模式",
+				"网络连接错误:",
+				funcref(self, "on_challenge_mode_open")
 			)
 
 func on_cancel_game():
 # warning-ignore:return_value_discarded
 	get_tree().change_scene("res://title.tscn")
-	
-func on_cancel_partner():
-# warning-ignore:return_value_discarded
-	get_tree().change_scene("res://relay.tscn")
+
+func on_challenge_mode_open():
+	Config.challenge_mode = true
+	Config.challenge_info = {
+		script_hash = sdk_cache.script_hash
+	}
+	controller.get_node("challenge").show()
 
 func _on_sdk_p2p_message_reply(message, parameters):
 	match message:

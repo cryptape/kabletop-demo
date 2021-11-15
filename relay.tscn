@@ -1,14 +1,14 @@
 [gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://assets/relay/menu/frame.png" type="Texture" id=1]
+[ext_resource path="res://assets/ui/relay/menu/frame.png" type="Texture" id=1]
 [ext_resource path="res://assets/background/relay_scene.jpg" type="Texture" id=2]
-[ext_resource path="res://assets/relay/menu/positive.png" type="Texture" id=3]
-[ext_resource path="res://assets/relay/menu/negative.png" type="Texture" id=4]
+[ext_resource path="res://assets/ui/relay/menu/positive.png" type="Texture" id=3]
+[ext_resource path="res://assets/ui/relay/menu/negative.png" type="Texture" id=4]
 [ext_resource path="res://assets/cards/light_frame.png" type="Texture" id=5]
 [ext_resource path="res://assets/ui/title-button.gd" type="Script" id=6]
 [ext_resource path="res://assets/relay.gd" type="Script" id=7]
 [ext_resource path="res://assets/ui/quit.png" type="Texture" id=8]
-[ext_resource path="res://assets/relay/quit.gd" type="Script" id=9]
+[ext_resource path="res://assets/ui/relay/quit.gd" type="Script" id=9]
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://assets/font/medium.otf"

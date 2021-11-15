@@ -14,7 +14,9 @@ class Card:
 		card.description = _desc
 		return card
 
-var native_mode = false
+var native_mode = true
+var challenge_mode = false
+var challenge_info = null
 
 var player_hero = 0
 var player_name = ""
@@ -63,9 +65,11 @@ func _ready():
 	for _hash in NFTs:
 		NFTs[_hash]._hash = _hash
 
-func reset_game_ready():
+func reset_vars():
 	Config.game_ready = false
 	Config.opposite_ready_func = null
+	Config.challenge_mode = false
+	Config.challenge_info = null
 	Sdk.reply_p2p_message("game_ready", funcref(self, "_on_p2p_game_ready"))
 
 func get_card(card_hash):

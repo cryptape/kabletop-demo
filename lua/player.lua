@@ -7,6 +7,7 @@ local Player = class()
 
 function Player:ctor(role, nfts, id, tabletop)
 	self.id = id
+	self.role = role
 	self.tabletop = tabletop
 	self.max_hp = Cfg.MAX_HP
 	self.max_energy = Cfg.MAX_ENERGY

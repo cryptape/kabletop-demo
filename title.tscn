@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://assets/background/main.jpg" type="Texture" id=1]
 [ext_resource path="res://assets/ui/menu/menu_battleclient.png" type="Texture" id=2]
@@ -19,6 +19,8 @@
 [ext_resource path="res://assets/ui/panel_confirm_pressed.png" type="Texture" id=17]
 [ext_resource path="res://assets/client_mode.gd" type="Script" id=18]
 [ext_resource path="res://assets/ui/close.png" type="Texture" id=19]
+[ext_resource path="res://assets/ui/switch.png" type="Texture" id=20]
+[ext_resource path="res://assets/ui/deadgame.gd" type="Script" id=21]
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://assets/font/medium.otf"
@@ -65,41 +67,52 @@ use_mipmaps = true
 use_filter = true
 font_data = SubResource( 10 )
 
-[sub_resource type="DynamicFontData" id=12]
+[sub_resource type="RectangleShape2D" id=12]
+
+[sub_resource type="DynamicFontData" id=13]
 font_path = "res://assets/font/medium.otf"
 
-[sub_resource type="DynamicFont" id=13]
-size = 80
-use_mipmaps = true
-use_filter = true
-font_data = SubResource( 12 )
-
-[sub_resource type="DynamicFontData" id=14]
-font_path = "res://assets/font/medium.otf"
-
-[sub_resource type="DynamicFont" id=15]
-size = 80
-use_mipmaps = true
-use_filter = true
-font_data = SubResource( 14 )
-
-[sub_resource type="DynamicFontData" id=16]
-font_path = "res://assets/font/regular.otf"
-
-[sub_resource type="DynamicFont" id=17]
-size = 50
-use_mipmaps = true
-use_filter = true
-font_data = SubResource( 16 )
-
-[sub_resource type="DynamicFontData" id=18]
-font_path = "res://assets/font/medium.otf"
-
-[sub_resource type="DynamicFont" id=19]
+[sub_resource type="DynamicFont" id=14]
 size = 35
 use_mipmaps = true
 use_filter = true
-font_data = SubResource( 18 )
+font_data = SubResource( 13 )
+
+[sub_resource type="DynamicFontData" id=15]
+font_path = "res://assets/font/medium.otf"
+
+[sub_resource type="DynamicFont" id=16]
+size = 80
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 15 )
+
+[sub_resource type="DynamicFontData" id=17]
+font_path = "res://assets/font/medium.otf"
+
+[sub_resource type="DynamicFont" id=18]
+size = 80
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 17 )
+
+[sub_resource type="DynamicFontData" id=19]
+font_path = "res://assets/font/regular.otf"
+
+[sub_resource type="DynamicFont" id=20]
+size = 50
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 19 )
+
+[sub_resource type="DynamicFontData" id=21]
+font_path = "res://assets/font/medium.otf"
+
+[sub_resource type="DynamicFont" id=22]
+size = 35
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 21 )
 
 [node name="controller" type="Node2D"]
 scale = Vector2( 0.6, 0.6 )
@@ -447,6 +460,32 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="deadgame" type="Sprite" parent="background"]
+self_modulate = Color( 1, 1, 1, 0.843137 )
+position = Vector2( 783.088, 209.94 )
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 20 )
+region_enabled = true
+region_rect = Rect2( 128, 194, 253, 127 )
+script = ExtResource( 21 )
+
+[node name="challenge" type="Area2D" parent="background/deadgame"]
+
+[node name="collision" type="CollisionShape2D" parent="background/deadgame/challenge"]
+scale = Vector2( 13.25, 6.5 )
+shape = SubResource( 12 )
+
+[node name="name" type="Label" parent="background/deadgame"]
+margin_left = -67.4373
+margin_top = -18.4224
+margin_right = 72.5627
+margin_bottom = 17.5776
+custom_fonts/font = SubResource( 14 )
+text = "残局处理"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Tween" type="Tween" parent="."]
 
 [node name="coverlayer" type="Panel" parent="."]
@@ -473,7 +512,7 @@ margin_left = 593.247
 margin_top = 595.056
 margin_right = 1063.25
 margin_bottom = 676.056
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 16 )
 text = "ws://0.0.0.0:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -484,7 +523,7 @@ margin_left = 1069.0
 margin_top = 590.667
 margin_right = 1348.0
 margin_bottom = 681.667
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 18 )
 text = "11550"
 max_length = 5
 caret_blink = true
@@ -498,7 +537,7 @@ margin_top = 254.494
 margin_right = 771.502
 margin_bottom = 335.494
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 16 )
 text = "昵称:"
 align = 1
 __meta__ = {
@@ -510,7 +549,7 @@ margin_left = 789.667
 margin_top = 249.332
 margin_right = 1249.67
 margin_bottom = 340.332
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 18 )
 text = "Vimchain"
 max_length = 10
 caret_blink = true
@@ -524,7 +563,7 @@ margin_top = 367.827
 margin_right = 771.502
 margin_bottom = 448.827
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 16 )
 text = "质押:"
 align = 1
 __meta__ = {
@@ -536,7 +575,7 @@ margin_left = 789.667
 margin_top = 362.667
 margin_right = 1249.67
 margin_bottom = 453.667
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 18 )
 text = "300"
 max_length = 10
 caret_blink = true
@@ -550,7 +589,7 @@ margin_top = 3.04279
 margin_right = 688.655
 margin_bottom = 84.0428
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 16 )
 text = "(CKB)"
 align = 1
 __meta__ = {
@@ -563,7 +602,7 @@ margin_top = 482.827
 margin_right = 771.502
 margin_bottom = 563.827
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 16 )
 text = "赌注:"
 align = 1
 __meta__ = {
@@ -575,7 +614,7 @@ margin_left = 789.667
 margin_top = 477.666
 margin_right = 1249.67
 margin_bottom = 568.667
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 18 )
 text = "100"
 max_length = 10
 caret_blink = true
@@ -589,7 +628,7 @@ margin_top = 3.04279
 margin_right = 688.655
 margin_bottom = 84.0428
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 16 )
 text = "(CKB)"
 align = 1
 __meta__ = {
@@ -609,7 +648,7 @@ margin_top = 595.054
 margin_right = 799.256
 margin_bottom = 676.054
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 16 )
 text = "ws://"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -620,7 +659,7 @@ margin_left = 791.0
 margin_top = 590.332
 margin_right = 1710.0
 margin_bottom = 681.332
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 18 )
 text = "127.0.0.1:11550"
 max_length = 21
 caret_blink = true
@@ -634,7 +673,7 @@ margin_top = 254.494
 margin_right = 771.502
 margin_bottom = 335.494
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 16 )
 text = "昵称:"
 align = 1
 __meta__ = {
@@ -646,7 +685,7 @@ margin_left = 789.667
 margin_top = 249.332
 margin_right = 1249.67
 margin_bottom = 340.332
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 18 )
 text = "Vimchain"
 max_length = 10
 caret_blink = true
@@ -660,7 +699,7 @@ margin_top = 367.827
 margin_right = 771.502
 margin_bottom = 448.827
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 16 )
 text = "质押:"
 align = 1
 __meta__ = {
@@ -672,7 +711,7 @@ margin_left = 789.667
 margin_top = 362.667
 margin_right = 1249.67
 margin_bottom = 453.667
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 18 )
 text = "300"
 max_length = 10
 caret_blink = true
@@ -686,7 +725,7 @@ margin_top = 3.04279
 margin_right = 688.655
 margin_bottom = 84.0428
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 16 )
 text = "(CKB)"
 align = 1
 __meta__ = {
@@ -699,7 +738,7 @@ margin_top = 482.827
 margin_right = 771.502
 margin_bottom = 563.827
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 16 )
 text = "赌注:"
 align = 1
 __meta__ = {
@@ -711,7 +750,7 @@ margin_left = 789.667
 margin_top = 477.666
 margin_right = 1249.67
 margin_bottom = 568.667
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 18 )
 text = "100"
 max_length = 10
 caret_blink = true
@@ -725,7 +764,7 @@ margin_top = 3.04279
 margin_right = 688.655
 margin_bottom = 84.0428
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 16 )
 text = "(CKB)"
 align = 1
 __meta__ = {
@@ -758,7 +797,7 @@ margin_left = 59.5891
 margin_top = -38.5236
 margin_right = 259.589
 margin_bottom = 35.4764
-custom_fonts/font = SubResource( 17 )
+custom_fonts/font = SubResource( 20 )
 text = "本地模式"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -792,7 +831,7 @@ margin_left = 59.5892
 margin_top = -38.5236
 margin_right = 259.589
 margin_bottom = 35.4764
-custom_fonts/font = SubResource( 17 )
+custom_fonts/font = SubResource( 20 )
 text = "中转模式"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -825,7 +864,7 @@ margin_left = 421.748
 margin_top = 20.7311
 margin_right = 491.748
 margin_bottom = 56.7311
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 22 )
 text = "确认"
 
 [node name="coverclose" type="TextureButton" parent="coverlayer"]
@@ -850,6 +889,9 @@ __meta__ = {
 [connection signal="input_event" from="background/herochoose/mouse_check" to="background/herochoose" method="_on_mouse_check_input_event"]
 [connection signal="mouse_entered" from="background/herochoose/mouse_check" to="background/herochoose" method="_on_mouse_check_mouse_entered"]
 [connection signal="mouse_exited" from="background/herochoose/mouse_check" to="background/herochoose" method="_on_mouse_check_mouse_exited"]
+[connection signal="input_event" from="background/deadgame/challenge" to="background/deadgame" method="_on_challenge_input_event"]
+[connection signal="mouse_entered" from="background/deadgame/challenge" to="background/deadgame" method="_on_challenge_mouse_entered"]
+[connection signal="mouse_exited" from="background/deadgame/challenge" to="background/deadgame" method="_on_challenge_mouse_exited"]
 [connection signal="pressed" from="coverlayer/client/mode/native/native_click" to="coverlayer/client/mode" method="_on_native_click_pressed"]
 [connection signal="pressed" from="coverlayer/client/mode/relay/relay_click" to="coverlayer/client/mode" method="_on_relay_click_pressed"]
 [connection signal="pressed" from="coverlayer/confirm" to="." method="_on_confirm_pressed"]

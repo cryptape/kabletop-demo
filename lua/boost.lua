@@ -27,15 +27,23 @@ end
 
 function Emit(...)
 	local event = table.pack(...)
+	print(flat_table(event))
+	__events__ = __events__ or {}
+	table.insert(__events__, event)
+end
+
+function flat_table(t)
+	assert(type(t) == "table")
 	local output = "["
-	for i, v in ipairs(event) do
+	for i, v in ipairs(t) do
+		if type(v) == "table" then
+			v = flat_table(v)
+		end
 		if i == 1 then
 			output = output .. v
 		else
 			output = output .. ", " .. v
 		end
 	end
-	print(output .. "]")
-	__events__ = __events__ or {}
-	table.insert(__events__, event)
+	return output .. "]"
 end

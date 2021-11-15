@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/frame.png-fc4f834d4ca92a81c43c01da52bb7586.stex"
+path="res://.import/frame.png-7a77b1bd4d652177172a732cbb73a724.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/relay/menu/frame.png"
-dest_files=[ "res://.import/frame.png-fc4f834d4ca92a81c43c01da52bb7586.stex" ]
+source_file="res://assets/ui/relay/menu/frame.png"
+dest_files=[ "res://.import/frame.png-7a77b1bd4d652177172a732cbb73a724.stex" ]
 
 [params]
 

@@ -11,8 +11,8 @@ function Tabletop:ctor(role_1, role_2)
 	assert(_user2_nfts, "global var _user2_nfts is NIL")
 	self.round = 1
 	self.players = {
-		[1] = Player.new(role_1, _user1_nfts, PlayerId.One, self),
-		[2] = Player.new(role_2, _user2_nfts, PlayerId.Two, self)
+		[1] = Player.new(role_1, table.clone(_user1_nfts), PlayerId.One, self),
+		[2] = Player.new(role_2, table.clone(_user2_nfts), PlayerId.Two, self)
 	}
 	self.acting_player = Init()
 	for _, player in ipairs(self.players) do
@@ -56,6 +56,7 @@ function Tabletop:switch_round()
 end
 
 function Tabletop:check_winner()
+	_winner = 0
 	for i, player in ipairs(self.players) do
 		if player.hp <= 0 then
 			_winner = i % 2 + 1
@@ -68,6 +69,36 @@ end
 function Tabletop:other_player()
 	local other_id = self.acting_player % 2 + 1
 	return assert(self.players[other_id], "invalid player")
+end
+
+function Tabletop:context_snapshot()
+	local p1 = self.players[1]
+	local p2 = self.players[2]
+	local cards1 = {}
+	for _, card in pairs(p1.active_cards) do
+		table.insert(cards1, card.hash)
+	end
+	local cards2 = {}
+	for _, card in pairs(p2.active_cards) do
+		table.insert(cards2, card.hash)
+	end
+	local buffs1 = {}
+	for _, buff in pairs(p1.buffs) do
+		table.insert(buffs1, buff.id)
+		table.insert(buffs1, buff.life)
+	end
+	local buffs2 = {}
+	for _, buff in pairs(p2.buffs) do
+		table.insert(buffs2, buff.id)
+		table.insert(buffs2, buff.life)
+	end
+	self:check_winner()
+	Emit(
+		"context", self.acting_player, self.round,
+		{ p1.role, p1.hp, p1.energy, #p1.custom_cards, #_user1_nfts }, cards1, buffs1,
+		{ p2.role, p2.hp, p2.energy, #p2.custom_cards, #_user2_nfts }, cards2, buffs2,
+		_winner
+	)
 end
 
 return Tabletop

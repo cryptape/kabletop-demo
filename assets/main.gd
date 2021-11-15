@@ -298,13 +298,15 @@ func set_battle_result(id, defer_funcref):
 			"args": [player_id]
 		})
 
-func set_deck_capcacity(id, total_count):
+func set_deck_capcacity(id, total_count, remain_count = null):
+	if remain_count == null:
+		remain_count = total_count
 	total_cards[id] = total_count
-	remain_cards[id] = total_count
+	remain_cards[id] = remain_count
 	if id == player_id:
-		$panel/player_deck/info.text = "%s/%s" % [total_count, total_count]
+		$panel/player_deck/info.text = "%s/%s" % [remain_count, total_count]
 	else:
-		$panel/opposite_deck.text = "%s/%s" % [total_count, total_count]
+		$panel/opposite_deck.text = "%s/%s" % [remain_count, total_count]
 
 func short_deck(id, count):
 	remain_cards[id] -= count

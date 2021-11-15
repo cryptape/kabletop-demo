@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/relay_client.png-ae32f2abe6c9985edfa3db5bc025dc6f.stex"
+path="res://.import/sidebar.png-813b56bd0a6ffcfc4ff3a889ebed5650.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/relay/relay_client.png"
-dest_files=[ "res://.import/relay_client.png-ae32f2abe6c9985edfa3db5bc025dc6f.stex" ]
+source_file="res://assets/ui/challenge/sidebar.png"
+dest_files=[ "res://.import/sidebar.png-813b56bd0a6ffcfc4ff3a889ebed5650.stex" ]
 
 [params]
 

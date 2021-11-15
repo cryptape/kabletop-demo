@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://assets/relay/relay_client.png" type="Texture" id=1]
-[ext_resource path="res://assets/cards/light_frame.png" type="Texture" id=2]
-[ext_resource path="res://assets/relay/client.gd" type="Script" id=3]
+[ext_resource path="res://assets/ui/relay/client.gd" type="Script" id=1]
+[ext_resource path="res://assets/ui/relay/relay_client.png" type="Texture" id=2]
+[ext_resource path="res://assets/cards/light_frame.png" type="Texture" id=3]
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://assets/font/medium.otf"
@@ -23,7 +23,7 @@ use_filter = true
 font_data = SubResource( 3 )
 
 [node name="client" type="Control"]
-script = ExtResource( 3 )
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -48,20 +48,20 @@ scale = Vector2( 0.93, 0.44 )
 [node name="up" type="Sprite" parent="light_frame"]
 position = Vector2( 0.796967, 78.6287 )
 scale = Vector2( 1.48, 1.12 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 region_enabled = true
 region_rect = Rect2( 10, 10, 181, 181 )
 
 [node name="down" type="Sprite" parent="light_frame"]
 position = Vector2( 1.22733, -78.6764 )
 scale = Vector2( 1.48, 1.12 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 region_enabled = true
 region_rect = Rect2( 10, 10, 181, 181 )
 
 [node name="frame" type="Sprite" parent="."]
 position = Vector2( 125.802, 80.5606 )
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 region_enabled = true
 region_rect = Rect2( 18, 59, 220, 143 )
 

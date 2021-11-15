@@ -4,7 +4,7 @@ var confirm_funcref = null
 var cancel_funcref = null
 var success_or_fail = null
 
-func set_wait(callback, text):
+func set_wait(callback, text = null):
 	show()
 	if text == null:
 		text = "交易提交中..."

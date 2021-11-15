@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=57 format=2]
 
 [ext_resource path="res://assets/background/scene.jpg" type="Texture" id=1]
 [ext_resource path="res://assets/background/scene.png" type="Texture" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://assets/round.gd" type="Script" id=18]
 [ext_resource path="res://assets/ui/hp_player.gd" type="Script" id=19]
 [ext_resource path="res://assets/ui/hp_opposite.gd" type="Script" id=20]
+[ext_resource path="res://assets/ui/quit_server.png" type="Texture" id=21]
 [ext_resource path="res://assets/cards/custom.gd" type="Script" id=22]
 [ext_resource path="res://assets/cards/special.gd" type="Script" id=23]
 [ext_resource path="res://assets/spell.gd" type="Script" id=24]
@@ -30,6 +31,7 @@
 [ext_resource path="res://assets/ui/buffs.gd" type="Script" id=29]
 [ext_resource path="res://assets/cards/tiny/tiny_cards.gd" type="Script" id=30]
 [ext_resource path="res://assets/ui/switch.gd" type="Script" id=31]
+[ext_resource path="res://assets/ui/end_challenge.gd" type="Script" id=32]
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://assets/font/medium.otf"
@@ -103,23 +105,34 @@ use_mipmaps = true
 use_filter = true
 font_data = SubResource( 16 )
 
-[sub_resource type="DynamicFontData" id=18]
+[sub_resource type="RectangleShape2D" id=18]
+
+[sub_resource type="DynamicFontData" id=19]
 font_path = "res://assets/font/medium.otf"
 
-[sub_resource type="DynamicFont" id=19]
-size = 70
-use_mipmaps = true
-use_filter = true
-font_data = SubResource( 18 )
-
-[sub_resource type="DynamicFontData" id=20]
-font_path = "res://assets/font/medium.otf"
-
-[sub_resource type="DynamicFont" id=21]
+[sub_resource type="DynamicFont" id=20]
 size = 35
 use_mipmaps = true
 use_filter = true
-font_data = SubResource( 20 )
+font_data = SubResource( 19 )
+
+[sub_resource type="DynamicFontData" id=21]
+font_path = "res://assets/font/medium.otf"
+
+[sub_resource type="DynamicFont" id=22]
+size = 70
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 21 )
+
+[sub_resource type="DynamicFontData" id=23]
+font_path = "res://assets/font/medium.otf"
+
+[sub_resource type="DynamicFont" id=24]
+size = 35
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 23 )
 
 [node name="controller" type="Node2D"]
 script = ExtResource( 15 )
@@ -446,16 +459,16 @@ __meta__ = {
 }
 
 [node name="round_icon" type="Sprite" parent="panel"]
-position = Vector2( -4.32935, 28.6547 )
+position = Vector2( -2.66272, 28.6547 )
 rotation = -3.13805
 scale = Vector2( 0.909091, 0.909091 )
 texture = ExtResource( 11 )
 region_rect = Rect2( 134, 211, 244, 90 )
 
 [node name="round" type="Label" parent="panel"]
-margin_left = -25.493
+margin_left = -23.8263
 margin_top = -0.83456
-margin_right = 26.507
+margin_right = 28.1737
 margin_bottom = 45.1654
 custom_fonts/font = SubResource( 13 )
 text = "0"
@@ -526,6 +539,34 @@ __meta__ = {
 
 [node name="Tween" type="Tween" parent="switch"]
 
+[node name="challenge" type="Sprite" parent="."]
+position = Vector2( 574.487, 87.1259 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 21 )
+region_enabled = true
+region_rect = Rect2( 134, 211, 244, 90 )
+script = ExtResource( 32 )
+
+[node name="click" type="Area2D" parent="challenge"]
+
+[node name="collision" type="CollisionShape2D" parent="challenge/click"]
+scale = Vector2( 10.8701, 3.73568 )
+shape = SubResource( 18 )
+
+[node name="text" type="Label" parent="challenge"]
+margin_left = -71.2175
+margin_top = -17.4601
+margin_right = 68.7825
+margin_bottom = 18.5399
+custom_fonts/font = SubResource( 20 )
+custom_colors/font_color = Color( 0.866667, 0.866667, 0.631373, 1 )
+text = "结束挑战"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="challenge"]
+
 [node name="settlement" type="Panel" parent="."]
 visible = false
 self_modulate = Color( 1, 1, 1, 0.882353 )
@@ -543,7 +584,7 @@ margin_left = 345.358
 margin_top = 238.815
 margin_right = 823.358
 margin_bottom = 338.815
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 22 )
 text = "YOU WIN"
 align = 1
 __meta__ = {
@@ -567,13 +608,14 @@ margin_left = 364.605
 margin_top = 20.7311
 margin_right = 539.605
 margin_bottom = 56.7311
-custom_fonts/font = SubResource( 21 )
+custom_fonts/font = SubResource( 24 )
 text = "返回主界面"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="wait" type="Panel" parent="."]
+visible = false
 self_modulate = Color( 1, 1, 1, 0.882353 )
 margin_left = 1.0
 margin_top = -1.0
@@ -588,7 +630,7 @@ margin_left = 278.89
 margin_top = 358.316
 margin_right = 901.89
 margin_bottom = 429.316
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 22 )
 text = "等待对手进入游戏..."
 align = 1
 __meta__ = {
@@ -606,4 +648,7 @@ __meta__ = {
 [connection signal="input_event" from="switch/click" to="switch" method="_on_click_input_event"]
 [connection signal="mouse_entered" from="switch/click" to="switch" method="_on_click_mouse_entered"]
 [connection signal="mouse_exited" from="switch/click" to="switch" method="_on_click_mouse_exited"]
+[connection signal="input_event" from="challenge/click" to="challenge" method="_on_click_input_event"]
+[connection signal="mouse_entered" from="challenge/click" to="challenge" method="_on_click_mouse_entered"]
+[connection signal="mouse_exited" from="challenge/click" to="challenge" method="_on_click_mouse_exited"]
 [connection signal="pressed" from="settlement/confirm" to="settlement" method="_on_confirm_pressed"]
