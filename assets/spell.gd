@@ -40,7 +40,7 @@ func _ready():
 		controller.set_player_name(ID_TWO, "Unknown")
 		run("game:context_snapshot()", false)
 		for code in Config.challenge_info.operations:
-			run(code)
+			run(code, false)
 	
 func _process(_delta):
 	if !EVENT_QUEUE.empty():
@@ -122,7 +122,6 @@ func new_round(round_owner, round_count, last_owner):
 	
 func _on_sdk_lua_events(events):
 	for params in events:
-		print(params)
 		var event = params[0]
 		var player_id = params[1]
 		match event:
@@ -198,6 +197,11 @@ func _on_sdk_lua_events(events):
 				var player2_ownedcards = player2_base[3] + player2_handcards.size()
 				var player2_buffs = params[8]
 				var winner = params[9]
+				EVENT_QUEUE.push_back({
+					call_func = "set_round",
+					count = round_count,
+					owner = player_id
+				})
 				controller.set_round(round_count)
 				controller.set_player_role(ID_ONE, player1_base[0])
 				controller.set_player_hp(ID_ONE, player1_base[1], false)

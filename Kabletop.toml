@@ -4,9 +4,9 @@ ckb_uri = "http://localhost:8114"
 # ckb_indexer_uri = "https://testnet.ckbapp.dev/indexer"
 ckb_indexer_uri = "http://localhost:8116"
 composer_privkey = "8d929e962f940f75aa32054f19a5ea2ce70ae30bfe4ff7cf2dbed70d556265df" # pubkey_hash = "58b85c196e5fe80e25b4dab596e7121d219f79fb"
-# user_privkey = "010a51a0fa2260b710624d201ec24124f53ddf0c9abe81448b4b0c89e5a06057" # pubkey_hash = "40e88263ef526a8248570e931cfb2f2fb3ed044f"
+user_privkey = "010a51a0fa2260b710624d201ec24124f53ddf0c9abe81448b4b0c89e5a06057" # pubkey_hash = "40e88263ef526a8248570e931cfb2f2fb3ed044f"
 # user_privkey = "7df17db8b1b07d594eb121189e9cab6fa4a99b5f49e72919f9014eaabce0e209"
-user_privkey = "d44955b4770247b233c284268c961085e622febb61d364c9a5cabe0c238f08d4"
+# user_privkey = "d44955b4770247b233c284268c961085e622febb61d364c9a5cabe0c238f08d4"
 
 # testnet
 # [nft]
@@ -43,8 +43,8 @@ tx_hash = "32038ac4415b4e70820b281ab1aeabe22731519154244caf7e6c47fcbaff953d"
 code_hash = "80d351c92602c4ad201d0cad2645ea02c45a026c7d70d92f79399dfaf8540ff4"
 
 [kabletop]
-tx_hash = "657d1aaf8521c9c333ddb30b02da84c17bc635f28b4cb6f3fdda6185d92d99cd"
-code_hash = "99580238f59fdaf18bc5733bfe1bf5235fe13ec2dd698c2f20c772d67fe6bc36"
+tx_hash = "91b0df9dea30fdf5cd9f0b3cdd0972540e815ed8742e57ff80887a74f63ad634"
+code_hash = "052fc41a9ceccf461859953c68efde698dd1bf9ef1cc95e58b30801d2b5b1fbc"
 
 [[luacodes]]
 tx_hash = "4a418c8b403811d4ada764e113ae27820ce941eabd615e6ecca4a7b2f070ccf8"

@@ -35,7 +35,7 @@ func spell_custom(i, id):
 	return run()
 
 func no_card_to_spell():
-	return spell_cards.empty() and !card_adding and !running
+	return spell_cards.empty() and !running
 
 func run():
 	if spell_cards.empty() or card_adding or running:

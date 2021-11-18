@@ -9,6 +9,7 @@ onready var ui_server     = $coverlayer/server
 onready var ui_client     = $coverlayer/client
 
 var connected = false
+var EVENT_QUEUE = []
 
 func _ready():
 	var overview = $background/deckmanage/overview
@@ -20,6 +21,14 @@ func _ready():
 	Sdk.connect("channel_status", self, "_on_sdk_channel_status")
 	get_node("/root").call_deferred("move_child", self, 0)
 	Config.reset_vars()
+
+# warning-ignore:unused_argument
+func _process(_delta):
+	if !EVENT_QUEUE.empty():
+		for e in EVENT_QUEUE:
+			match e.call_func:
+				"shutdown": Sdk.shutdown()
+		EVENT_QUEUE = []
 
 func click_menu(menu):
 	if menu == battleclient:
@@ -59,6 +68,9 @@ func _on_sdk_connect_status(mode, status):
 				funcref(Wait, "hide")
 			)
 			connected = false
+			EVENT_QUEUE.push_back({
+				call_func = "shutdown"
+			})
 			
 func _on_sdk_channel_status(status, tx_hash):
 	Wait.set_result(status, tx_hash)
