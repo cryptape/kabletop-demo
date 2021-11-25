@@ -44,7 +44,7 @@ func render_clients(clients):
 	Wait.hide()
 	var anchor = $scroll/anchor
 	for client in clients:
-		var node = load("res://assets/relay/client.tscn").instance()
+		var node = load("res://assets/ui/relay/client.tscn").instance()
 		anchor.add_child(node)
 		node.set_info(client)
 

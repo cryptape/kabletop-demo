@@ -7,7 +7,7 @@ func _ready():
 	Sdk.connect("connect_status", self, "_on_connect_status")
 	Sdk.connect("channel_status", self, "_on_channel_status")
 	get_node("/root").call_deferred("move_child", self, 0)
-	Config.reset_game_ready()
+	Config.reset_vars()
 
 func click_menu(menu):
 	match menu:

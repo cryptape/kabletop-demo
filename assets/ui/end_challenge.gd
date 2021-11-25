@@ -27,5 +27,9 @@ func _on_click_input_event(_viewport, event, _shape_idx):
 		finish_challenge(false)
 
 func on_channel_challenged(_ok):
+	if Config.native_mode:
 # warning-ignore:return_value_discarded
-	get_tree().change_scene("res://title.tscn")
+		get_tree().change_scene("res://title.tscn")
+	else:
+# warning-ignore:return_value_discarded
+		get_tree().change_scene("res://relay.tscn")
