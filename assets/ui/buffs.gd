@@ -3,29 +3,31 @@ extends Node2D
 var width = 400
 var step = 75
 
-var buffs_template = {
-	0: "狮吼",
-	1: "分身",
-	2: "金钟罩：总共吸收10点伤害，消失后将用于恢复生命值，剩余%s回合",
-	3: "激素",
-	4: "圣光：回合结束时恢复2点血量，剩余%s回合",
-	5: "沉寂",
-	6: "时间沙漏",
-	7: "链接",
-	8: "敏捷"
-}
+func get_buff_tip(id, value, life):
+	match id:
+		0: return "燃烧生命: 每回合损失%s点生命，增加%s点能量，还剩%s回合" % [value, value, life]
+		1: return "卡牌大师: 每回合抽%s张牌，还剩%s回合" % [value, life]
+		2: return "护盾: 每回合减少%s点伤害，还剩%s回合" % [value, life]
+		3: return "弃军保帅: 将伤害改为治愈，还剩%s回合" % life
+		4: return "圣光: 每回合回复%s点生命，还剩%s回合" % [value, life]
+		5: return "增幅: 伤害增加%s点，还剩%s回合" % [value, life]
+		6: return "神圣能量: 每回合增加%s点能量，还剩%s回合" % [value, life]
+		7: return "灼烧: 每回合损失%s点生命，还剩%s回合" % [value, life]
+		8: return "反射: 攻击方将受到%s点伤害，还剩%s回合" % [value, life]
 
 func set_enable(enable):
 	for node in self.get_children():
 		node.enable = enable
 
-func add_buff(id, life):
-	assert(buffs_template[id] != null)
-	var buff = load("res://assets/ui/buff.tscn").instance()
-	buff.frame = id
-	self.add_child(buff)
-	buff.set_tips(buffs_template[id] % life)
-	sort_out()
+func add_buff(id, value, life):
+	var tip = get_buff_tip(id, value, life)
+	if tip != null:
+		var buff = load("res://assets/ui/buff.tscn").instance()
+		buff.frame = id
+		buff.value = value
+		self.add_child(buff)
+		buff.set_tips(tip)
+		sort_out()
 	
 func remove_buff(i):
 	self.get_child(i).queue_free()
@@ -33,7 +35,9 @@ func remove_buff(i):
 	
 func update_buff(i, life):
 	var buff = self.get_child(i)
-	buff.set_tips(buffs_template[buff.frame] % life)
+	var tip = get_buff_tip(buff.frame, buff.value, life)
+	if tip != null:
+		buff.set_tips(tip)
 
 func sort_out():
 	var valid_children = []

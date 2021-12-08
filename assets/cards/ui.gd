@@ -25,7 +25,7 @@ func set_count(count, total):
 			$frame/indicator_icon.frame = 1
 	else:
 		$frame/indicator_icon.frame = 2
-		$frame/locked.show()
+		# $frame/locked.show()
 
 func _on_mouse_check_gui_input(event):
 	if event is InputEventMouseButton \

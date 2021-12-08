@@ -1,28 +1,17 @@
 
 local buffs = {}
 
--- 金钟罩：吸收伤害，在BUFF消失后对对方造成吸收的总伤害
-buffs.healdefend = function (value, live_round)
+-- 卡牌大师：每一回合抽指定张牌
+buffs.cardmaster = function (value, live_round)
 	return {
-		id = 2,
-		surplus = value,
-		accumulate = 0,
+		id = 1,
 		life = live_round,
-		["elapse"] = function (self, player, offset)
+		value = value,
+		["elapse"] = function (self, offset)
 			self.life = self.life - 1
-			if self.life <= 0 then
-				player.hp = math.min(player.hp + self.accumulate, player.max_hp)
-				Emit("heal", player.id, player.hp)
-			end
-			Emit("buff", player.id, self.id, offset, self.life)
+			self.owner:draw(value)
+			Emit("buff", self.owner.id, self.id, offset, value, self.life)
 			return self.life > 0
-		end,
-		["effects.damage"] = function (self, _, damage)
-			local old = self.surplus
-			self.surplus = math.max(0, self.surplus - damage)
-			local change = old - self.surplus
-			self.accumulate = self.accumulate + change
-			return damage - change
 		end
 	}
 end
@@ -32,12 +21,123 @@ buffs.holylight = function (value, live_round)
 	return {
 		id = 4,
 		life = live_round,
-		["elapse"] = function (self, player, offset)
+		value = value,
+		["elapse"] = function (self, offset)
 			self.life = self.life - 1
-			player.hp = math.min(player.hp + value, player.max_hp)
-			Emit("heal", player.id, player.hp)
-			Emit("buff", player.id, self.id, offset, self.life)
+			self.owner:heal(value)
+			Emit("buff", self.owner.id, self.id, offset, value, self.life)
 			return self.life > 0
+		end
+	}
+end
+
+-- 神能：每一回合增加指定能量
+buffs.holypower = function (value, live_round)
+	return {
+		id = 6,
+		life = live_round,
+		value = value,
+		["elapse"] = function (self, offset)
+			self.life = self.life - 1
+			self.owner:empower(value)
+			Emit("buff", self.owner.id, self.id, offset, value, self.life)
+			return self.life > 0
+		end
+	}
+end
+
+-- 优秀恶魔: 每一回合都将伤害改为治愈指定倍数
+buffs.niceevil = function (value, live_round)
+	return {
+		id = 3,
+		life = live_round,
+		value = value,
+		["elapse"] = function (self, offset)
+			self.life = self.life - 1
+			Emit("buff", self.owner.id, self.id, offset, value, self.life)
+			return self.life > 0
+		end,
+		["effects.damage"] = function (self, caster, target, damage)
+			if self.owner == caster and caster ~= target then
+				self.owner:heal(damage * value)
+				damage = 0
+			end
+			return damage
+		end
+	}
+end
+
+-- 火力增幅：每一回合造成的伤害增加指定大小
+buffs.fireup = function (value, live_round)
+	return {
+		id = 5,
+		life = live_round,
+		value = value,
+		["elapse"] = function (self, offset)
+			self.life = self.life - 1
+			Emit("buff", self.owner.id, self.id, offset, value, self.life)
+			return self.life > 0
+		end,
+		["effects.damage"] = function (self, caster, target, damage)
+			if self.owner == caster and caster ~= target then
+				damage = damage + value
+			end
+			return damage
+		end
+	}
+end
+
+-- 护盾：每一回合减少指定伤害
+buffs.shield = function (value, live_round)
+	return {
+		id = 2,
+		life = live_round,
+		value = value,
+		["elapse"] = function (self, offset)
+			self.life = self.life - 1
+			Emit("buff", self.owner.id, self.id, offset, value, self.life)
+			return self.life > 0
+		end,
+		["effects.damage"] = function (self, caster, target, damage)
+			if self.owner == target and caster ~= target then
+				damage = damage - value
+			end
+			return damage
+		end
+	}
+end
+
+-- 持续灼烧：每一回合损失指定血量
+buffs.burning = function (value, live_round)
+	return {
+		id = 7,
+		life = live_round,
+		value = value,
+		["elapse"] = function (self, offset)
+			self.life = self.life - 1
+			self.owner:damage(value, self.caster)
+			Emit("buff", self.owner.id, self.id, offset, value, self.life)
+			return self.life > 0
+		end
+	}
+end
+
+-- 反射：攻击时攻击方将受到指定伤害
+buffs.reflect = function (value, live_round)
+	return {
+		id = 8,
+		life = live_round,
+		value = value,
+		["elaspe"] = function (self, offset)
+			self.life = self.life - 1
+			Emit("buff", self.owner.id, self.id, offset, value, self.life)
+			return self.life > 0
+		end,
+		["effects.damage"] = function (self, caster, target, damage)
+			if self.owner == target and caster ~= target then
+				caster:damage(value, self.caster)
+			end
+			return damage
 		end
 	}
 end

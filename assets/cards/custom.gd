@@ -12,35 +12,54 @@ var running = false
 signal custom_card_spelled
 
 var cards_pool = []
+var cards_drop = []
 
 func add_card(card_hash):
 	var meta = Config.get_card(card_hash)
 	cards_pool.push_back(meta)
 	if running == false:
 		run()
+		
+func del_card(offset, card_hash):
+	if offset < anchor.get_child_count():
+		var _hash = anchor.get_child(offset).info._hash
+		assert(_hash == card_hash, "bad hash %s != %s" % [_hash, card_hash])
+		cards_drop.push_back(offset)
+		if running == false:
+			run()
 
 func next():
+	tween.disconnect("tween_all_completed", self, "next")
 	for card in anchor.get_children():
 		card.update_origin_global_position()
 	running = false
 	run()
-
-func _ready():
-# warning-ignore:return_value_discarded
-	tween.connect("tween_all_completed", self, "next")
+	
+func drop_done():
+	tween.disconnect("tween_completed", self, "drop_done")
+	sort_out(0.15)
 
 func run():
-	if cards_pool.empty():
-		return
-	var card = load("res://assets/cards/card.tscn").instance()
-	card.set_info(cards_pool.pop_front())
-	card.connect("card_spell", self, "card_spelled")
-	card.position = born
-	anchor.add_child(card)
-	card.apply_enable()
-	sort_out(0.3)
-	running = true
-	controller.short_deck(controller.player_id, 1)
+	if !cards_pool.empty():
+		var card = load("res://assets/cards/card.tscn").instance()
+		card.set_info(cards_pool.pop_front())
+		card.connect("card_spell", self, "card_spelled")
+		card.position = born
+		anchor.add_child(card)
+		card.apply_enable()
+		sort_out(0.3)
+		running = true
+		controller.short_deck(controller.player_id, 1)
+	if !cards_drop.empty():
+		var card = anchor.get_child(cards_drop.pop_front())
+		tween.interpolate_property(
+			card, "position",
+			card.position, card.position + Vector2(0, 50), 0.2,
+			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+		)
+		tween.connect("tween_completed", self, "drop_done")
+		tween.start()
+		running = true
 
 func sort_out(interval):
 	var valid_children = []
@@ -56,6 +75,8 @@ func sort_out(interval):
 			card.position, Vector2(x, 0), interval,
 			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
 		)
+# warning-ignore:return_value_discarded
+	tween.connect("tween_all_completed", self, "next")
 	tween.start()
 
 func card_spelled(card):
@@ -76,7 +97,6 @@ func card_spelled(card):
 			card, "modulate", card.modulate, Color("ffffffff"), 0.3
 		)
 		tween.start()
-		# 弹出错误提示
 		
 func emit_event(card):
 	emit_signal("custom_card_spelled", card)

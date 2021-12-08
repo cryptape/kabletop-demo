@@ -7,13 +7,14 @@ onready var tween             = $Tween
 
 var max_hp = 30
 var hp = 0
+var hp_display = 0
 
 func _ready():
 	update_hp()
 	
 func update_hp(anim = false):
 	$hp.text = String(hp)
-	var x = origin_size_x * (max_hp - hp) / max_hp
+	var x = origin_size_x * (max_hp - hp_display) / max_hp
 	var from = self.region_rect
 	var to = Rect2(
 		Vector2(origin_position_x + x, from.position.y),
@@ -35,6 +36,6 @@ func _on_controller_opposite_hp(type, value):
 		max_hp = value
 	if type == "hp":
 		hp = value
-		hp = min(hp, max_hp)
-		hp = max(hp, 0)
+		hp_display = min(value, max_hp)
+		hp_display = max(hp_display, 0)
 	update_hp(true)

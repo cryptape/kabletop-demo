@@ -134,13 +134,13 @@ __meta__ = {
 }
 
 [node name="subtitle" type="Label" parent="background"]
-margin_left = 187.077
-margin_top = -821.268
-margin_right = 819.077
-margin_bottom = -761.268
+margin_left = -117.0
+margin_top = -821.0
+margin_right = 906.0
+margin_bottom = -761.0
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0.819608, 0.858824, 0.105882, 1 )
-text = "——美术资源全部来自《尖塔奇兵》"
+text = "——美术资源全部来自《尖塔奇兵》，不可用于商业宣传"
 __meta__ = {
 "_edit_use_anchors_": false
 }

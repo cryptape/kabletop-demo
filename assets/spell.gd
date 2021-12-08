@@ -137,6 +137,10 @@ func _on_sdk_lua_events(events):
 			"draw":
 				var card_hash = params[2]
 				controller.add_player_card(player_id, card_hash)
+			"undraw":
+				var offset = params[2]
+				var card_hash = params[3]
+				controller.del_player_card(player_id, offset, card_hash)
 			"damage":
 				var hp = params[2]
 				var effect = params[3]
@@ -146,20 +150,23 @@ func _on_sdk_lua_events(events):
 				var hp = params[2]
 				controller.set_player_hp(player_id, hp)
 				controller.heal_player(player_id)
-			"empower", "cost":
+			"empower", "depower":
 				var energy = params[2]
 				controller.set_player_energy(player_id, energy)
 			"strip":
 				var buffs = params[2]
 				print("strip buffs = ", buffs)
+				for i in buffs:
+					controller.update_player_buff(player_id, i - 1, 0, 0)
 			"buff":
 				var id = params[2]
 				var offset = params[3]
-				var life = params[4]
+				var value = params[4]
+				var life = params[5]
 				if offset <= 0:
-					controller.add_player_buff(player_id, id, life)
+					controller.add_player_buff(player_id, id, value, life)
 				else:
-					controller.update_player_buff(player_id, offset - 1, life)
+					controller.update_player_buff(player_id, offset - 1, value, life)
 			"spell_end":
 				var card_offset = params[2] - 1
 				var hash_code = params[3]

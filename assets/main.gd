@@ -183,11 +183,11 @@ func heal_player(id, defer = true):
 		_heal(path)
 	
 # player buffs
-func _add_buff(who, buff_id, life):
+func _add_buff(who, buff_id, value, life):
 	var buffs = get_node("panel/%s_hp/buffs" % who)
-	buffs.add_buff(buff_id, life)
+	buffs.add_buff(buff_id, value, life)
 
-func add_player_buff(id, buff_id, life, defer = true):
+func add_player_buff(id, buff_id, value, life, defer = true):
 	var path = ""
 	if id == player_id:
 		path = "player"
@@ -196,19 +196,19 @@ func add_player_buff(id, buff_id, life, defer = true):
 	if defer:
 		defer_funcs[acting_player_id].push_back({
 			"ref": funcref(self, "_add_buff"),
-			"args": [path, buff_id, life]
+			"args": [path, buff_id, value, life]
 		})
 	else:
-		_add_buff(path, buff_id, life)
+		_add_buff(path, buff_id, value, life)
 
-func _update_buff(who, which, life):
+func _update_buff(who, which, value, life):
 	var buffs = get_node("panel/%s_hp/buffs" % who)
 	if life > 0:
-		buffs.update_buff(which, life)
+		buffs.update_buff(which, value, life)
 	else:
 		buffs.remove_buff(which)
 
-func update_player_buff(id, which, life, defer = true):
+func update_player_buff(id, which, value, life, defer = true):
 	var path = ""
 	if id == player_id:
 		path = "player"
@@ -217,10 +217,10 @@ func update_player_buff(id, which, life, defer = true):
 	if defer:
 		defer_funcs[acting_player_id].push_back({
 			"ref": funcref(self, "_update_buff"),
-			"args": [path, which, life]
+			"args": [path, which, value, life]
 		})
 	else:
-		_update_buff(path, which, life)
+		_update_buff(path, which, value, life)
 
 # player card operation
 func add_player_card(id, hash_code, defer = true):
@@ -236,6 +236,20 @@ func add_player_card(id, hash_code, defer = true):
 		})
 	else:
 		node.add_card(hash_code)
+		
+func del_player_card(id, offset, hash_code, defer = true):
+	var node = null
+	if id == player_id:
+		node = get_node("cards/custom")
+	else:
+		node = get_node("panel/opposite_hp/tiny_cards")
+	if defer:
+		defer_funcs[acting_player_id].push_back({
+			"ref": funcref(node, "del_card"),
+			"args": [offset, hash_code]
+		})
+	else:
+		node.del_card(offset, hash_code)
 
 # player role and id operations
 func set_player_role(id, role):

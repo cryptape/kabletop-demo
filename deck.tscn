@@ -108,8 +108,8 @@ __meta__ = {
 }
 
 [node name="anchor" type="GridContainer" parent="scroll"]
-custom_constants/vseparation = 400
-custom_constants/hseparation = 280
+custom_constants/vseparation = 20
+custom_constants/hseparation = 10
 columns = 5
 __meta__ = {
 "_edit_use_anchors_": false
@@ -174,7 +174,7 @@ scale = Vector2( 6.63333, 1.96667 )
 shape = SubResource( 3 )
 
 [node name="delete" type="Sprite" parent="."]
-position = Vector2( 1115.66, 647.441 )
+position = Vector2( 35.0184, 33.6536 )
 scale = Vector2( 0.75, 0.75 )
 texture = ExtResource( 9 )
 region_enabled = true

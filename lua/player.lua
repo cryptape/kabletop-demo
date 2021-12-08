@@ -53,13 +53,74 @@ function Player:draw(count)
 	end
 end
 
+function Player:undraw(count)
+	for _ = 1, count or 1 do
+		if #self.active_cards > 0 then
+			local which = math.random(1, #self.active_cards)
+			local draw_card = self.active_cards[which]
+			table.remove(self.active_cards, which)
+			Emit("undraw", self.id, which, draw_card.hash)
+		else
+			break
+		end
+	end
+end
+
+function Player:heal(value, caster)
+	if value > 0 then
+		value = self:apply_buffs(caster, value, "heal")
+		self.hp = self.hp + value
+		Emit("heal", self.id, self.hp)
+	end
+end
+
+function Player:damage(value, caster, effect)
+	if value > 0 then
+		value = self:apply_buffs(caster, value, "damage")
+		self.hp = self.hp - value
+		Emit("damage", self.id, self.hp, effect or "firebomb")
+	end
+end
+
+function Player:empower(value, caster)
+	if value > 0 then
+		value = self:apply_buffs(caster, value, "empower")
+		self.energy = math.min(self.energy + value, self.max_energy)
+		Emit("empower", self.id, self.energy)
+	end
+end
+
+function Player:depower(value, caster)
+	if value > 0 then
+		value = self:apply_buffs(caster, value, "depower")
+		self.energy = math.max(self.energy - value, 0)
+		Emit("depower", self.id, self.energy)
+	end
+end
+
 function Player:elapse_buffs()
 	for i, buff in ipairs(self.buffs) do
-		local alive = buff:elapse(self, i)
+		local alive = buff:elapse(i)
 		if not alive then
 			table.remove(self.buffs, i)
 		end
 	end
+end
+
+function Player:apply_buffs(caster, value, effect)
+	for _, buff in ipairs(caster.buffs) do
+		local apply = buff["effects." .. effect]
+		if type(apply) == "function" then
+			value = apply(buff, caster, self, value)
+		end
+	end
+	for _, buff in ipairs(caster.kabletop:other_player().buffs) do
+		local apply = buff["effects." .. effect]
+		if type(apply) == "function" then
+			value = apply(buff, caster, self, value)
+		end
+	end
+	return value
 end
 
 function Player:draw_untapped(acting_player)

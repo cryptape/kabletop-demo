@@ -52,6 +52,7 @@ function Tabletop:switch_round()
 			player:draw_untapped(self.acting_player)
 		end
 		Emit("new_round", self.acting_player, self.round, last_player)
+		self.acting_player:empower(1)
 	end
 end
 

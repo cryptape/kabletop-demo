@@ -14,25 +14,28 @@ end
 
 function card:apply(caster, opposite)
 	assert(caster.energy >= self.cost, "insufficient energy cost " .. self.cost .. " from " .. self.hash)
-	caster.energy = caster.energy - self.cost
-	Emit("cost", caster.id, caster.energy)
+	caster:depower(self.cost)
 	for _, effect in ipairs(self.caster_effects) do
 		assert(type(effect) == "function", "caster_effect in " .. self.hash .. " has non-function type")
-		effect(caster)
+		effect(caster, caster)
 	end
 	for _, effect in ipairs(self.opposite_effects) do
 		assert(type(effect) == "function", "opposite_effect in " .. self.hash .. " has non-function type")
-		effect(opposite)
+		effect(opposite, caster)
 	end
 	for _, buff in ipairs(self.caster_buffs) do
 		assert(type(buff) == "table", "caster_buff in " .. self.hash .. " has non-table type")
 		table.insert(caster.buffs, buff)
-		Emit("buff", caster.id, buff.id, 0, buff.life)
+		buff.owner = caster
+		buff.caster = caster
+		Emit("buff", caster.id, buff.id, 0, buff.value, buff.life)
 	end
 	for _, buff in ipairs(self.opposite_buffs) do
 		assert(type(buff) == "table", "opposite_buff in " .. self.hash .. " has non-table type")
 		table.insert(opposite.buffs, buff)
-		Emit("buff", opposite.id, buff.id, 0, buff.life)
+		buff.owner = opposite
+		buff.caster = caster
+		Emit("buff", opposite.id, buff.id, 0, buff.value, buff.life)
 	end
 end
 
