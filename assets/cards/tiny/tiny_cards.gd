@@ -14,6 +14,10 @@ func add_card(_hash):
 	tiny_custom.add_card()
 	card_adding = true
 
+func del_card(offset, _hash):
+	tiny_custom.del_card(offset)
+	card_adding = true
+
 func complete_add_card():
 	card_adding = false
 	run()

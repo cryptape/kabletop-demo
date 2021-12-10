@@ -24,7 +24,6 @@ func add_buff(id, value, life):
 	if tip != null:
 		var buff = load("res://assets/ui/buff.tscn").instance()
 		buff.frame = id
-		buff.value = value
 		self.add_child(buff)
 		buff.set_tips(tip)
 		sort_out()
@@ -33,9 +32,9 @@ func remove_buff(i):
 	self.get_child(i).queue_free()
 	sort_out()
 	
-func update_buff(i, life):
+func update_buff(i, value, life):
 	var buff = self.get_child(i)
-	var tip = get_buff_tip(buff.frame, buff.value, life)
+	var tip = get_buff_tip(buff.frame, value, life)
 	if tip != null:
 		buff.set_tips(tip)
 

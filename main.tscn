@@ -548,6 +548,8 @@ region_rect = Rect2( 134, 211, 244, 90 )
 script = ExtResource( 32 )
 
 [node name="click" type="Area2D" parent="challenge"]
+monitoring = false
+monitorable = false
 
 [node name="collision" type="CollisionShape2D" parent="challenge/click"]
 scale = Vector2( 10.8701, 3.73568 )

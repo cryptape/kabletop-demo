@@ -24,7 +24,7 @@ buffs.holylight = function (value, live_round)
 		value = value,
 		["elapse"] = function (self, offset)
 			self.life = self.life - 1
-			self.owner:heal(value)
+			self.owner:heal(value, self.caster)
 			Emit("buff", self.owner.id, self.id, offset, value, self.life)
 			return self.life > 0
 		end
@@ -39,7 +39,7 @@ buffs.holypower = function (value, live_round)
 		value = value,
 		["elapse"] = function (self, offset)
 			self.life = self.life - 1
-			self.owner:empower(value)
+			self.owner:empower(value, self.caster)
 			Emit("buff", self.owner.id, self.id, offset, value, self.life)
 			return self.life > 0
 		end
@@ -59,7 +59,7 @@ buffs.niceevil = function (value, live_round)
 		end,
 		["effects.damage"] = function (self, caster, target, damage)
 			if self.owner == caster and caster ~= target then
-				self.owner:heal(damage * value)
+				self.owner:heal(damage * value, self.caster)
 				damage = 0
 			end
 			return damage
@@ -128,7 +128,7 @@ buffs.reflect = function (value, live_round)
 		id = 8,
 		life = live_round,
 		value = value,
-		["elaspe"] = function (self, offset)
+		["elapse"] = function (self, offset)
 			self.life = self.life - 1
 			Emit("buff", self.owner.id, self.id, offset, value, self.life)
 			return self.life > 0

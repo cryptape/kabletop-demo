@@ -28,8 +28,8 @@ end
 function Player:spell(which)
 	local card = assert(self.active_cards[which], "spelling card " .. which .. " doesn't exist")
 	local opposite = self.tabletop:other_player()
-	card:apply(self, opposite)
 	table.remove(self.active_cards, which)
+	card:apply(self, opposite)
 	Emit("spell_end", self.id, which, card.hash)
 end
 
@@ -108,13 +108,16 @@ function Player:elapse_buffs()
 end
 
 function Player:apply_buffs(caster, value, effect)
+	if caster == nil then
+		caster = self
+	end
 	for _, buff in ipairs(caster.buffs) do
 		local apply = buff["effects." .. effect]
 		if type(apply) == "function" then
 			value = apply(buff, caster, self, value)
 		end
 	end
-	for _, buff in ipairs(caster.kabletop:other_player().buffs) do
+	for _, buff in ipairs(caster.tabletop:other_player().buffs) do
 		local apply = buff["effects." .. effect]
 		if type(apply) == "function" then
 			value = apply(buff, caster, self, value)

@@ -286,16 +286,20 @@ func set_round(count):
 	
 func switch_round(id, defer_funcref, params):
 	var tiny_cards = get_node("panel/opposite_hp/tiny_cards")
-	if id == player_id or tiny_cards.no_card_to_spell():
+	if id == player_id:
+		apply_defer_funcs(opposite_id)
 		defer_funcref.call_funcv(params)
 	else:
-		round_switching = true
-		defer_funcs[acting_player_id].push_back({
-			"ref": defer_funcref,
-			"args": params
-		})
+		if tiny_cards.no_card_to_spell():
+			defer_funcref.call_funcv(params)
+		else:
+			round_switching = true
+			defer_funcs[acting_player_id].push_back({
+				"ref": defer_funcref,
+				"args": params
+			})
 	
-# enablility operation
+# enablity operation
 func switch_enable(cards = null, switch = true, buffs = true):
 	get_node("cards").set_enable(cards)
 	get_node("switch").set_enable(switch)

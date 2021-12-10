@@ -13,9 +13,11 @@ var EVENT_QUEUE = []
 
 func _ready():
 	var overview = $background/deckmanage/overview
-	overview.text = "%d/40" % Sdk.get_nfts_count(0)
+	overview.text = "%d/40" % Sdk.get_selected_nfts_count(0)
 	var hero = $background/herochoose/hero
 	hero.text = Config.get_hero_name()
+	var money = $background/money
+	money.text = "余额：%f ckb" % (float(Sdk.get_ckb()) / 100000000)
 	Sdk.set_entry("./lua/boost.lua")
 	Sdk.connect("connect_status", self, "_on_sdk_connect_status")
 	Sdk.connect("channel_status", self, "_on_sdk_channel_status")
@@ -52,6 +54,10 @@ func on_channel_opened(ok):
 	if ok:
 # warning-ignore:return_value_discarded
 		get_tree().change_scene("res://main.tscn")
+	else:
+		EVENT_QUEUE.push_back({
+			call_func = "shutdown"
+		})
 
 func on_shutdown():
 	Sdk.shutdown()
@@ -76,7 +82,7 @@ func _on_sdk_channel_status(status, tx_hash):
 	Wait.set_result(status, tx_hash)
 
 func _on_confirm_pressed():
-	if Config.player_hero == 0 or Sdk.get_nfts_count(0) == 0:
+	if Config.player_hero == 0 or Sdk.get_selected_nfts_count(0) == 0:
 		ui.hide()
 		Wait.set_manual_cancel(
 			"请先确保卡牌和英雄都已进行了选择",
@@ -98,14 +104,10 @@ func _on_confirm_pressed():
 		# 连接本地p2p服务器
 		if Config.native_mode:
 			Wait.set_wait(funcref(self, "on_channel_opened"), null)
-			error = Sdk.create_channel(
+			Sdk.create_channel(
 				staking_ckb, bet_ckb, funcref(Wait, "set_result")
 			)
-			if error != null:
-				Sdk.shutdown()
-				Wait.set_failed(error, null)
-			else:
-				Config.player_name = nickname
+			Config.player_name = nickname
 		# 连接远程中转服务器
 		else:
 			Wait.hide()

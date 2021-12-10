@@ -17,6 +17,7 @@ class Card:
 var native_mode = true
 var challenge_mode = false
 var challenge_info = null
+var last_owned_nfts = {}
 
 var player_hero = 0
 var player_name = ""

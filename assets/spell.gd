@@ -29,8 +29,8 @@ func _ready():
 		controller.get_node("wait").show()
 		controller.set_player_name(controller.player_id, Config.player_name)
 		controller.set_player_role(controller.player_id, Config.player_hero)
-		controller.set_deck_capcacity(ID_ONE, Sdk.get_nfts_count(ID_ONE))
-		controller.set_deck_capcacity(ID_TWO, Sdk.get_nfts_count(ID_TWO))
+		controller.set_deck_capcacity(ID_ONE, Sdk.get_selected_nfts_count(ID_ONE))
+		controller.set_deck_capcacity(ID_TWO, Sdk.get_selected_nfts_count(ID_TWO))
 		Config.game_ready = true
 		Sdk.reply_p2p_message("start_game", funcref(self, "_on_p2p_start_game"))
 		Sdk.send_p2p_message("game_ready", {})
@@ -140,7 +140,7 @@ func _on_sdk_lua_events(events):
 			"undraw":
 				var offset = params[2]
 				var card_hash = params[3]
-				controller.del_player_card(player_id, offset, card_hash)
+				controller.del_player_card(player_id, offset - 1, card_hash)
 			"damage":
 				var hp = params[2]
 				var effect = params[3]
@@ -155,7 +155,6 @@ func _on_sdk_lua_events(events):
 				controller.set_player_energy(player_id, energy)
 			"strip":
 				var buffs = params[2]
-				print("strip buffs = ", buffs)
 				for i in buffs:
 					controller.update_player_buff(player_id, i - 1, 0, 0)
 			"buff":

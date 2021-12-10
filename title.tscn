@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://assets/background/main.jpg" type="Texture" id=1]
 [ext_resource path="res://assets/ui/menu/menu_battleclient.png" type="Texture" id=2]
@@ -50,39 +50,39 @@ use_filter = true
 font_data = SubResource( 5 )
 
 [sub_resource type="DynamicFontData" id=7]
-font_path = "res://assets/font/regular.otf"
+font_path = "res://assets/font/medium.otf"
 
 [sub_resource type="DynamicFont" id=8]
-size = 33
-font_data = SubResource( 7 )
-
-[sub_resource type="RectangleShape2D" id=9]
-
-[sub_resource type="DynamicFontData" id=10]
-font_path = "res://assets/font/medium.otf"
-
-[sub_resource type="DynamicFont" id=11]
-size = 50
-use_mipmaps = true
-use_filter = true
-font_data = SubResource( 10 )
-
-[sub_resource type="RectangleShape2D" id=12]
-
-[sub_resource type="DynamicFontData" id=13]
-font_path = "res://assets/font/medium.otf"
-
-[sub_resource type="DynamicFont" id=14]
 size = 35
 use_mipmaps = true
 use_filter = true
-font_data = SubResource( 13 )
+font_data = SubResource( 7 )
+
+[sub_resource type="DynamicFontData" id=9]
+font_path = "res://assets/font/regular.otf"
+
+[sub_resource type="DynamicFont" id=10]
+size = 33
+font_data = SubResource( 9 )
+
+[sub_resource type="RectangleShape2D" id=11]
+
+[sub_resource type="DynamicFontData" id=12]
+font_path = "res://assets/font/medium.otf"
+
+[sub_resource type="DynamicFont" id=13]
+size = 50
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=14]
 
 [sub_resource type="DynamicFontData" id=15]
 font_path = "res://assets/font/medium.otf"
 
 [sub_resource type="DynamicFont" id=16]
-size = 80
+size = 35
 use_mipmaps = true
 use_filter = true
 font_data = SubResource( 15 )
@@ -97,22 +97,31 @@ use_filter = true
 font_data = SubResource( 17 )
 
 [sub_resource type="DynamicFontData" id=19]
-font_path = "res://assets/font/regular.otf"
+font_path = "res://assets/font/medium.otf"
 
 [sub_resource type="DynamicFont" id=20]
-size = 50
+size = 80
 use_mipmaps = true
 use_filter = true
 font_data = SubResource( 19 )
 
 [sub_resource type="DynamicFontData" id=21]
-font_path = "res://assets/font/medium.otf"
+font_path = "res://assets/font/regular.otf"
 
 [sub_resource type="DynamicFont" id=22]
-size = 35
+size = 50
 use_mipmaps = true
 use_filter = true
 font_data = SubResource( 21 )
+
+[sub_resource type="DynamicFontData" id=23]
+font_path = "res://assets/font/medium.otf"
+
+[sub_resource type="DynamicFont" id=24]
+size = 35
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 23 )
 
 [node name="controller" type="Node2D"]
 scale = Vector2( 0.6, 0.6 )
@@ -141,6 +150,17 @@ margin_bottom = -761.0
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0.819608, 0.858824, 0.105882, 1 )
 text = "——美术资源全部来自《尖塔奇兵》，不可用于商业宣传"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="money" type="Label" parent="background"]
+margin_left = -996.439
+margin_top = 201.825
+margin_right = -309.439
+margin_bottom = 237.825
+custom_fonts/font = SubResource( 6 )
+text = "余额: 100000.0000 ckb"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -192,7 +212,7 @@ margin_left = -107.329
 margin_top = -323.644
 margin_right = 137.671
 margin_bottom = -287.644
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 8 )
 text = "对战（客户端）"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -203,9 +223,9 @@ margin_left = -148.485
 margin_top = 35.1891
 margin_right = 152.515
 margin_bottom = 200.189
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 10 )
 custom_colors/font_color = Color( 0.94902, 0.917647, 0.917647, 1 )
-text = "连接一个正在监听的对战节点，连接成功后自动开始卡牌对战"
+text = "连接一个正在监听的对战节点或者中转服务器，连接成功后自动开始卡牌对战"
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -215,7 +235,7 @@ __meta__ = {
 
 [node name="rect" type="CollisionShape2D" parent="background/battleclient/mouse_check"]
 scale = Vector2( 18.4666, 34.0667 )
-shape = SubResource( 9 )
+shape = SubResource( 11 )
 
 [node name="battleserver" type="Node2D" parent="background"]
 position = Vector2( -298.034, -296.898 )
@@ -264,7 +284,7 @@ margin_left = -110.663
 margin_top = -323.644
 margin_right = 134.337
 margin_bottom = -287.644
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 8 )
 text = "对战（服务器）"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -275,7 +295,7 @@ margin_left = -147.0
 margin_top = 32.7277
 margin_right = 154.0
 margin_bottom = 241.728
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 10 )
 custom_colors/font_color = Color( 0.94902, 0.917647, 0.917647, 1 )
 text = "开启一个对战节点并监听客户端的连接，连接建立后自动开始卡牌对战"
 autowrap = true
@@ -288,7 +308,7 @@ __meta__ = {
 [node name="rect" type="CollisionShape2D" parent="background/battleserver/mouse_check"]
 position = Vector2( 3.33331, 0 )
 scale = Vector2( 18.4, 34.0667 )
-shape = SubResource( 9 )
+shape = SubResource( 11 )
 
 [node name="deckmanage" type="Node2D" parent="background"]
 position = Vector2( 165.809, -296.898 )
@@ -337,7 +357,7 @@ margin_left = -72.8426
 margin_top = -323.644
 margin_right = 67.1574
 margin_bottom = -287.644
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 8 )
 text = "卡牌管理"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -348,7 +368,7 @@ margin_left = -147.0
 margin_top = 30.1891
 margin_right = 154.0
 margin_bottom = 239.189
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 10 )
 custom_colors/font_color = Color( 0.94902, 0.917647, 0.917647, 1 )
 text = "卡牌管理界面：可以设定参战卡组和删除指定卡牌，也可以购买和拆解卡包"
 autowrap = true
@@ -361,14 +381,14 @@ __meta__ = {
 [node name="rect" type="CollisionShape2D" parent="background/deckmanage/mouse_check"]
 position = Vector2( 4.99988, 0 )
 scale = Vector2( 18.4, 34.0667 )
-shape = SubResource( 9 )
+shape = SubResource( 11 )
 
 [node name="overview" type="Label" parent="background/deckmanage"]
 margin_left = -60.0773
 margin_top = -412.052
 margin_right = 75.9227
 margin_bottom = -362.052
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 13 )
 text = "0/40"
 align = 2
 __meta__ = {
@@ -422,7 +442,7 @@ margin_left = -70.26
 margin_top = -323.644
 margin_right = 69.74
 margin_bottom = -287.644
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 8 )
 text = "英雄召唤"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -433,7 +453,7 @@ margin_left = -147.0
 margin_top = 28.7042
 margin_right = 154.0
 margin_bottom = 237.704
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 10 )
 custom_colors/font_color = Color( 0.94902, 0.917647, 0.917647, 1 )
 text = "英雄召唤界面：召唤一位来自不同宇宙的英雄，可以使用其独特的卡牌技能"
 autowrap = true
@@ -447,14 +467,14 @@ position = Vector2( -5.00024, 0 )
 [node name="rect" type="CollisionShape2D" parent="background/herochoose/mouse_check"]
 position = Vector2( 4.99988, 0 )
 scale = Vector2( 18.4, 34.0667 )
-shape = SubResource( 9 )
+shape = SubResource( 11 )
 
 [node name="hero" type="Label" parent="background/herochoose"]
 margin_left = -153.693
 margin_top = -412.0
 margin_right = 146.307
 margin_bottom = -362.0
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 13 )
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -473,14 +493,14 @@ script = ExtResource( 21 )
 
 [node name="collision" type="CollisionShape2D" parent="background/deadgame/challenge"]
 scale = Vector2( 13.25, 6.5 )
-shape = SubResource( 12 )
+shape = SubResource( 14 )
 
 [node name="name" type="Label" parent="background/deadgame"]
 margin_left = -67.4373
 margin_top = -18.4224
 margin_right = 72.5627
 margin_bottom = 17.5776
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 16 )
 text = "残局处理"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -512,7 +532,7 @@ margin_left = 593.247
 margin_top = 595.056
 margin_right = 1063.25
 margin_bottom = 676.056
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 18 )
 text = "ws://0.0.0.0:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -523,7 +543,7 @@ margin_left = 1069.0
 margin_top = 590.667
 margin_right = 1348.0
 margin_bottom = 681.667
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 20 )
 text = "11550"
 max_length = 5
 caret_blink = true
@@ -537,7 +557,7 @@ margin_top = 254.494
 margin_right = 771.502
 margin_bottom = 335.494
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 18 )
 text = "昵称:"
 align = 1
 __meta__ = {
@@ -549,7 +569,7 @@ margin_left = 789.667
 margin_top = 249.332
 margin_right = 1249.67
 margin_bottom = 340.332
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 20 )
 text = "Vimchain"
 max_length = 10
 caret_blink = true
@@ -563,7 +583,7 @@ margin_top = 367.827
 margin_right = 771.502
 margin_bottom = 448.827
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 18 )
 text = "质押:"
 align = 1
 __meta__ = {
@@ -575,8 +595,8 @@ margin_left = 789.667
 margin_top = 362.667
 margin_right = 1249.67
 margin_bottom = 453.667
-custom_fonts/font = SubResource( 18 )
-text = "300"
+custom_fonts/font = SubResource( 20 )
+text = "700"
 max_length = 10
 caret_blink = true
 __meta__ = {
@@ -589,7 +609,7 @@ margin_top = 3.04279
 margin_right = 688.655
 margin_bottom = 84.0428
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 18 )
 text = "(CKB)"
 align = 1
 __meta__ = {
@@ -602,7 +622,7 @@ margin_top = 482.827
 margin_right = 771.502
 margin_bottom = 563.827
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 18 )
 text = "赌注:"
 align = 1
 __meta__ = {
@@ -614,8 +634,8 @@ margin_left = 789.667
 margin_top = 477.666
 margin_right = 1249.67
 margin_bottom = 568.667
-custom_fonts/font = SubResource( 18 )
-text = "100"
+custom_fonts/font = SubResource( 20 )
+text = "200"
 max_length = 10
 caret_blink = true
 __meta__ = {
@@ -628,7 +648,7 @@ margin_top = 3.04279
 margin_right = 688.655
 margin_bottom = 84.0428
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 18 )
 text = "(CKB)"
 align = 1
 __meta__ = {
@@ -648,7 +668,7 @@ margin_top = 595.054
 margin_right = 799.256
 margin_bottom = 676.054
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 18 )
 text = "ws://"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -659,7 +679,7 @@ margin_left = 791.0
 margin_top = 590.332
 margin_right = 1710.0
 margin_bottom = 681.332
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 20 )
 text = "127.0.0.1:11550"
 max_length = 21
 caret_blink = true
@@ -673,7 +693,7 @@ margin_top = 254.494
 margin_right = 771.502
 margin_bottom = 335.494
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 18 )
 text = "昵称:"
 align = 1
 __meta__ = {
@@ -685,7 +705,7 @@ margin_left = 789.667
 margin_top = 249.332
 margin_right = 1249.67
 margin_bottom = 340.332
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 20 )
 text = "Vimchain"
 max_length = 10
 caret_blink = true
@@ -699,7 +719,7 @@ margin_top = 367.827
 margin_right = 771.502
 margin_bottom = 448.827
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 18 )
 text = "质押:"
 align = 1
 __meta__ = {
@@ -711,8 +731,8 @@ margin_left = 789.667
 margin_top = 362.667
 margin_right = 1249.67
 margin_bottom = 453.667
-custom_fonts/font = SubResource( 18 )
-text = "300"
+custom_fonts/font = SubResource( 20 )
+text = "700"
 max_length = 10
 caret_blink = true
 __meta__ = {
@@ -725,7 +745,7 @@ margin_top = 3.04279
 margin_right = 688.655
 margin_bottom = 84.0428
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 18 )
 text = "(CKB)"
 align = 1
 __meta__ = {
@@ -738,7 +758,7 @@ margin_top = 482.827
 margin_right = 771.502
 margin_bottom = 563.827
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 18 )
 text = "赌注:"
 align = 1
 __meta__ = {
@@ -750,8 +770,8 @@ margin_left = 789.667
 margin_top = 477.666
 margin_right = 1249.67
 margin_bottom = 568.667
-custom_fonts/font = SubResource( 18 )
-text = "100"
+custom_fonts/font = SubResource( 20 )
+text = "200"
 max_length = 10
 caret_blink = true
 __meta__ = {
@@ -764,7 +784,7 @@ margin_top = 3.04279
 margin_right = 688.655
 margin_bottom = 84.0428
 rect_pivot_offset = Vector2( 50.4243, 0 )
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 18 )
 text = "(CKB)"
 align = 1
 __meta__ = {
@@ -797,7 +817,7 @@ margin_left = 59.5891
 margin_top = -38.5236
 margin_right = 259.589
 margin_bottom = 35.4764
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 22 )
 text = "本地模式"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -831,7 +851,7 @@ margin_left = 59.5892
 margin_top = -38.5236
 margin_right = 259.589
 margin_bottom = 35.4764
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 22 )
 text = "中转模式"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -864,7 +884,7 @@ margin_left = 421.748
 margin_top = 20.7311
 margin_right = 491.748
 margin_bottom = 56.7311
-custom_fonts/font = SubResource( 22 )
+custom_fonts/font = SubResource( 24 )
 text = "确认"
 
 [node name="coverclose" type="TextureButton" parent="coverlayer"]

@@ -8,6 +8,7 @@ var width = 350
 var step = 60
 var pending_count = 0
 var pending_del = []
+var dead_tiny = null
 var running = false
 
 func _ready():
@@ -18,11 +19,11 @@ func add_card():
 	if running == false:
 		run()
 	
-func del_card(offset, _hash_code):
-	if offset < anchor.get_child_count():
-		pending_del.push_back(offset)
-		if running == false:
-			run()
+func del_card(offset):
+	pending_del.push_back(offset)
+	print(pending_del)
+	if running == false:
+		run()
 	
 func run():
 	if pending_count > 0:
@@ -32,15 +33,15 @@ func run():
 		pending_count -= 1
 		running = true
 		controller.short_deck(controller.opposite_id, 1)
-	if !pending_del.empty():
-		var tiny = anchor.get_child(pending_del.pop_front())
+	elif !pending_del.empty():
+		dead_tiny = anchor.get_child(pending_del.pop_front())
+		assert(dead_tiny, "bad tiny drop indexer")
 		tween.interpolate_property(
-			tiny, "position",
-			tiny.position, tiny.position + Vector2(0, 25), 0.3,
+			dead_tiny, "position",
+			dead_tiny.position, dead_tiny.position + Vector2(0, 50), 0.3,
 			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
 		)
-		tween.connect("tween_completed", self, "del_complete")
-		tween.start()
+		sort_out()
 		running = true
 
 func spell(i, id):
@@ -56,7 +57,7 @@ func on_spelled(tiny):
 func sort_out():
 	var valid_children = []
 	for node in anchor.get_children():
-		if !node.is_queued_for_deletion():
+		if !node.is_queued_for_deletion() and node != dead_tiny:
 			valid_children.push_back(node)
 	var step_num = valid_children.size() - 1
 	for i in valid_children.size():
@@ -67,17 +68,13 @@ func sort_out():
 			tiny.position, Vector2(x, 125), 0.3,
 			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
 		)
-	tween.connect("tween_all_completed", self, "sort_complete")
 	tween.start()
 
 func sort_complete():
-	tween.disconnect("tween_all_completed", self, "sort_complete")
+	if dead_tiny != null:
+		dead_tiny.queue_free()
+		dead_tiny = null
 	running = false
-	if pending_count > 0:
-		run()
-	else:
+	run()
+	if !running:
 		self.get_parent().complete_add_card()
-
-func del_complete():
-	tween.disconnect("tween_completed", self, "del_complete")
-	sort_out()

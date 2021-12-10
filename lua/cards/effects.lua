@@ -75,12 +75,12 @@ effects.strip = function (value, subeffect)
 		end
 		Emit("strip", player.id, bs)
 		if type(subeffect) == "table" then
-			local effect = assert(effects[subeffect.name] ~= nil, "bad subeffect name " .. subeffect.name)
+			local effect = assert(effects[subeffect.name], "bad subeffect name " .. subeffect.name)
 			local apply = effect((#bs) * subeffect.factor)
 			if subeffect.target == "owner" then
 				apply(player, caster)
 			elseif subeffect.target == "opposite" then
-				apply(player.kabletop:other_player(), caster)
+				apply(player.tabletop:other_player(), caster)
 			else
 				error("unknown strip subeffect target " .. subeffect.target)
 			end

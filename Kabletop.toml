@@ -1,7 +1,7 @@
 [common]
-# ckb_uri = "https://testnet.ckbapp.dev"
+# ckb_uri = "https://testnet.ckb.dev/rpc"
 ckb_uri = "http://localhost:8114"
-# ckb_indexer_uri = "https://testnet.ckbapp.dev/indexer"
+# ckb_indexer_uri = "https://testnet.ckb.dev/indexer"
 ckb_indexer_uri = "http://localhost:8116"
 composer_privkey = "8d929e962f940f75aa32054f19a5ea2ce70ae30bfe4ff7cf2dbed70d556265df" # pubkey_hash = "58b85c196e5fe80e25b4dab596e7121d219f79fb"
 user_privkey = "010a51a0fa2260b710624d201ec24124f53ddf0c9abe81448b4b0c89e5a06057" # pubkey_hash = "40e88263ef526a8248570e931cfb2f2fb3ed044f"
@@ -9,43 +9,43 @@ user_privkey = "010a51a0fa2260b710624d201ec24124f53ddf0c9abe81448b4b0c89e5a06057
 # user_privkey = "d44955b4770247b233c284268c961085e622febb61d364c9a5cabe0c238f08d4"
 
 # testnet
-# [nft]
-# tx_hash = "dc09e6821358227d50e50e1dbb41bb3b37aac602461b206c61f301dcf5778c24"
-# code_hash = "b79c9e435742b9c939439303b279afdc3f92b377be7a187f4e690fd726141553"
-
-# [wallet]
-# tx_hash = "f0ebe2baae1c6339426b012d8f9acf3655f3594c7d0cede16ab266e7e95fc6b7"
-# code_hash = "7335651d92dd3759ec6626cadaba9257959a2fe38f80b0752780936f735355cd"
-
-# [payment]
-# tx_hash = "7a3ce30b55d77df0be57a3548accf25f5db2609e3cbea280d5a134afbd3cbd4a"
-# code_hash = "80d351c92602c4ad201d0cad2645ea02c45a026c7d70d92f79399dfaf8540ff4"
-
-# [kabletop]
-# tx_hash = "1fa0d2998a90a4ef0a2be1afe2b7f5cbde435cd4e5155955735fad23c459a22d"
-# code_hash = "acf8e251d68f9c936bb0aad5c09f9b5d7af088457650e09b79bfa0ebb4417922"
-
-# [[luacodes]]
-# tx_hash = "0a24c4a261416a6afcb7b16471502817d9585a1fb6dfdeed4516b2375b52a316"
-# data_hash = "4bdaca7768248f7fe777ea36679b440dddd085f66a40790a028a83ae2a5071b8"
-
-# dev
 [nft]
-tx_hash = "df38dcbd7aeae649eef81dce2997e33c0e6792966c0ce0094a98b68b71c595bc"
+tx_hash = "dc09e6821358227d50e50e1dbb41bb3b37aac602461b206c61f301dcf5778c24"
 code_hash = "b79c9e435742b9c939439303b279afdc3f92b377be7a187f4e690fd726141553"
 
 [wallet]
-tx_hash = "33dbeeb7bbc03496a3ee9992021582e70e6808bb799110063c53800b7d38733a"
+tx_hash = "f0ebe2baae1c6339426b012d8f9acf3655f3594c7d0cede16ab266e7e95fc6b7"
 code_hash = "7335651d92dd3759ec6626cadaba9257959a2fe38f80b0752780936f735355cd"
 
 [payment]
-tx_hash = "32038ac4415b4e70820b281ab1aeabe22731519154244caf7e6c47fcbaff953d"
+tx_hash = "7a3ce30b55d77df0be57a3548accf25f5db2609e3cbea280d5a134afbd3cbd4a"
 code_hash = "80d351c92602c4ad201d0cad2645ea02c45a026c7d70d92f79399dfaf8540ff4"
 
 [kabletop]
-tx_hash = "2c5ec9f6bddb11b6cbbb3126093c69269395ed49da39a9a87d1e0b83b6a0e861"
+tx_hash = "1fa0d2998a90a4ef0a2be1afe2b7f5cbde435cd4e5155955735fad23c459a22d"
 code_hash = "acf8e251d68f9c936bb0aad5c09f9b5d7af088457650e09b79bfa0ebb4417922"
 
 [[luacodes]]
-tx_hash = "4a418c8b403811d4ada764e113ae27820ce941eabd615e6ecca4a7b2f070ccf8"
+tx_hash = "0a24c4a261416a6afcb7b16471502817d9585a1fb6dfdeed4516b2375b52a316"
 data_hash = "4bdaca7768248f7fe777ea36679b440dddd085f66a40790a028a83ae2a5071b8"
+
+# dev
+# [nft]
+# tx_hash = "df38dcbd7aeae649eef81dce2997e33c0e6792966c0ce0094a98b68b71c595bc"
+# code_hash = "b79c9e435742b9c939439303b279afdc3f92b377be7a187f4e690fd726141553"
+
+# [wallet]
+# tx_hash = "33dbeeb7bbc03496a3ee9992021582e70e6808bb799110063c53800b7d38733a"
+# code_hash = "7335651d92dd3759ec6626cadaba9257959a2fe38f80b0752780936f735355cd"
+
+# [payment]
+# tx_hash = "32038ac4415b4e70820b281ab1aeabe22731519154244caf7e6c47fcbaff953d"
+# code_hash = "80d351c92602c4ad201d0cad2645ea02c45a026c7d70d92f79399dfaf8540ff4"
+
+# [kabletop]
+# tx_hash = "2c5ec9f6bddb11b6cbbb3126093c69269395ed49da39a9a87d1e0b83b6a0e861"
+# code_hash = "acf8e251d68f9c936bb0aad5c09f9b5d7af088457650e09b79bfa0ebb4417922"
+
+# [[luacodes]]
+# tx_hash = "4a418c8b403811d4ada764e113ae27820ce941eabd615e6ecca4a7b2f070ccf8"
+# data_hash = "4bdaca7768248f7fe777ea36679b440dddd085f66a40790a028a83ae2a5071b8"

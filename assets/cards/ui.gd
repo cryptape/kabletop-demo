@@ -35,7 +35,7 @@ func _on_mouse_check_gui_input(event):
 		var old = selected
 		if event.button_index == BUTTON_LEFT:
 			selected = min(selected + 1, owned)
-		else:
+		elif event.button_index == BUTTON_RIGHT:
 			selected = max(selected - 1, 0)
 		if selected > 0:
 			$frame/indicator_icon.frame = 1

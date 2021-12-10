@@ -36,7 +36,7 @@ local templates = {
 	),
 	-- 天使恩泽
 	[3] = generate(
-		0, pack(effects.empower(3)), pack(effects.heal(2)), nil, nil
+		0, pack(effects.empower(2)), pack(effects.heal(2)), nil, nil
 	),
 	-- 恶魔契约
 	[4] = generate(
