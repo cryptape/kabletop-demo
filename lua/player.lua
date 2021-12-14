@@ -15,6 +15,7 @@ function Player:ctor(role, nfts, id, tabletop)
 	self.energy = 0
 	self.untapped_count = 6
 	self.master_card = assert(NFTs[role], "no role nft " .. role).new()
+	self.master_enable = true
 	self.custom_cards = {}
 	self.active_cards = {}
 	self.buffs = {}
@@ -34,6 +35,8 @@ function Player:spell(which)
 end
 
 function Player:spell_master()
+	assert(self.master_enable, "one round for one chance of spelling master card")
+	self.master_enable = false
 	local opposite = self.tabletop:other_player()
 	self.master_card:apply(self, opposite)
 	Emit("spell_end", self.id, 0, self.master_card.hash)
@@ -132,6 +135,11 @@ function Player:draw_untapped(acting_player)
 	if acting_player ~= self.id then
 		self.untapped_count = self.untapped_count + 1
 	end
+end
+
+function Player:switch_to()
+	self:empower(1)
+	self.master_enable = true
 end
 
 return Player

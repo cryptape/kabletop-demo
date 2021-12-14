@@ -17,19 +17,21 @@ func card_spelled(card):
 	card.reset()
 	card.scale = Vector2(1.4, 1.4)
 	card.modulate = Color("00ffffff")
+	card.enable = false
 	tween.interpolate_property(
 		card, "scale", card.scale, Vector2.ONE, 0.3
 	)
 	tween.interpolate_property(
-		card, "modulate", card.modulate, Color("ffffffff"), 0.3
+		card, "modulate", card.modulate, Color("8affffff"), 0.3
 	)
 	tween.start()
 	var energy = get_node("/root/controller/panel/player_energy")
 	if energy.try_cost_energy(card.info.cost):
 		emit_event(card)
-	else:
-		# 弹出错误提示
-		pass
+
+func enable_special_card():
+	if self.get_child_count() > 0:
+		self.get_child(0).enable = true
 		
 func emit_event(card):
 	emit_signal("special_card_spelled", card)

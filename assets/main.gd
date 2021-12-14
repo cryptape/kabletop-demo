@@ -287,6 +287,7 @@ func set_round(count):
 func switch_round(id, defer_funcref, params):
 	var tiny_cards = get_node("panel/opposite_hp/tiny_cards")
 	if id == player_id:
+		get_node("cards/special").enable_special_card()
 		apply_defer_funcs(opposite_id)
 		defer_funcref.call_funcv(params)
 	else:

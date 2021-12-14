@@ -9,6 +9,7 @@ onready var origin_position = card.position
 onready var target_position = Vector2(origin_position.x, origin_position.y - 65)
 onready var anchor          = get_node("/root/controller")
 
+var enable = true
 var dragging = false
 var spelling = false
 var checking = false
@@ -21,10 +22,14 @@ var info = null
 signal card_spell
 
 func disabled():
+	if !enable:
+		return true
 	var mask_card = anchor.dragging_card
 	return mask_card != null and mask_card != self
 	
 func apply_enable():
+	if !enable:
+		return
 	var mask_card = anchor.dragging_card
 	if mask_card == self or mask_card == null:
 		self.modulate = Color("ffffffff")
@@ -102,7 +107,6 @@ func _on_card_input_event(_viewport, event, _shape_idx):
 					Color("ffffffff"), Color("00ffffff"), 0.15
 				)
 				tween.start()
-# warning-ignore:return_value_discarded
 				tween.connect("tween_all_completed", self, "spelled")
 				set_dragging(false)
 				spelling = false

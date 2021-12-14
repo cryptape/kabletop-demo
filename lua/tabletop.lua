@@ -51,7 +51,7 @@ function Tabletop:switch_round()
 		for _, player in ipairs(self.players) do
 			player:draw_untapped(self.acting_player)
 		end
-		self.players[self.acting_player]:empower(1)
+		self.players[self.acting_player]:switch_to()
 		Emit("new_round", self.acting_player, self.round, last_player)
 	end
 end

@@ -5,15 +5,16 @@ var step = 75
 
 func get_buff_tip(id, value, life):
 	match id:
-		0: return "燃烧生命: 每回合损失%s点生命，增加%s点能量，还剩%s回合" % [value, value, life]
-		1: return "卡牌大师: 每回合抽%s张牌，还剩%s回合" % [value, life]
+		0: return "奉献: 每回合损失%s点生命，增加%s点能量，还剩%s回合" % [value, value, life]
+		1: return "抽牌: 每回合抽%s张牌，还剩%s回合" % [value, life]
 		2: return "护盾: 每回合减少%s点伤害，还剩%s回合" % [value, life]
-		3: return "弃军保帅: 将伤害改为治愈，还剩%s回合" % life
+		3: return "回撤: 将伤害改为治愈，还剩%s回合" % life
 		4: return "圣光: 每回合回复%s点生命，还剩%s回合" % [value, life]
 		5: return "增幅: 伤害增加%s点，还剩%s回合" % [value, life]
-		6: return "神圣能量: 每回合增加%s点能量，还剩%s回合" % [value, life]
+		6: return "威能: 每回合增加%s点能量，还剩%s回合" % [value, life]
 		7: return "灼烧: 每回合损失%s点生命，还剩%s回合" % [value, life]
-		8: return "反射: 攻击方将受到%s点伤害，还剩%s回合" % [value, life]
+		8: return "反弹: 攻击方将受到%s点伤害，还剩%s回合" % [value, life]
+		9: return "弃牌: 每回合弃%s张牌，还剩%s回合" % [value, life]
 
 func set_enable(enable):
 	for node in self.get_children():

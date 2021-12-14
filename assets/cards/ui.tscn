@@ -218,7 +218,6 @@ margin_right = -181.208
 margin_bottom = -368.279
 rect_scale = Vector2( 1.3, 1.3 )
 custom_fonts/font = SubResource( 10 )
-custom_colors/font_color = Color( 0.0901961, 0.113725, 0.101961, 1 )
 text = "强壮"
 align = 1
 valign = 1
