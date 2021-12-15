@@ -26,7 +26,6 @@ func del_card(offset, card_hash):
 		offset = offset,
 		card_hash = card_hash
 	})
-	print(cards_drop)
 	if running == false:
 		run()
 
@@ -54,8 +53,12 @@ func run():
 		running = true
 		controller.short_deck(controller.player_id, 1)
 	elif !cards_drop.empty():
+		var children = []
+		for node in anchor.get_children():
+			if !node.is_queued_for_deletion():
+				children.push_back(node)
 		var drop = cards_drop.pop_front()
-		dead_card = anchor.get_child(drop.offset)
+		dead_card = children[drop.offset]
 		assert(dead_card.info._hash == drop.card_hash,
 			"bad offset %d: %s != %s" %
 				[drop.offset, dead_card.info._hash, drop.card_hash])

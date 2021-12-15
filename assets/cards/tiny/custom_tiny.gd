@@ -21,7 +21,6 @@ func add_card():
 	
 func del_card(offset):
 	pending_del.push_back(offset)
-	print(pending_del)
 	if running == false:
 		run()
 	
@@ -34,7 +33,11 @@ func run():
 		running = true
 		controller.short_deck(controller.opposite_id, 1)
 	elif !pending_del.empty():
-		dead_tiny = anchor.get_child(pending_del.pop_front())
+		var children = []
+		for node in anchor.get_children():
+			if !node.is_queued_for_deletion():
+				children.push_back(node)
+		dead_tiny = children[pending_del.pop_front()]
 		assert(dead_tiny, "bad tiny drop indexer")
 		tween.interpolate_property(
 			dead_tiny, "position",

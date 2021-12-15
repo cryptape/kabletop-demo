@@ -2,10 +2,29 @@
 require "class"
 local NFTs = require "cards/instances"
 
+function table.clone(object)
+    local lookup_table = {}
+    local function _copy(object)
+        if type(object) ~= "table" then
+            return object
+        elseif lookup_table[object] then
+            return lookup_table[object]
+        end
+        local new_table = {}
+        lookup_table[object] = new_table
+        for key, value in pairs(object) do
+            new_table[_copy(key)] = _copy(value)
+        end
+        return setmetatable(new_table, getmetatable(object))
+    end
+    return _copy(object)
+end
+
 -- 玩家对象
 local Player = class()
 
 function Player:ctor(role, nfts, id, tabletop)
+	assert(NFTs[role], "no role nft " .. role)
 	self.id = id
 	self.role = role
 	self.tabletop = tabletop
@@ -14,7 +33,6 @@ function Player:ctor(role, nfts, id, tabletop)
 	self.hp = self.max_hp
 	self.energy = 0
 	self.untapped_count = 6
-	self.master_card = assert(NFTs[role], "no role nft " .. role).new()
 	self.master_enable = true
 	self.custom_cards = {}
 	self.active_cards = {}
@@ -22,7 +40,7 @@ function Player:ctor(role, nfts, id, tabletop)
 
 	for _, hash in ipairs(nfts) do
 		local nft = assert(NFTs[hash], "no nft " .. hash .. " from player " .. id)
-		table.insert(self.custom_cards, nft.new())
+		table.insert(self.custom_cards, table.clone(nft.new()))
 	end
 end
 
@@ -38,8 +56,9 @@ function Player:spell_master()
 	assert(self.master_enable, "one round for one chance of spelling master card")
 	self.master_enable = false
 	local opposite = self.tabletop:other_player()
-	self.master_card:apply(self, opposite)
-	Emit("spell_end", self.id, 0, self.master_card.hash)
+	local master_card = table.clone(NFTs[self.role].new())
+	master_card:apply(self, opposite)
+	Emit("spell_end", self.id, 0, master_card.hash)
 end
 
 function Player:draw(count)

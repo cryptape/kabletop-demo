@@ -48,7 +48,6 @@ func _process(_delta):
 			match e.call_func:
 				"run": Sdk.run(e.code, e.cache)
 				"close_game": Sdk.close_game(e.winner, e.challenge, e.callback)
-				"set_round": Sdk.set_round(e.count, e.owner)
 				"sync": Sdk.sync(e.close_round, e.callback)
 				"p2p": Sdk.send_p2p_message(e.message, e.value)
 				"close_challenge": challenge.finish_challenge(e.game_over)
@@ -129,11 +128,6 @@ func _on_sdk_lua_events(events):
 				var init_hp = params[2]
 				controller.set_player_hp(ID_ONE, init_hp, false)
 				controller.set_player_hp(ID_TWO, init_hp, false)
-				EVENT_QUEUE.push_back({
-					call_func = "set_round",
-					count = 1,
-					owner = player_id
-				})
 			"draw":
 				var card_hash = params[2]
 				controller.add_player_card(player_id, card_hash)
@@ -180,11 +174,6 @@ func _on_sdk_lua_events(events):
 					)
 				else:
 					new_round(player_id, current_round, last_player)
-				EVENT_QUEUE.push_back({
-					call_func = "set_round",
-					count = current_round,
-					owner = player_id
-				})
 			"game_over":
 				EVENT_QUEUE.push_back({
 					call_func = "close_game",
@@ -203,11 +192,6 @@ func _on_sdk_lua_events(events):
 				var player2_ownedcards = player2_base[3] + player2_handcards.size()
 				var player2_buffs = params[8]
 				var winner = params[9]
-				EVENT_QUEUE.push_back({
-					call_func = "set_round",
-					count = round_count,
-					owner = player_id
-				})
 				controller.set_round(round_count)
 				controller.set_player_role(ID_ONE, player1_base[0])
 				controller.set_player_hp(ID_ONE, player1_base[1], false)
@@ -259,10 +243,20 @@ func _on_sdk_connect_status(mode, status):
 			)
 
 func on_cancel_game():
+	if Config.native_mode:
+		Sdk.shutdown()
 # warning-ignore:return_value_discarded
-	get_tree().change_scene("res://title.tscn")
+		get_tree().change_scene("res://title.tscn")
+	else:
+		Sdk.disconnect_client_via_replay()
+# warning-ignore:return_value_discarded
+		get_tree().change_scene("res://relay.tscn")
 
 func on_challenge_mode_open():
+	if Config.native_mode:
+		Sdk.shutdown()
+	else:
+		Sdk.disconnect_client_via_replay()
 	Config.challenge_mode = true
 	Config.challenge_info = {
 		script_hash = sdk_cache.script_hash

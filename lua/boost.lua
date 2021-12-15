@@ -20,7 +20,6 @@ Cfg = {
 
 function Init()
 	local first_player = math.random(PlayerId.One, PlayerId.Two)
-	-- first_player = PlayerId.Two
 	Emit("init", first_player, Cfg.MAX_HP)
 	return first_player
 end
