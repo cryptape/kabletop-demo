@@ -285,12 +285,12 @@ func set_round(count):
 	emit_signal("game_round", count)
 	
 func switch_round(id, defer_funcref, params):
-	var tiny_cards = get_node("panel/opposite_hp/tiny_cards")
 	if id == player_id:
 		get_node("cards/special").enable_special_card()
 		apply_defer_funcs(opposite_id)
 		defer_funcref.call_funcv(params)
 	else:
+		var tiny_cards = get_node("panel/opposite_hp/tiny_cards")
 		if tiny_cards.no_card_to_spell():
 			defer_funcref.call_funcv(params)
 		else:
@@ -312,10 +312,14 @@ func set_battle_result(id, defer_funcref):
 	if id == player_id:
 		defer_funcref.call_func(player_id)
 	else:
-		defer_funcs[acting_player_id].push_back({
-			"ref": defer_funcref,
-			"args": [player_id]
-		})
+		var tiny_cards = get_node("panel/opposite_hp/tiny_cards")
+		if tiny_cards.no_card_to_spell():
+			defer_funcref.call_funcv([player_id])
+		else:
+			defer_funcs[acting_player_id].push_back({
+				"ref": defer_funcref,
+				"args": [player_id]
+			})
 
 func set_deck_capcacity(id, total_count, remain_count = null):
 	if remain_count == null:

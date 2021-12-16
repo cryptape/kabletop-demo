@@ -41,7 +41,7 @@ var HeroNames = {
 }
 
 var NativeNFTs = {
-	1: Card.generate(1, "魔法预言", 2, "回合结束时，抽1张牌"),
+	1: Card.generate(1, "魔法预言", 3, "回合结束时，抽1张牌"),
 	2: Card.generate(0, "百裂斩", 3, "造成2点伤害，对手损失2点能量"),
 	3: Card.generate(3, "天使恩泽", 0, "增加3点能量，对手回复2点生命"),
 	4: Card.generate(2, "恶魔契约", 0, "消耗2点生命，增加3点能量")
@@ -67,7 +67,7 @@ var NFTs = {
 	"d392835f312304530091d6ee6d833b35f7a0aa0b":
 		Card.generate(8, "大开杀戒", 6, "造成10点伤害"),
 	"635552d615f0c2fa17cdc68307dc154c957e3d60":
-		Card.generate(9, "火刃", 3, "消耗3点生命。回合结束前，造成的伤害增加3点"),
+		Card.generate(9, "火刃", 3, "消耗2点生命。回合结束前，造成的伤害增加3点"),
 	"ef28b677015404f9ee466b950d880f6d78709ef1":
 		Card.generate(10, "内力穿透", 5, "造成3点伤害，对手随机损失2个BUFF，每个BUFF造成2点伤害"),
 	"cd58caae1dd06b8074cc55283dabfb7c8df784a7":
@@ -85,7 +85,7 @@ var NFTs = {
 	"d81488bff2b05b434abf93c4e604235ada1850a9":
 		Card.generate(17, "史莱姆袭击", 2, "随机弃1张牌，造成6点伤害"),
 	"4a19d1b5ddf31214c01cd93e3314c8bbdf02d717":
-		Card.generate(18, "刀枪不入", 4, "持续2回合，每回合增加1点能量，受到的伤害减少2点"),
+		Card.generate(18, "刀枪不入", 4, "持续4回合，受到的伤害减少2点"),
 	"fde2a70cffa777c0fc53c29aae1452c17147feb2":
 		Card.generate(19, "龙熄", 3, "造成5点伤害"),
 	"112c40c02594af5565e4a1c453b3f2f1d1b34a15":
@@ -97,7 +97,7 @@ var NFTs = {
 	"49f11bf3811b5316a4f64bc60f1f9e2db7658be5":
 		Card.generate(23, "生命培育", 6, "回复10点生命"),
 	"81074da205515c650e4408a38bdfbabf455d9eb0":
-		Card.generate(24, "毁天灭地", 4, "双方损失所有能量和身上所有BUFF"),
+		Card.generate(24, "毁天灭地", 4, "双方损失所有能量、所有BUFF并随机弃1张牌"),
 	"1dac1c52818c97477b46f8e38514f8a4bd2e935e":
 		Card.generate(25, "火焰灼烧", 0, "消耗4点生命，增加4点能量, 抽1张牌"),
 	"00d16eec4f9aa41e28a7a9c8af1006e9f0697725":
@@ -111,7 +111,7 @@ var NFTs = {
 	"8ba97786d1e7db828553c318fc71ff5bd40af323":
 		Card.generate(30, "天使的恩赐", 10, "回复10点生命，抽3张牌"),
 	"f2fe97371461754207c64f9c64eb2b2589774bfc":
-		Card.generate(31, "充能闪电", 1, "消耗2点生命。维持4回合，每回合增加2点能量"),
+		Card.generate(31, "充能闪电", 1, "消耗2点生命。维持3回合，每回合增加2点能量"),
 	"ac74824a6c938ad7b83a1380d75862a420cdfe1a":
 		Card.generate(32, "被动防御", 4, "维持2回合，每回合回复2点生命，受到的伤害减少2点"),
 	"759df03dda3c6303aa06252854cd5398166140bb":
@@ -127,7 +127,7 @@ var NFTs = {
 	"657f232232088ef1b1dbc3ecbd07ba9d18844d7a":
 		Card.generate(38, "献祭", 3, "每拥有1个BUFF就造成3点伤害，清除身上所有BUFF"),
 	"f7b00790c41297fc095228d3b23e6510fba69258":
-		Card.generate(39, "反射护罩", 4, "维持2回合，当受到攻击时，造成3点伤害"),
+		Card.generate(39, "反射护罩", 4, "维持4回合，当受到攻击时，造成2点伤害"),
 }
 
 func _ready():

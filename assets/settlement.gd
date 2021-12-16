@@ -5,6 +5,7 @@ onready var end_challenge = get_node("../challenge")
 var win = false
 var winner = 0
 var manual = false
+var channel_closed_hash = null
 
 func _ready():
 	Sdk.connect("channel_status", self, "_on_sdk_channel_status")
@@ -47,10 +48,20 @@ func _on_confirm_pressed():
 				)
 				Sdk.close_channel(true, funcref(Wait, "set_result"))
 		else:
-			Wait.set_wait(
-				funcref(self, "on_channel_closed"), "等待通道关闭中..."
-			)
+			if channel_closed_hash != null:
+				Wait.set_manual_confirm(
+					channel_closed_hash,
+					null,
+					funcref(self, "on_channel_closed")
+				)
+			else:
+				Wait.set_wait(
+					funcref(self, "on_channel_closed"), "等待通道关闭中..."
+				)
 
 func _on_sdk_channel_status(status, tx_hash):
 	if !status:
-		Wait.set_result(true, tx_hash)
+		if Wait.visible:
+			Wait.set_result(true, tx_hash)
+		else:
+			channel_closed_hash = tx_hash

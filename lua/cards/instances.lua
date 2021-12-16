@@ -28,7 +28,7 @@ end
 local templates = {
 	-- 魔法预言
 	[1] = generate(
-		2, nil, nil, pack(buffs.cardmaster(1, 1)), nil
+		3, nil, nil, pack(buffs.cardmaster(1, 1)), nil
 	),
 	-- 百裂斩
 	[2] = generate(
@@ -80,7 +80,7 @@ local templates = {
 	),
 	-- 火刃
 	["635552d615f0c2fa17cdc68307dc154c957e3d60"] = generate(
-		3, pack(effects.damage(3)), nil, pack(buffs.fireup(3, 1)), nil
+		3, pack(effects.damage(2)), nil, pack(buffs.fireup(3, 1)), nil
 	),
 	-- 内力穿透
 	["ef28b677015404f9ee466b950d880f6d78709ef1"] = generate(
@@ -116,7 +116,7 @@ local templates = {
 	),
 	-- 刀枪不入
 	["4a19d1b5ddf31214c01cd93e3314c8bbdf02d717"] = generate(
-		4, nil, nil, pack(buffs.shield(2, 2), buffs.holypower(1, 2)), nil
+		4, nil, nil, pack(buffs.shield(2, 4)), nil
 	),
 	-- 龙熄
 	["fde2a70cffa777c0fc53c29aae1452c17147feb2"] = generate(
@@ -140,7 +140,10 @@ local templates = {
 	),
 	-- 毁天灭地
 	["81074da205515c650e4408a38bdfbabf455d9eb0"] = generate(
-		4, pack(effects.depower(0), effects.strip(0)), pack(effects.depower(0), effects.strip(0)), nil, nil
+		4,
+		pack(effects.depower(0), effects.strip(0), effects.undraw(1)),
+		pack(effects.depower(0), effects.strip(0), effects.undraw(1)),
+		nil, nil
 	),
 	-- 火焰灼烧
 	["1dac1c52818c97477b46f8e38514f8a4bd2e935e"] = generate(
@@ -148,7 +151,7 @@ local templates = {
 	),
 	-- 精神失控
 	["00d16eec4f9aa41e28a7a9c8af1006e9f0697725"] = generate(
-		3, pack(effects.damage(3, "firebomb"), effects.draw(2)), nil, nil, nil
+		3, pack(effects.damage(3), effects.draw(2)), nil, nil, nil
 	),
 	-- 圣剑士的意志
 	["5ceb75a6a1990b6fde9f6c3d9d7b9731c630630a"] = generate(
@@ -168,7 +171,7 @@ local templates = {
 	),
 	-- 充能闪电
 	["f2fe97371461754207c64f9c64eb2b2589774bfc"] = generate(
-		1, pack(effects.damage(2, "firebomb")), nil, pack(buffs.holypower(2, 4)), nil
+		1, pack(effects.damage(2)), nil, pack(buffs.holypower(2, 3)), nil
 	),
 	-- 被动防御
 	["ac74824a6c938ad7b83a1380d75862a420cdfe1a"] = generate(
@@ -176,7 +179,7 @@ local templates = {
 	),
 	-- 替身攻击
 	["759df03dda3c6303aa06252854cd5398166140bb"] = generate(
-		6, nil, pack(effects.damage(4, "firebomb"), effects.undraw(1)), nil, nil
+		6, nil, pack(effects.damage(4), effects.undraw(1)), nil, nil
 	),
 	-- 武器上供
 	["9be947ba34ce065abc78ad594e0683c537665cfd"] = generate(
@@ -200,7 +203,7 @@ local templates = {
 	),
 	-- 反射护罩
 	["f7b00790c41297fc095228d3b23e6510fba69258"] = generate(
-		4, nil, nil, pack(buffs.reflect(3, 2)), nil
+		4, nil, nil, pack(buffs.reflect(2, 4)), nil
 	)
 }
 

@@ -32,7 +32,7 @@ function Player:ctor(role, nfts, id, tabletop)
 	self.max_energy = Cfg.MAX_ENERGY
 	self.hp = self.max_hp
 	self.energy = 0
-	self.untapped_count = 6
+	self.untapped_count = 5
 	self.master_enable = true
 	self.custom_cards = {}
 	self.active_cards = {}
@@ -125,6 +125,7 @@ function Player:elapse_buffs()
 		local alive = buff:elapse(i)
 		if not alive then
 			table.remove(self.buffs, i)
+			return self:elapse_buffs()
 		end
 	end
 end

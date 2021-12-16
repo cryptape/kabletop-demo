@@ -47,7 +47,8 @@ func _process(_delta):
 		for e in EVENT_QUEUE:
 			match e.call_func:
 				"run": Sdk.run(e.code, e.cache)
-				"close_game": Sdk.close_game(e.winner, e.challenge, e.callback)
+				"close_game": Sdk.close_game(e.challenge, e.callback)
+				"set_winner": Sdk.set_winner(e.winner)
 				"sync": Sdk.sync(e.close_round, e.callback)
 				"p2p": Sdk.send_p2p_message(e.message, e.value)
 				"close_challenge": challenge.finish_challenge(e.game_over)
@@ -175,9 +176,12 @@ func _on_sdk_lua_events(events):
 				else:
 					new_round(player_id, current_round, last_player)
 			"game_over":
+				EVENT_QUEUE.push_front({
+					call_func = "set_winner",
+					winner = player_id
+				})
 				EVENT_QUEUE.push_back({
 					call_func = "close_game",
-					winner = player_id,
 					challenge = Config.challenge_mode,
 					callback = funcref(self, "game_over")
 				})

@@ -30,7 +30,11 @@ func add_buff(id, value, life):
 		sort_out()
 	
 func remove_buff(i):
-	self.get_child(i).queue_free()
+	var childs = []
+	for node in self.get_children():
+		if !node.is_queued_for_deletion():
+			childs.push_back(node)
+	childs[i].queue_free()
 	sort_out()
 	
 func update_buff(i, value, life):
