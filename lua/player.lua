@@ -2,7 +2,7 @@
 require "class"
 local NFTs = require "cards/instances"
 
-function table.clone(object)
+function table.clone(value)
     local lookup_table = {}
     local function _copy(object)
         if type(object) ~= "table" then
@@ -12,12 +12,31 @@ function table.clone(object)
         end
         local new_table = {}
         lookup_table[object] = new_table
-        for key, value in pairs(object) do
-            new_table[_copy(key)] = _copy(value)
+        for k, v in pairs(object) do
+            new_table[_copy(k)] = _copy(v)
         end
         return setmetatable(new_table, getmetatable(object))
     end
-    return _copy(object)
+    return _copy(value)
+end
+
+function table.join(base, object)
+    for _, value in ipairs(object) do
+        table.insert(base, value)
+    end
+end
+
+local function walk_buffs(buffs, alived_buffs)
+	for i, buff in ipairs(buffs) do
+		local alive = buff:elapse(#alived_buffs + i)
+		if alive then
+            local alived = table.remove(buffs, i)
+            table.insert(alived_buffs, alived)
+        else
+			table.remove(buffs, i)
+            walk_buffs(buffs, alived_buffs)
+		end
+	end
 end
 
 -- 玩家对象
@@ -121,13 +140,9 @@ function Player:depower(value, caster)
 end
 
 function Player:elapse_buffs()
-	for i, buff in ipairs(self.buffs) do
-		local alive = buff:elapse(i)
-		if not alive then
-			table.remove(self.buffs, i)
-			return self:elapse_buffs()
-		end
-	end
+    local alived_buffs = {}
+    walk_buffs(self.buffs, alived_buffs)
+    self.buffs = alived_buffs
 end
 
 function Player:apply_buffs(caster, value, effect)

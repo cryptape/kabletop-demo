@@ -38,7 +38,11 @@ func remove_buff(i):
 	sort_out()
 	
 func update_buff(i, value, life):
-	var buff = self.get_child(i)
+	var childs = []
+	for node in self.get_children():
+		if !node.is_queued_for_deletion():
+			childs.push_back(node)
+	var buff = childs[i]
 	var tip = get_buff_tip(buff.frame, value, life)
 	if tip != null:
 		buff.set_tips(tip)
