@@ -20,25 +20,6 @@ function table.clone(value)
     return _copy(value)
 end
 
-function table.join(base, object)
-    for _, value in ipairs(object) do
-        table.insert(base, value)
-    end
-end
-
-local function walk_buffs(buffs, alived_buffs)
-	for i, buff in ipairs(buffs) do
-		local alive = buff:elapse(#alived_buffs + i)
-		if alive then
-            local alived = table.remove(buffs, i)
-            table.insert(alived_buffs, alived)
-        else
-			table.remove(buffs, i)
-            walk_buffs(buffs, alived_buffs)
-		end
-	end
-end
-
 -- 玩家对象
 local Player = class()
 
@@ -140,9 +121,15 @@ function Player:depower(value, caster)
 end
 
 function Player:elapse_buffs()
-    local alived_buffs = {}
-    walk_buffs(self.buffs, alived_buffs)
-    self.buffs = alived_buffs
+	local i = 1
+	while i <= #self.buffs do
+		local buff = self.buffs[i]
+		if buff:elapse(i) then
+			i = i + 1
+		else
+			table.remove(self.buffs, i)
+		end
+	end
 end
 
 function Player:apply_buffs(caster, value, effect)
