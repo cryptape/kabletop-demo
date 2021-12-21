@@ -49,7 +49,7 @@ func click_button(button):
 			assert(current_unit != null, "bad current_unit var")
 			if current_unit.close_enable:
 				Wait.set_wait(funcref(self, "on_return"), null)
-				Sdk.close_channel(true, funcref(Wait, "set_result"))
+				Sdk.close_channel(true, current_unit.info.script_hash, funcref(Wait, "set_result"))
 			else:
 				var error = Sdk.replay(current_unit.info.script_hash)
 				if error != null:

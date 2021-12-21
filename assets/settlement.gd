@@ -37,7 +37,7 @@ func _on_confirm_pressed():
 			end_challenge.finish_challenge(true)
 		else:
 			Wait.set_wait(funcref(self, "on_channel_closed"), "通道关闭中...")
-			Sdk.close_channel(Config.challenge_mode, funcref(Wait, "set_result"))
+			Sdk.close_channel(Config.challenge_mode, null, funcref(Wait, "set_result"))
 	else:
 		if Config.challenge_mode:
 			if Config.challenge_info.operations.empty():
@@ -46,7 +46,7 @@ func _on_confirm_pressed():
 				Wait.set_wait(
 					funcref(self, "on_channel_closed"), "通道关闭中..."
 				)
-				Sdk.close_channel(true, funcref(Wait, "set_result"))
+				Sdk.close_channel(true, null, funcref(Wait, "set_result"))
 		else:
 			if channel_closed_hash != null:
 				Wait.set_manual_confirm(
