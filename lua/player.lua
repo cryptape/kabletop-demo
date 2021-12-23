@@ -63,7 +63,7 @@ end
 
 function Player:draw(count)
 	for _ = 1, count or 1 do
-		if #self.custom_cards > 0 then
+		if #self.custom_cards > 0 and #self.active_cards < 8 then
 			local which = math.random(1, #self.custom_cards)
 			local draw_card = self.custom_cards[which]
 			table.remove(self.custom_cards, which)
