@@ -340,3 +340,8 @@ func short_deck(id, count):
 		$panel/player_deck/info.text = "%s/%s" % [remain, total]
 	else:
 		$panel/opposite_deck.text = "%s/%s" % [remain, total]
+
+func _on_click_input_event(_viewport, event, _shape_idx):
+	if event.is_pressed() and event.button_index == BUTTON_LEFT:
+		switch_enable()
+		get_node("cards").reset_all()

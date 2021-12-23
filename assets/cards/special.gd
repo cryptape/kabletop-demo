@@ -12,6 +12,7 @@ func set_role_card(role):
 	card.set_info(native_card)
 	card.connect("card_spell", self, "card_spelled")
 	self.add_child(card)
+	card.update_origin_global_position()
 	
 func card_spelled(card):
 	card.reset()

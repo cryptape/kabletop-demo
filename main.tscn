@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=2]
+[gd_scene load_steps=58 format=2]
 
 [ext_resource path="res://assets/background/scene.jpg" type="Texture" id=1]
 [ext_resource path="res://assets/background/scene.png" type="Texture" id=2]
@@ -32,6 +32,7 @@
 [ext_resource path="res://assets/cards/tiny/tiny_cards.gd" type="Script" id=30]
 [ext_resource path="res://assets/ui/switch.gd" type="Script" id=31]
 [ext_resource path="res://assets/ui/end_challenge.gd" type="Script" id=32]
+[ext_resource path="res://assets/ui/setting.png" type="Texture" id=33]
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://assets/font/medium.otf"
@@ -106,6 +107,7 @@ use_filter = true
 font_data = SubResource( 16 )
 
 [sub_resource type="RectangleShape2D" id=18]
+extents = Vector2( 6.84009, 20.1854 )
 
 [sub_resource type="DynamicFontData" id=19]
 font_path = "res://assets/font/medium.otf"
@@ -639,6 +641,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="setting" type="Sprite" parent="."]
+position = Vector2( 52.5255, 144.872 )
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 33 )
+region_enabled = true
+region_rect = Rect2( 25, 25, 151, 151 )
+
+[node name="click" type="Area2D" parent="setting"]
+monitoring = false
+monitorable = false
+
+[node name="collision" type="CollisionShape2D" parent="setting/click"]
+scale = Vector2( 10.8701, 3.73568 )
+shape = SubResource( 18 )
+
 [connection signal="game_round" from="." to="panel/round" method="_on_kabletop_game_round"]
 [connection signal="opposite_energy" from="." to="panel/opposite_energy" method="_on_kabletop_opposite_energy"]
 [connection signal="opposite_hp" from="." to="panel/opposite_hp/hp_bar" method="_on_controller_opposite_hp"]
@@ -654,3 +671,4 @@ __meta__ = {
 [connection signal="mouse_entered" from="challenge/click" to="challenge" method="_on_click_mouse_entered"]
 [connection signal="mouse_exited" from="challenge/click" to="challenge" method="_on_click_mouse_exited"]
 [connection signal="pressed" from="settlement/confirm" to="settlement" method="_on_confirm_pressed"]
+[connection signal="input_event" from="setting/click" to="." method="_on_click_input_event"]
