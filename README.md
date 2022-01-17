@@ -9,7 +9,7 @@ Kabletop 项目由 Contracts 和 SDK 组成，SDK 目前只支持 Godot 游戏�
 
 # Contracts
 
-Kabletop 包含 4 个合约，分别为NFT、Payment、Wallet 和 Kabletop，当前合约部署在 Testnet 上，SDK 通过在配置文件 <a href="https://github.com/ashuralyk/kabletop-demo/blob/master/Kabletop.toml#L12-L30">Kabletop.toml</a> 中添加合约的部署信息去引用这些合约。合约的详细信息可在合约仓库中查看：
+Kabletop 包含 4 个合约，分别为NFT、Payment、Wallet 和 Kabletop，当前合约部署在 Testnet 上，SDK 通过在配置文件 <a href="https://github.com/ashuralyk/kabletop-demo/blob/master/Kabletop.toml#L7-L26">Kabletop.toml</a> 中添加合约的部署信息去引用这些合约。合约的详细信息可在合约仓库中查看：
 > https://github.com/ashuralyk/kabletop-contracts
 
 # Relay Server
@@ -22,16 +22,16 @@ Kabletop 包含 4 个合约，分别为NFT、Payment、Wallet 和 Kabletop，当
 
 Kabletop 的开发者可以将编译好的动态连接库（dll、dylib、so）直接导入到 Godot 游戏引擎中使用，使用方式参考 Godot 官方教程或查看 Demo 实现方式。
 
-SDK 还处在开发阶段，还有很多不完善的地方，如果需要自己修改 SDK 代码，可以在修改代码后重新编译 <a href="#">kabletop-godot</a> 项目，取出编译好的动态链接库导入到项目中即可。
+SDK 还处在开发阶段，还有很多不完善的地方，如果需要自己修改 SDK 代码，可以在修改代码后重新编译 <a href="https://github.com/ashuralyk/kabletop-godot">kabletop-godot</a> 项目，取出编译好的动态链接库导入到项目中即可。
 
-SDK 分为两个层次，由 <a href="#">kabletop-ckb-sdk</a> 和 <a href="">kabletop-godot</a> 组成。第一个层次类似于一个内建的 Mercury 服务，通过提供一系列简易的接口来构建与 Kabletop 相关的 CKB 交易，第二个层次通过集成 <a href="https://docs.rs/gdnative/latest/gdnative/">gdnative</a> 来提供能被 Godot 游戏引擎识别的应用层代码，使游戏开发者能集中精力编写游戏逻辑代码而不用关心如何与 CKB 合约交互。
+SDK 分为两个层次，由 <a href="https://github.com/ashuralyk/kabletop-ckb-sdk">kabletop-ckb-sdk</a> 和 <a href="">kabletop-godot</a> 组成。第一个层次类似于一个内建的 Mercury 服务，通过提供一系列简易的接口来构建与 Kabletop 相关的 CKB 交易，第二个层次通过集成 <a href="https://docs.rs/gdnative/latest/gdnative/">gdnative</a> 来提供能被 Godot 游戏引擎识别的应用层代码，使游戏开发者能集中精力编写游戏逻辑代码而不用关心如何与 CKB 合约交互。
 
 # Demo
 
-Demo 的美术资源全部来自《杀戮尖塔》，只能用于学习和交流使用，不可用于任何商业用途。
+Demo 运行在测试网上，已在配置文件中配置了一把默认的<a href="https://github.com/ashuralyk/kabletop-demo/blob/master/Kabletop.toml#L5">私钥</a>，但建议在体验 Demo 的时候最好将它替换成自己的私钥。
 
-本 Demo 运行在测试网上，已在配置文件中配置了一把默认的<a href="https://github.com/ashuralyk/kabletop-demo/blob/master/Kabletop.toml#L7">私钥</a>，但建议在体验 Demo 的时候最好将它替换成自己的私钥。
+Godot 引擎支持导出功能，本 Demo 可以直接在 Godot 编辑器中运行，也可以导出后运行，导出运行需要将关联的动态链接库文件和 Kabletop.toml 配置文件放在和导出文件相同的目录下。开启两个具备不同私钥的 Demo 后即可开始对战，如果两个 Demo 不在同一个局域网下，还可以通过 RelayServer 来完成连接。
 
-Godot 引擎支持导出功能，本 Demo 可以直接在 Godot 编辑器中运行，也可以导出后运行，导出运行需要将关联的动态链接库文件和 Kabletop.toml 配置文件放在和导出文件相同的目录下。
+该项目由 GDScript 代码和 LUA 代码编写，其中 LUA 代码包含游戏所有的验证逻辑，已编译成二进制文件并上传至 CKB 网络，交由 Kabletop 合约引用并在验证游戏逻辑时执行验证逻辑。Kabletop 开发者如果要自己修改 LUA 验证逻辑，需要通过 <a href="https://github.com/ashuralyk/lua_recompiler">lua_recompiler</a> 工具重新编译部署并修改 <a href="https://github.com/ashuralyk/kabletop-demo/blob/master/Kabletop.toml#L24-L26">Kabletop.toml</a> 配置文件。 
 
-开启两个具备不同私钥的 Demo 后即可开始对战，如果两个 Demo 不在同一个局域网下，还可以通过连接 RelayServer 来开启对战。
+<b>注：Demo 的美术资源全部来自《杀戮尖塔》，只能用于学习和交流使用，不可用于任何商业用途。</b>
