@@ -1,9 +1,9 @@
 [submodule "kabletop-godot"]
 	path = kabletop-godot
 	url = https://github.com/ashuralyk/kabletop-godot-sdk
-[submodule "kabletop-ckb-sdk"]
-	path = kabletop-ckb-sdk
-	url = https://github.com/ashuralyk/kabletop-ckb-sdk
 [submodule "kabletop-godot-relayserver"]
 	path = kabletop-godot-relayserver
 	url = https://github.com/ashuralyk/kabletop-godot-relayserver
+[submodule "kabletop-ckb-sdk"]
+	path = kabletop-ckb-sdk
+	url = https://github.com/ashuralyk/kabletop-ckb-sdk

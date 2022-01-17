@@ -1,12 +1,8 @@
 [common]
-# ckb_uri = "http://localhost:8114"
-# ckb_indexer_uri = "http://localhost:8116"
 ckb_uri = "http://47.111.84.118:81/"
 ckb_indexer_uri = "http://47.111.84.118:81/indexer"
-composer_privkey = "8d929e962f940f75aa32054f19a5ea2ce70ae30bfe4ff7cf2dbed70d556265df" # pubkey_hash = "58b85c196e5fe80e25b4dab596e7121d219f79fb"
-user_privkey = "010a51a0fa2260b710624d201ec24124f53ddf0c9abe81448b4b0c89e5a06057" # pubkey_hash = "40e88263ef526a8248570e931cfb2f2fb3ed044f"
-# user_privkey = "7df17db8b1b07d594eb121189e9cab6fa4a99b5f49e72919f9014eaabce0e209"
-# user_privkey = "d44955b4770247b233c284268c961085e622febb61d364c9a5cabe0c238f08d4"
+composer_privkey = "8d929e962f940f75aa32054f19a5ea2ce70ae30bfe4ff7cf2dbed70d556265df"
+user_privkey = "010a51a0fa2260b710624d201ec24124f53ddf0c9abe81448b4b0c89e5a06057" # please replace with your secrete key
 
 # testnet
 [nft]

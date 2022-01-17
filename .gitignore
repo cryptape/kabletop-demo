@@ -1,6 +1,4 @@
 *.json
 test-server/
-kabletop-ckb-sdk/
-kabletop-godot/
-kabletop-godot-relayserver/
 db/
+*.so
