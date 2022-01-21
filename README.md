@@ -1,37 +1,43 @@
 # Kabletop
 
-Kabletop 项目由 Contracts 和 SDK 组成，SDK 目前只支持 Godot 游戏引擎，未来还将拓展对 Unity、Cocoscreator 和 Unreal 的支持。本 Demo 旨在如果使用 SDK 和 Contracts 上给出一个比较合适的使用范例，该范例实现了一个具备一定可玩性和创新性的双人卡牌对战游戏，在制作上参考了《杀戮尖塔》、《万智牌》和《炉石传说》这三款游戏。
+The Kabletop project consists of Contracts and SDKs, which currently only support the Godot game engine and will be expanded to support Unity, Cocoscreator and Unreal. This demo aims to give an example of a suitable use of the SDK and Contracts, which implements a playable and innovative two-player card game with reference to three games: Slay the Spire, Magic The Gathering and Hearthstone Legends.
 
-本 Demo 基于 GodotEngine 制作，所以如果具备一定的引擎使用经验（尤其是和 Native 相关）将会更容易上手。Godot 引擎相关信息可在官网查阅：
+This demo is based on the Godot Engine, so if you have some experience with the engine (especially with Native), it will be easier to get started.
+
+Here's the Godot official website:
 > https://godotengine.org/
 
-<b>注：Kabletop 目前还处于开发阶段，不能用于生产环境。</b>
+<b>Node：Kabletop is currently on development stage, and not ready for production release.</b>
 
 # Contracts
 
-Kabletop 包含 4 个合约，分别为NFT、Payment、Wallet 和 Kabletop，当前合约部署在 Testnet 上，SDK 通过在配置文件 <a href="https://github.com/ashuralyk/kabletop-demo/blob/master/Kabletop.toml#L7-L26">Kabletop.toml</a> 中添加合约的部署信息去引用这些合约。合约的详细信息可在合约仓库中查看：
+Kabletop contracts consist of NFT, Payment, Wallet and Kabletop seperately which are currently deployed on CKB Testnet. The SDK references them from configuration file named <a href="https://github.com/ashuralyk/kabletop-demo/blob/master/Kabletop.toml#L7-L26">Kabletop.toml</a> where stores connection and contract deployment information. Concrete details can be found from the repository below:
 > https://github.com/ashuralyk/kabletop-contracts
 
 # Relay Server
 
-由于 NAT 方面的原因，Kabletop 的项目一般都在内网环境中运行，所以网络穿透将会是个麻烦的问题，这便是 RelayServer 存在的原因：解决不同内网环境下的客户端的通信问题。
+For NAT reasons, kabletop projects generally run in the intranet which made network penetration be a problem, so this is exactly why relay server exists: to solve the communication problem of clients in different intranet.
 
-类似于传统游戏中区服的概念，每一个 RelayServer 节点就像是一个 Kabletop 游戏的区服，各个区服之间没有交集，同一区服下的客户端可以互相通信。
+Similar to the concept of server zones in traditional games, each relay server node is like a zone of a kabletop game. There is no intersection between the different zones, but clients in the same zone, which is a deferent description of connecting to the same relay server, can communicate with others.
 
 # Kabletop SDK
 
-Kabletop 的开发者可以将编译好的动态连接库（dll、dylib、so）直接导入到 Godot 游戏引擎中使用，使用方式参考 Godot 官方教程或查看 Demo 实现方式。
+Kabletop developers can import compiled dynamic link libraries like .dll, .dylib and .so file directly into the Godot Engine.
 
-SDK 还处在开发阶段，还有很多不完善的地方，如果需要自己修改 SDK 代码，可以在修改代码后重新编译 <a href="https://github.com/ashuralyk/kabletop-godot">kabletop-godot</a> 项目，取出编译好的动态链接库导入到项目中即可。
+The SDK is divided into two layers which are seperately <a href="https://github.com/ashuralyk/kabletop-ckb-sdk">kabletop-ckb-sdk</a> and <a href="https://github.com/ashuralyk/kabletop-godot">kabletop-godot</a>:
 
-SDK 分为两个层次，由 <a href="https://github.com/ashuralyk/kabletop-ckb-sdk">kabletop-ckb-sdk</a> 和 <a href="">kabletop-godot</a> 组成。第一个层次类似于一个内建的 Mercury 服务，通过提供一系列简易的接口来构建与 Kabletop 相关的 CKB 交易，第二个层次通过集成 <a href="https://docs.rs/gdnative/latest/gdnative/">gdnative</a> 来提供能被 Godot 游戏引擎识别的应用层代码，使游戏开发者能集中精力编写游戏逻辑代码而不用关心如何与 CKB 合约交互。
+1. kabletop-ckb-sdk is similar to a built-in Mercury service that provides some easy-to-use interfaces to build CKB transactions which are related to kabletop
+
+2. kabletop-godot provides application-level code that can be recognized by Godot using gdnative and makes game developers be able to focus on just developing game logic instead of caring about how to interact with CKB contracts.
+
+The SDK is still in the development stage, there are still many imperfections, if modifying SDK is necessary, recompiling <b>kabletop-godot</b> and reimporting the generated dynamic link library into Godot to replace the previous one is working.
 
 # Demo
 
-Demo 运行在测试网上，已在配置文件中配置了一把默认的<a href="https://github.com/ashuralyk/kabletop-demo/blob/master/Kabletop.toml#L5">私钥</a>，但建议在体验 Demo 的时候最好将它替换成自己的私钥。
+This demo is running on CKB Testnet, for specific, contracts are deployed on Testnet and corresponding deployment information is writen in the Kabletop.toml file where stores configurations for demo. A default <a href="https://github.com/ashuralyk/kabletop-demo/blob/master/Kabletop.toml#L5">private key</a> has been placed into Kabletop.toml, but it is recommended to replace it with your own private key before you start to experience.
 
-Godot 引擎支持导出功能，本 Demo 可以直接在 Godot 编辑器中运行，也可以导出后运行，导出运行需要将关联的动态链接库文件和 Kabletop.toml 配置文件放在和导出文件相同的目录下。开启两个具备不同私钥的 Demo 后即可开始对战，如果两个 Demo 不在同一个局域网下，还可以通过 RelayServer 来完成连接。
+The Godot engine supports to export its project into executable file, so the demo can be directly run in editor, or just run through binary which makes it possible to run more than one demo on one machine. If there is any problem to run two demos on the same intranet, letting them connect to the relay server could solve.
 
-该项目由 GDScript 代码和 LUA 代码编写，其中 LUA 代码包含游戏所有的验证逻辑，已编译成二进制文件并上传至 CKB 网络，交由 Kabletop 合约引用并在验证游戏逻辑时执行验证逻辑。Kabletop 开发者如果要自己修改 LUA 验证逻辑，需要通过 <a href="https://github.com/ashuralyk/lua_recompiler">lua_recompiler</a> 工具重新编译部署并修改 <a href="https://github.com/ashuralyk/kabletop-demo/blob/master/Kabletop.toml#L24-L26">Kabletop.toml</a> 配置文件。 
+Project contains both GDScript code and Lua code where Lua code contains all the gameplay logic and is already deployed on the CKB Testnet after compiling into binary which Lua virtual machine could recognize. Kabletop contract needs to reference Lua code to validate the gameplay logic on CKB network. If there is any requirement to modify the Lua code, after modifying, developer can use <a href="https://github.com/ashuralyk/lua_recompiler">lua_recompiler</a> to recompile and deploy, but the lasted deployment information of Lua code should rewrite into <a href="https://github.com/ashuralyk/kabletop-demo/blob/master/Kabletop.toml#L24-L26">Kabletop.toml</a> file.
 
-<b>注：Demo 的美术资源全部来自《杀戮尖塔》，只能用于学习和交流使用，不可用于任何商业用途。</b>
+<b>Note: The art resources of the demo are all from "Slay the Spire" and can only be used for learning and communication purposes, not for any commercial use.</b>
