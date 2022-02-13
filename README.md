@@ -7,7 +7,7 @@ This demo is based on the Godot engine, and some experience with the engine (esp
 Here's the Godot official website:
 > https://godotengine.org/
 
-<b>Node：Kabletop is currently under development and not yet ready for release.</b>
+Node：Kabletop is currently under development and not yet ready for release.
 
 # Contracts
 
@@ -24,7 +24,7 @@ Similar to the concept of server zones in traditional games, each relay server n
 
 Kabletop developers can import compiled dynamic link libraries such as `.dll`, `.dylib` and `.so` files directly into the Godot Engine.
 
-The SDK is divided into two layers, <a href="https://github.com/ashuralyk/kabletop-ckb-sdk">kabletop-ckb-sdk</a> and <a href="https://github.com/ashuralyk/kabletop-godot">kabletop-godot</a>:
+The SDK is divided into two layers, [kabletop-ckb-sdk](https://github.com/ashuralyk/kabletop-ckb-sdk) and [kabletop-godot](https://github.com/ashuralyk/kabletop-godot):
 
 1. `kabletop-ckb-sdk` is similar to a built-in Mercury service that provides some easy-to-use interfaces to build CKB transactions which are related to kabletop
 
@@ -34,10 +34,10 @@ The SDK is still under development and has many imperfections. If modifications 
 
 # Demo
 
-This demo runs on the CKB Testnet. Specifically, the contracts are deployed on Testnet and the corresponding deployment information is written in the `Kabletop.toml` file that stores configurations of the demo. A default <a href="https://github.com/ashuralyk/kabletop-demo/blob/master/Kabletop.toml#L5">private key</a> is contained in the `Kabletop.toml` file, but it is suggested to replace the private key with an own one before starting.
+This demo runs on the CKB Testnet. Specifically, the contracts are deployed on Testnet and the corresponding deployment information is written in the `Kabletop.toml` file that stores configurations of the demo. A default [private key](https://github.com/ashuralyk/kabletop-demo/blob/master/Kabletop.toml#L5) is contained in the `Kabletop.toml` file, but it is suggested to replace the private key with an own one before starting.
 
 The Godot engine supports exporting its projects as executable files, so the demos can run directly in the editor or run through binary, making it possible to multiple demos on one machine. If any problems occur when running two demos on the same intranet, connecting to a relay server can be the solution.
 
 The project contains both the GDScript code and the Lua code. The Lua code contains all of the game logic and has been compiled into binaries that are recognized by the Lua virtual machine that is already deployed on the CKB Testnet. Kabletop contract needs to reference the Lua code to validate the game logic on CKB network. Lua code is modifiable to meet users' needs. The modified version should be recompiled by `lua_recompiler` and be rewritten into [Kabletop.toml](https://github.com/ashuralyk/kabletop-demo/blob/master/Kabletop.toml#L24-L26) file to be redeployed to CKB.
 
-<b>Note: The art resources of the demo are all from "Slay the Spire" and can only be used for learning and communication purposes, not for any commercial use.</b>
+Note: The art resources of the demo are all from "Slay the Spire" and can only be used for learning and communication purposes, not for any commercial use.
