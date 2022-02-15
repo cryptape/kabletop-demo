@@ -1,6 +1,6 @@
 [submodule "kabletop-godot"]
 	path = kabletop-godot
-	url = https://github.com/cryptape/kabletop-godot-sdk
+	url = https://github.com/cryptape/kabletop-godot
 [submodule "kabletop-godot-relayserver"]
 	path = kabletop-godot-relayserver
 	url = https://github.com/cryptape/kabletop-godot-relayserver
