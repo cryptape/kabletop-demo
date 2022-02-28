@@ -40,4 +40,4 @@ The Godot engine supports exporting its projects as executable files, so the dem
 
 The project contains both the GDScript code and the Lua code. The Lua code contains all of the game logic and has been compiled into binaries that are recognized by the Lua virtual machine that is already deployed on the CKB Testnet. Kabletop contract needs to reference the Lua code to validate the game logic on CKB network. Lua code is modifiable to meet users' needs. The modified version should be recompiled by `lua_recompiler` and be rewritten into [Kabletop.toml](https://github.com/ashuralyk/kabletop-demo/blob/master/Kabletop.toml#L24-L26) file to be redeployed to CKB.
 
-Note: The art resources of the demo are all from "Slay the Spire" and can only be used for learning and communication purposes, not for any commercial use.
+Note: The art resources of the demo are all from "Slay the Spire" (Copyrights to [Mega Crit](https://www.megacrit.com)) and can only be used for learning and communication purposes, not for any commercial use.
